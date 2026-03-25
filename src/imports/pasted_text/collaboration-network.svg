@@ -1,0 +1,304 @@
+Replace the Secure Collaboration section completely.
+Design inspired by Slack's network graph (attached).
+Style: cute, kawaii, soft, organic — NOT corporate.
+NO headline, NO subtext, NO stats, NO label pill.
+
+═══════════════════════════════════════════════
+SECTION WRAPPER
+═══════════════════════════════════════════════
+
+Background: #F8F8F5
+Padding: 60px 80px 80px
+Position: relative
+Overflow: hidden
+
+═══════════════════════════════════════════════
+LAYOUT — FULL WIDTH ORGANIC NETWORK
+═══════════════════════════════════════════════
+
+One div, position: relative
+Width: 100%, height: 520px
+Max-width: 1000px, margin: 0 auto
+
+═══════════════════════════════════════════════
+CONNECTING LINES (SVG background layer)
+═══════════════════════════════════════════════
+
+SVG: position absolute, top 0, left 0, 
+     width 100%, height 100%
+     pointer-events: none, overflow: visible
+
+All lines are CURVED dashed paths — 
+NOT straight lines. Use quadratic bezier curves.
+Each curve bows gently upward or sideways.
+
+stroke: rgba(0,0,0,0.10)
+stroke-width: 1.5
+stroke-dasharray: 6 5
+fill: none
+stroke-linecap: round
+
+Lines connect from EACH team member 
+TO the student center (530, 280):
+
+Teacher    (160, 400) → (530, 280)  curve via (280, 200)
+Parapro    (280, 120) → (530, 280)  curve via (350, 160)
+Therapist  (530, 80)  → (530, 280)  curve via (480, 160)
+Admin      (760, 120) → (530, 280)  curve via (700, 200)
+Parent     (860, 360) → (530, 280)  curve via (740, 200)
+
+MARCHING ANIMATION on all lines:
+@keyframes march {
+  to { stroke-dashoffset: -22; }
+}
+All lines: animation: march 1.8s linear infinite
+Delays: 0s, 0.36s, 0.72s, 1.08s, 1.44s
+
+TRAVELING GLOW DOT on each curve:
+  <circle r="4.5">
+  fill: #53AEF3
+  opacity: 0.7
+  Use <animateMotion> with calcMode="spline"
+  dur: "2.2s", repeatCount: "indefinite"
+  path: same bezier as connecting line
+  Begin offsets: 0s, 0.44s, 0.88s, 1.32s, 1.76s
+
+═══════════════════════════════════════════════
+CENTER NODE — STUDENT
+═══════════════════════════════════════════════
+
+Position: absolute, left: 505px, top: 240px
+Width: 56px, height: 56px (the avatar circle)
+Z-index: 10
+
+OUTER GLOW RING (behind avatar):
+  Width: 80px, height: 80px
+  Border-radius: 50%
+  Background: rgba(83,174,243,0.15)
+  Position: absolute
+  Top: -12px, left: -12px
+  
+  @keyframes glow-breathe {
+    0%,100% { transform: scale(1); opacity: 0.6; }
+    50%      { transform: scale(1.2); opacity: 0.2; }
+  }
+  animation: glow-breathe 3s ease-in-out infinite
+
+AVATAR CIRCLE:
+  Width: 56px, height: 56px
+  Border-radius: 50%
+  Background: #53AEF3
+  Border: 3px solid white
+  Box-shadow: 0 4px 16px rgba(83,174,243,0.35)
+  
+  Inside: cute kawaii face SVG (simple):
+    Two small white circles for eyes: 
+      r=4, at (20,22) and (36,22)
+    Small white smile arc:
+      path d="M18 32 Q28 40 38 32"
+      stroke white, stroke-width 2.5, fill none
+      stroke-linecap: round
+
+NAME TAG below avatar:
+  Background: white
+  Border: 1px solid rgba(0,0,0,0.08)
+  Border-radius: 9999px
+  Padding: 4px 12px
+  Box-shadow: 0 2px 8px rgba(0,0,0,0.06)
+  Font: DM Sans 600 12px #1A1A1E
+  Text: "Emma R."
+  Position: absolute, top: 64px
+  Left: 50%, transform: translateX(-50%)
+  White-space: nowrap
+
+  @keyframes student-bob {
+    0%,100% { transform: translateX(-50%) translateY(0px); }
+    50%      { transform: translateX(-50%) translateY(-5px); }
+  }
+  Apply to entire center node wrapper:
+  animation: student-bob 4s ease-in-out infinite
+
+═══════════════════════════════════════════════
+TEAM MEMBER NODES — 5 AVATARS
+═══════════════════════════════════════════════
+
+Each node: position absolute
+Avatar: 44px circle
+Border: 2.5px solid white
+Box-shadow: 0 4px 14px rgba(0,0,0,0.10)
+
+Kawaii face inside each avatar:
+  Two small filled circles for eyes (color: slightly
+  darker than bg, e.g. if bg is #E8F5E9 eyes are #2A8A4A)
+  Eye radius: 3px
+  Small curved smile: stroke same dark color, 
+  stroke-width 2, fill none
+
+Hover: transform scale(1.15), transition 250ms ease
+
+NODE POSITIONS AND COLORS:
+
+Teacher — left: 138px, top: 378px
+  Background: #D4EDDA (soft mint green)
+  Eyes + smile: #1A5C32
+  Pulse ring: rgba(42,138,74,0.15)
+  Bob animation delay: 0s
+
+Parapro — left: 258px, top: 98px
+  Background: #DBEAFE (soft sky blue)
+  Eyes + smile: #1E40AF
+  Pulse ring: rgba(30,64,175,0.12)
+  Bob animation delay: 0.5s
+
+Therapist — left: 508px, top: 58px
+  Background: #EDE9FE (soft lavender)
+  Eyes + smile: #5B21B6
+  Pulse ring: rgba(91,33,182,0.12)
+  Bob animation delay: 1s
+
+Admin — left: 736px, top: 98px
+  Background: #FEF3C7 (soft amber)
+  Eyes + smile: #92400E
+  Pulse ring: rgba(146,64,14,0.12)
+  Bob animation delay: 1.5s
+
+Parent — left: 836px, top: 338px
+  Background: #FCE7F3 (soft pink)
+  Eyes + smile: #9D174D
+  Pulse ring: rgba(157,23,77,0.12)
+  Bob animation delay: 2s
+
+PULSE RING on each node (behind avatar):
+  Width: 60px, height: 60px
+  Border-radius: 50%
+  Position: absolute, top: -8px, left: -8px
+  
+  @keyframes pulse-node {
+    0%,100% { transform: scale(1); opacity: 0.5; }
+    50%      { transform: scale(1.3); opacity: 0; }
+  }
+  Duration: 2.5s ease-out infinite
+  Each node different delay as listed above
+
+ROLE LABEL below each avatar:
+  Background: white
+  Border: 1px solid rgba(0,0,0,0.07)
+  Border-radius: 9999px
+  Padding: 3px 10px
+  Font: DM Sans 500 11px #6E6E73
+  Box-shadow: 0 1px 4px rgba(0,0,0,0.06)
+  Position: absolute, top: 50px
+  Left: 50%, transform: translateX(-50%)
+  White-space: nowrap
+
+FLOATING BOB on each node wrapper:
+  @keyframes node-bob {
+    0%,100% { transform: translateY(0px); }
+    50%      { transform: translateY(-7px); }
+  }
+  Duration: 3.5s ease-in-out infinite
+  Each node: animation-delay as listed above
+
+═══════════════════════════════════════════════
+FLOATING ACTIVITY BUBBLES
+═══════════════════════════════════════════════
+
+4 speech-bubble-style pills floating near 
+their respective team members.
+These look like iMessage/chat bubbles — 
+cute, rounded, with a small tail pointing 
+toward the connected team member.
+
+Each bubble:
+  Background: white
+  Border: 1px solid rgba(0,0,0,0.07)
+  Border-radius: 16px
+  Padding: 8px 14px
+  Box-shadow: 0 3px 16px rgba(0,0,0,0.08)
+  Display: flex, align-items: center, gap: 8px
+  Font: DM Sans 500 12px #1A1A1E
+  White-space: nowrap
+  Position: absolute
+
+Small colored icon dot (left of text):
+  8px circle, colors as listed
+
+BUBBLE 1 — near Teacher, top-left:
+  Position: left: 20px, top: 260px
+  Text: "✓ Goal Updated"
+  Dot color: #22C55E
+  
+  @keyframes bubble-float-1 {
+    0%,100% { transform: translateY(0px) rotate(-1deg); }
+    50%      { transform: translateY(-9px) rotate(1deg); }
+  }
+  animation: bubble-float-1 3.2s ease-in-out infinite
+
+BUBBLE 2 — near Parapro, upper area:
+  Position: left: 100px, top: 80px
+  Text: "📝 Note Added"
+  Dot color: #53AEF3
+
+  @keyframes bubble-float-2 {
+    0%,100% { transform: translateY(0px) rotate(1deg); }
+    50%      { transform: translateY(-8px) rotate(-1deg); }
+  }
+  animation: bubble-float-2 3.6s ease-in-out infinite
+  animation-delay: 0.7s
+
+BUBBLE 3 — near Admin, upper right:
+  Position: right: 100px, top: 75px
+  Text: "▶ Trial Recorded"
+  Dot color: #8B5CF6
+
+  animation: bubble-float-1 3s ease-in-out infinite
+  animation-delay: 1.3s
+
+BUBBLE 4 — near Parent, right side:
+  Position: right: 10px, top: 230px
+  Text: "📊 Report Ready"
+  Dot color: #F59E0B
+
+  animation: bubble-float-2 3.8s ease-in-out infinite
+  animation-delay: 2s
+
+═══════════════════════════════════════════════
+SCROLL REVEAL
+═══════════════════════════════════════════════
+
+All nodes and center: initially opacity 0, scale 0.6
+Lines: initially opacity 0
+Bubbles: initially opacity 0, translateY 15px
+
+On IntersectionObserver (threshold 0.3):
+Add class .visible to section
+
+.visible center node:
+  opacity: 1, scale: 1
+  transition: 600ms cubic-bezier(0.34,1.56,0.64,1)
+  delay: 0ms
+
+.visible team nodes:
+  opacity: 1, scale: 1
+  transition: 500ms cubic-bezier(0.34,1.56,0.64,1)
+  Stagger delays: 100ms, 200ms, 300ms, 400ms, 500ms
+
+.visible lines SVG:
+  opacity: 1
+  transition: 800ms ease
+  delay: 300ms
+
+.visible bubbles:
+  opacity: 1, translateY: 0
+  transition: 400ms ease
+  Stagger: 150ms each, starting delay 600ms
+
+═══════════════════════════════════════════════
+WRAP ALL IN:
+═══════════════════════════════════════════════
+
+@media (prefers-reduced-motion: no-preference) {
+  all keyframes and animations
+}
+
+DO NOT CHANGE ANYTHING ELSE.

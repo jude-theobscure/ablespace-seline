@@ -1,0 +1,312 @@
+Completely replace the AbleSpace AI section.
+Inspired by the attached reference image.
+Layout: central app icon with floating UI cards 
+orbiting around it — like a solar system.
+
+═══════════════════════════════════════════════
+SECTION WRAPPER
+═══════════════════════════════════════════════
+
+Background: #F3F1FF
+Padding: 80px 80px
+Position: relative
+Overflow: hidden
+Min-height: 700px
+
+Top fade: linear-gradient(to bottom, #F8F8F5, #F3F1FF)
+  Height: 80px, before section
+
+Bottom fade: linear-gradient(to bottom, #F3F1FF, #F8F8F5)
+  Height: 80px, after section
+
+═══════════════════════════════════════════════
+SECTION HEADER (centered, above orbit)
+═══════════════════════════════════════════════
+
+Label pill:
+  "✦ ABLESPACE AI"
+  DM Sans 500 11px, letter-spacing 2px
+  Color: #6B5ECD
+  Background: rgba(107,94,205,0.10)
+  Border: 1px solid rgba(107,94,205,0.15)
+  Pill shape, centered, margin-bottom 20px
+
+Headline (centered):
+  Line 1: "Let AI handle the"
+  Line 2: "heavy lifting."
+  Line 2 color: #6B5ECD, font-style: italic
+  Font: Instrument Serif 400 52px
+  Color: #1A1A1E, line-height 1.08
+  Text-align: center
+  Margin-bottom: 56px
+
+═══════════════════════════════════════════════
+ORBIT CONTAINER
+═══════════════════════════════════════════════
+
+Position: relative
+Width: 100%
+Height: 520px
+Max-width: 900px
+Margin: 0 auto
+
+═══════════════════════════════════════════════
+CENTER — APP ICON
+═══════════════════════════════════════════════
+
+Position: absolute
+Top: 50%, left: 50%
+Transform: translate(-50%, -50%)
+Z-index: 10
+
+Outer glow:
+  Width: 120px, height: 120px
+  Border-radius: 50%
+  Background: radial-gradient(circle,
+    rgba(107,94,205,0.20) 0%,
+    transparent 70%
+  )
+  Position: absolute
+  Top: -20px, left: -20px
+
+Main icon box:
+  Width: 80px, height: 80px
+  Background: linear-gradient(
+    135deg, #7B6FE0 0%, #5B4FBE 100%
+  )
+  Border-radius: 20px
+  Box-shadow: 0 8px 32px rgba(107,94,205,0.35)
+  Display: flex, align-items center
+  Justify-content: center
+
+  Inside: "✦" or AbleSpace "A" letter
+  Font: Instrument Serif 400 32px
+  Color: white
+
+  @keyframes icon-breathe {
+    0%,100% { transform: scale(1); 
+              box-shadow: 0 8px 32px rgba(107,94,205,0.35); }
+    50%      { transform: scale(1.06); 
+              box-shadow: 0 12px 48px rgba(107,94,205,0.50); }
+  }
+  animation: icon-breathe 3s ease-in-out infinite
+
+═══════════════════════════════════════════════
+ORBIT RING (decorative circle)
+═══════════════════════════════════════════════
+
+Position: absolute
+Top: 50%, left: 50%
+Transform: translate(-50%, -50%)
+Width: 380px, height: 380px
+Border-radius: 50%
+Border: 1px dashed rgba(107,94,205,0.15)
+Pointer-events: none
+
+Second ring:
+  Width: 240px, height: 240px
+  Border: 1px dashed rgba(107,94,205,0.10)
+  Same center position
+
+Small orbit dots on the large ring:
+  6 small circles, r=5px
+  Background: rgba(107,94,205,0.25)
+  Positioned evenly around the ring
+  
+  @keyframes orbit-rotate {
+    from { transform: translate(-50%,-50%) rotate(0deg); }
+    to   { transform: translate(-50%,-50%) rotate(360deg); }
+  }
+  
+  Wrap the ring + dots in a div:
+  animation: orbit-rotate 20s linear infinite
+
+═══════════════════════════════════════════════
+FLOATING UI CARDS (5 cards around center)
+═══════════════════════════════════════════════
+
+All cards: position absolute
+Each card independently bobs up and down.
+
+Card base style:
+  Background: #FFFFFF
+  Border: 1px solid rgba(107,94,205,0.10)
+  Border-radius: 16px
+  Box-shadow: 0 4px 24px rgba(107,94,205,0.10)
+  Padding: 14px 16px
+
+Bob animation per card:
+  @keyframes float-card {
+    0%,100% { transform: translateY(0px); }
+    50%      { transform: translateY(-10px); }
+  }
+  Duration: 3-4s ease-in-out infinite
+  Each card different delay + duration
+
+──────────────────────────────
+CARD 1 — Progress Notes
+Position: top: 2%, left: 2%
+Width: 200px
+──────────────────────────────
+
+Top row:
+  Purple icon circle 24px + "Progress Notes"
+  DM Sans 600 12px #1A1A1E
+
+Body:
+  "Emma produced /s/ correctly in 7/10 trials."
+  DM Sans 400 12px #6E6E73
+  Line-height 1.5, margin-top 8px
+
+Bottom: "+ Add" purple pill button
+  DM Sans 500 11px
+
+animation: float-card 3.5s ease-in-out infinite
+animation-delay: 0s
+
+──────────────────────────────
+CARD 2 — IEP Goal
+Position: top: 2%, right: 5%
+Width: 190px
+──────────────────────────────
+
+Top row: blue icon + "IEP Goal"
+  DM Sans 600 12px #1A1A1E
+
+"Generated Goal" label
+  DM Sans 500 10px uppercase #AEAEB2
+  Margin-bottom 6px
+
+2 shimmer skeleton lines:
+  Same shimmer animation as before
+
+animation: float-card 4s ease-in-out infinite
+animation-delay: 0.5s
+
+──────────────────────────────
+CARD 3 — Total Students (stat card)
+Position: top: 35%, left: 0%
+Width: 170px
+──────────────────────────────
+
+Top row:
+  Small teal icon circle + "Total Students"
+  DM Sans 600 11px #6E6E73
+
+Large number: "20K+"
+  Instrument Serif 400 32px #1A1A1E
+
+Row of 3 small avatar circles overlapping:
+  Each 20px, different colors
+  Margin-top: 8px
+
+animation: float-card 3.8s ease-in-out infinite
+animation-delay: 1s
+
+──────────────────────────────
+CARD 4 — Goal Accuracy (stat)
+Position: top: 35%, right: 0%
+Width: 170px
+──────────────────────────────
+
+Top row: orange icon + "Goal Accuracy"
+  DM Sans 600 11px #6E6E73
+
+Large: "87%"
+  Instrument Serif 400 32px #1A1A1E
+
+Mini bar below:
+  Background: #E5E5E5, border-radius 4px
+  Height: 6px, width 100%
+  
+  Fill bar: width 87%
+  Background: linear-gradient(
+    to right, #6B5ECD, #53AEF3
+  )
+  Border-radius: 4px
+
+animation: float-card 4.2s ease-in-out infinite
+animation-delay: 1.5s
+
+──────────────────────────────
+CARD 5 — AI Activity (bottom center)
+Position: bottom: 2%, left: 50%
+Transform: translateX(-50%)
+Width: 260px
+──────────────────────────────
+
+Top row: "✦ AbleSpace AI" pill
+  Background: rgba(107,94,205,0.08)
+  Color: #6B5ECD, DM Sans 600 11px
+
+Note text:
+  "Emma attended a 30-min speech session 
+  targeting /s/ and /z/ sounds."
+  DM Sans 400 12px #3D3D3D
+  Line-height: 1.5, margin: 8px 0
+
+Tags row:
+  "/s/ sounds" lavender pill
+  "7/10 trials" blue pill
+  "minimal prompts" green pill
+  Each: 10px font, padding 2px 7px
+
+animation: float-card 3.2s ease-in-out infinite
+animation-delay: 2s
+
+═══════════════════════════════════════════════
+CONNECTING LINES (SVG layer)
+═══════════════════════════════════════════════
+
+SVG: position absolute, top 0, left 0,
+  width 100%, height 100%
+  pointer-events: none, z-index: 1
+  overflow: visible
+
+Draw 5 curved dashed lines from center 
+(450, 260) to each card's approximate center:
+
+  To Card 1 (top-left):    curve via (250, 150)
+  To Card 2 (top-right):   curve via (650, 150)
+  To Card 3 (left):        curve via (150, 260)
+  To Card 4 (right):       curve via (750, 260)
+  To Card 5 (bottom):      curve via (450, 380)
+
+Each line:
+  stroke: rgba(107,94,205,0.15)
+  stroke-width: 1.5
+  stroke-dasharray: 4 5
+  fill: none
+
+@keyframes line-march {
+  to { stroke-dashoffset: -18; }
+}
+All lines: animation: line-march 2s linear infinite
+Stagger delays: 0s, 0.4s, 0.8s, 1.2s, 1.6s
+
+Traveling dot on each line:
+  <circle r="3.5" fill="#6B5ECD" opacity="0.6">
+  <animateMotion dur="2.5s" repeatCount="indefinite">
+  Begin offsets: 0s, 0.5s, 1s, 1.5s, 2s
+
+═══════════════════════════════════════════════
+SCROLL REVEAL
+═══════════════════════════════════════════════
+
+Center icon: scale 0→1, opacity 0→1
+  500ms cubic-bezier(0.34,1.56,0.64,1)
+  Delay: 0ms
+
+Orbit ring: opacity 0→1, scale 0.8→1
+  600ms ease, delay: 200ms
+
+Cards: opacity 0→1, scale 0.85→1
+  500ms cubic-bezier(0.34,1.56,0.64,1)
+  Stagger 100ms, delay starts 300ms
+
+Lines: opacity 0→1
+  600ms ease, delay: 500ms
+
+═══════════════════════════════════════════════
+DO NOT CHANGE ANYTHING ELSE.
+═══════════════════════════════════════════════

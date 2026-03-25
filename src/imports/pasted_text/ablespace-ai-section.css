@@ -1,0 +1,384 @@
+Completely replace the AbleSpace AI section.
+Start fresh. Ignore all previous AI section code.
+
+═══════════════════════════════════════════════
+SECTION WRAPPER
+═══════════════════════════════════════════════
+
+Background: #F8F8F5
+Padding: 100px 80px
+Position: relative
+Overflow: hidden
+
+═══════════════════════════════════════════════
+SECTION HEADER (left-aligned, NOT centered)
+═══════════════════════════════════════════════
+
+Max-width: 560px
+Margin-bottom: 64px
+
+Label pill:
+  Text: "ABLESPACE AI"
+  Font: DM Sans 500 11px, letter-spacing 2px
+  Color: #6B5ECD
+  Background: rgba(107,94,205,0.08)
+  Padding: 4px 14px, border-radius 9999px
+  Margin-bottom: 20px, width fit-content
+
+Headline:
+  Text: "Let AI do the\nheavy lifting."
+  Font: Instrument Serif 400 56px
+  Color: #1A1A1E
+  Line-height: 1.08
+  Margin-bottom: 16px
+
+Subtext:
+  Text: "Planning, documenting, and tracking IEP 
+  goals — faster, smarter, stress-free."
+  Font: DM Sans 300 18px
+  Color: #6E6E73
+  Line-height: 1.65
+
+═══════════════════════════════════════════════
+MAIN LAYOUT — TWO COLUMN
+═══════════════════════════════════════════════
+
+Display: grid
+Grid-template-columns: 1fr 1fr
+Gap: 24px
+Align-items: start
+
+LEFT COLUMN:
+  One tall feature card — full height
+
+RIGHT COLUMN:
+  Two stacked cards — each half height
+  Gap: 24px between them
+
+─────────────────────────────────
+LEFT CARD — AI Progress Notes (tall)
+─────────────────────────────────
+
+Background: #FFFFFF
+Border: 1px solid rgba(0,0,0,0.07)
+Border-radius: 20px
+Padding: 32px
+Box-shadow: 0 2px 24px rgba(0,0,0,0.05)
+Min-height: 480px
+Display: flex
+Flex-direction: column
+Overflow: hidden
+Position: relative
+
+TOP — feature label:
+  "✦ AI Progress Notes"
+  DM Sans 600 12px, color #6B5ECD
+  Background: rgba(107,94,205,0.08)
+  Padding: 4px 12px, border-radius 9999px
+  Width: fit-content, margin-bottom 20px
+
+HEADLINE:
+  "Generate session notes\nin seconds."
+  Font: Instrument Serif 400 28px
+  Color: #1A1A1E, line-height 1.2
+  Margin-bottom 12px
+
+BODY:
+  "AI writes detailed progress notes 
+  from session data — customizable 
+  for each student's goals."
+  DM Sans 300 15px, color #6E6E73
+  Line-height 1.6, margin-bottom 28px
+
+MOCKUP (fills rest of card):
+  Background: #F8F8F5
+  Border: 1px solid rgba(0,0,0,0.06)
+  Border-radius: 12px
+  Padding: 16px
+  Flex: 1
+
+  CHAT-STYLE NOTE GENERATION UI:
+
+  User prompt bubble:
+    Background: #6B5ECD
+    Color: white
+    Border-radius: 12px 12px 4px 12px
+    Padding: 10px 14px
+    Font: DM Sans 400 13px
+    Max-width: 80%, margin-left: auto
+    Text: "Generate note for Emma's 
+    speech session today"
+    Margin-bottom: 10px
+
+  AI response bubble:
+    Background: white
+    Border: 1px solid rgba(0,0,0,0.08)
+    Border-radius: 12px 12px 12px 4px
+    Padding: 12px 14px
+    Font: DM Sans 400 13px, color #1A1A1E
+    Line-height: 1.6
+    Text: "Emma attended a 30-minute speech 
+    session targeting /s/ and /z/ sounds. 
+    She produced /s/ correctly in 7 out of 
+    10 trials with minimal verbal prompting."
+
+    "Noah M." avatar chip top-right:
+      Background: #22C55E
+      Color: white, DM Sans 600 10px
+      Padding: 2px 8px, border-radius 9999px
+      Position: absolute, top -8px, right 8px
+
+  Typing indicator below AI bubble:
+    3 dots animating (●●●)
+    Each dot: 6px circle, background #AEAEB2
+    
+    @keyframes typing-dot {
+      0%,60%,100% { transform: translateY(0); opacity: 0.4; }
+      30%          { transform: translateY(-6px); opacity: 1; }
+    }
+    Dot 1: animation-delay 0s
+    Dot 2: animation-delay 0.15s
+    Dot 3: animation-delay 0.30s
+    Duration: 1.2s infinite
+
+  Bottom action row:
+    "+ Add to Notes" button
+    Background: #6B5ECD, color white
+    DM Sans 500 12px, border-radius 6px
+    Padding: 7px 14px
+    Margin-top: 12px, margin-left: auto
+    Display: block, width: fit-content
+
+─────────────────────────────────
+RIGHT TOP CARD — AI IEP Goal Generator
+─────────────────────────────────
+
+Background: #FFFFFF
+Border: 1px solid rgba(0,0,0,0.07)
+Border-radius: 20px
+Padding: 28px
+Box-shadow: 0 2px 24px rgba(0,0,0,0.05)
+
+Label: "✦ IEP Goal Generator"
+  DM Sans 600 12px, color #53AEF3
+  Background: rgba(83,174,243,0.08)
+  Pill style, margin-bottom 16px
+
+Headline: "Goals tailored to\neach student."
+  Instrument Serif 400 24px, #1A1A1E
+  Line-height 1.2, margin-bottom 8px
+
+Body: "Personalized, standards-aligned IEP 
+goals generated instantly."
+  DM Sans 300 14px, #6E6E73, margin-bottom 20px
+
+MOCKUP:
+  Background: #F8F8F5
+  Border-radius: 10px
+  Padding: 14px
+
+  Input row:
+    Label: "Student Grade" DM Sans 500 11px #AEAEB2
+    Pill tags in a row, gap 6px:
+      "4th Grade" — Background #EDE8F8, 
+                    color #6B5ECD, 
+                    DM Sans 500 12px,
+                    padding 4px 10px,
+                    border-radius 9999px
+      "Reading" — same style, color #53AEF3,
+                  background rgba(83,174,243,0.10)
+    Margin-bottom: 12px
+
+  Generated goal output box:
+    Background: white
+    Border: 1px solid rgba(107,94,205,0.20)
+    Border-radius: 8px
+    Padding: 10px 12px
+
+    Top row: "Generated Goal" DM Sans 500 11px 
+             uppercase #AEAEB2
+    
+    2 skeleton lines:
+      Height 7px, background #E5E5E5
+      Border-radius 4px
+      Widths 100%, 75%
+      Gap 6px, margin-top 8px
+
+    ANIMATION — skeleton shimmer:
+      @keyframes shimmer {
+        0%   { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+      Background: linear-gradient(
+        90deg, 
+        #E5E5E5 25%, 
+        #F0F0F0 50%, 
+        #E5E5E5 75%
+      )
+      Background-size: 200% 100%
+      animation: shimmer 1.8s infinite
+
+─────────────────────────────────
+RIGHT BOTTOM CARD — Align to Standards
+─────────────────────────────────
+
+Background: #1A1A1E  ← dark card for contrast
+Border-radius: 20px
+Padding: 28px
+Box-shadow: 0 2px 24px rgba(0,0,0,0.12)
+
+Label: "✦ Align to Standards"
+  DM Sans 600 12px, color rgba(255,255,255,0.50)
+  Background: rgba(255,255,255,0.08)
+  Pill style, margin-bottom 16px
+
+Headline: "Always compliance-\nready."
+  Instrument Serif 400 24px, color #FFFFFF
+  Line-height 1.2, margin-bottom 8px
+
+Body: "Auto-align every IEP goal to 
+state and district standards."
+  DM Sans 300 14px, rgba(255,255,255,0.55)
+  Margin-bottom 20px
+
+MOCKUP:
+  Background: rgba(255,255,255,0.06)
+  Border-radius: 10px
+  Padding: 14px
+
+  "4 Results Found!" pill:
+    Background: rgba(34,197,94,0.15)
+    Color: #22C55E
+    DM Sans 600 11px, padding 3px 10px
+    Border-radius 9999px
+    Margin-bottom 10px
+
+  3 result rows, each:
+    Flex row, gap 8px, padding 6px 0
+    Border-bottom: 1px solid rgba(255,255,255,0.06)
+    
+    Left: small book icon square
+      Background: rgba(255,255,255,0.08)
+      Border-radius: 4px, 22px × 22px
+      DM Sans 700 10px white, centered
+      Text: "CC" / "RL" / "SL"
+    
+    Right: skeleton bar
+      Background: rgba(255,255,255,0.12)
+      Height 7px, border-radius 4px
+      Widths: 85%, 70%, 55%
+
+═══════════════════════════════════════════════
+BOTTOM ROW — 2 MORE CARDS
+═══════════════════════════════════════════════
+
+Below the 2-column section, 
+full-width 2-column grid, gap 24px:
+
+─────────────────────────────────
+CARD 4 — AI Worksheet Generator
+─────────────────────────────────
+
+Background: rgba(83,174,243,0.08)
+Border: 1px solid rgba(83,174,243,0.15)
+Border-radius: 20px
+Padding: 28px 32px
+Display: grid, grid-template-columns: 1fr 1fr
+Gap: 24px, align-items: center
+
+LEFT TEXT:
+  Label: "✦ Worksheet Generator"
+    Blue pill style, color #53AEF3
+  Headline: "Custom worksheets\nin seconds."
+    Instrument Serif 400 24px
+  Body: "Standards-aligned worksheets 
+  generated for any student, any goal."
+    DM Sans 300 14px #6E6E73
+
+RIGHT MOCKUP:
+  3 document card icons in a row:
+    Each: 52px × 64px
+    Background: white
+    Border: 1px solid rgba(0,0,0,0.08)
+    Border-radius: 8px
+    Box-shadow: 0 2px 8px rgba(0,0,0,0.06)
+    
+    Card 1: slight rotate(-6deg), z-index 1
+    Card 2: no rotate, z-index 2, 
+            translateY(-4px)
+    Card 3: slight rotate(6deg), z-index 1
+
+    Inside each: 4 tiny gray skeleton lines
+      Height 3px, background #E5E5E5
+      Border-radius 2px, margin 6px 6px 0
+    
+    ANIMATION — cards fan out:
+      @keyframes fan {
+        0%,100% { 
+          Card 1: rotate(-6deg) translateY(0);
+          Card 3: rotate(6deg) translateY(0);
+        }
+        50% { 
+          Card 1: rotate(-10deg) translateY(2px);
+          Card 3: rotate(10deg) translateY(2px);
+        }
+      }
+      Duration: 3s ease-in-out infinite
+
+─────────────────────────────────
+CARD 5 — Suggest Data Tracking
+─────────────────────────────────
+
+Background: #FFFFFF
+Border: 1px solid rgba(0,0,0,0.07)
+Border-radius: 20px
+Padding: 28px 32px
+Display: grid, grid-template-columns: 1fr 1fr
+Gap: 24px, align-items: center
+Box-shadow: 0 2px 24px rgba(0,0,0,0.05)
+
+LEFT TEXT:
+  Label: "✦ Data Tracking AI"
+    Purple pill style
+  Headline: "AI-recommended\ntracking methods."
+    Instrument Serif 400 24px
+  Body: "Get smart suggestions on frequency, 
+  task analysis, and more."
+    DM Sans 300 14px #6E6E73
+
+RIGHT MOCKUP:
+  Two stat boxes side by side, gap 8px:
+  
+  Box 1:
+    Background: #F8F8F5
+    Border: 1px solid rgba(0,0,0,0.06)
+    Border-radius: 8px, padding 12px
+    "∿ Accuracy" DM Sans 500 12px #6E6E73
+    "87%" Instrument Serif 400 28px #1A1A1E
+    
+    ANIMATION — number counts up 0→87:
+      Triggers on scroll reveal
+      Duration: 1s ease-out
+
+  Box 2:
+    Same style
+    "⏱ Duration" label
+    "30m" Instrument Serif 400 28px #1A1A1E
+    
+    ANIMATION — counts up 0→30
+
+═══════════════════════════════════════════════
+SCROLL REVEAL
+═══════════════════════════════════════════════
+
+Section header: opacity 0→1, translateY 24px→0
+  600ms ease
+
+Each card: opacity 0→1, translateY 32px→0, 
+           scale 0.98→1
+  700ms cubic-bezier(0.16,1,0.3,1)
+  Stagger: 100ms between cards
+
+═══════════════════════════════════════════════
+DO NOT CHANGE ANYTHING ELSE.
+═══════════════════════════════════════════════

@@ -1,0 +1,197 @@
+Replace the "Secure Collaboration" section completely.
+New design: network graph showing real-time collaboration,
+inspired by the attached reference images (Slack + influencer network).
+
+═══════════════════════════════════════════════
+SECTION WRAPPER
+═══════════════════════════════════════════════
+
+Background: #F8F8F5
+Padding: 80px 80px
+Text-align: center
+Position: relative
+Overflow: hidden
+
+═══════════════════════════════════════════════
+TOP — HEADLINE
+═══════════════════════════════════════════════
+
+Label pill:
+  Text: "SECURE COLLABORATION"
+  Font: DM Sans 500 11px, letter-spacing 2px
+  Color: #2A8A4A
+  Background: rgba(42,138,74,0.10)
+  Padding: 4px 14px, border-radius 9999px
+  Margin-bottom: 20px
+
+Headline:
+  Text: "Your whole team,\nworking as one."
+  Font: Instrument Serif 400 52px
+  Color: #1A1A1E
+  Line-height: 1.1
+  Margin-bottom: 14px
+
+Subtext:
+  Text: "Securely share student data across your 
+  entire care team — in real time."
+  Font: DM Sans 300 17px
+  Color: #6E6E73
+  Max-width: 440px
+  Margin: 0 auto 16px
+
+═══════════════════════════════════════════════
+STATS ROW (below headline, above network)
+═══════════════════════════════════════════════
+
+3 stats inline, centered, gap 48px:
+Separated by thin vertical dividers 1px rgba(0,0,0,0.10)
+
+Stat 1: "20,000+" / "Professionals"
+Stat 2: "500+" / "Schools & Districts"
+Stat 3: "2M+" / "IEP Goals Tracked"
+
+Number: Instrument Serif 400 36px #1A1A1E
+Label: DM Sans 300 13px #6E6E73
+Margin-bottom: 48px
+
+═══════════════════════════════════════════════
+NETWORK GRAPH (SVG-based)
+═══════════════════════════════════════════════
+
+Render as a single SVG element.
+Width: 100%, max-width: 860px
+Height: 420px
+Margin: 0 auto
+Position: relative
+
+LAYOUT — Semi-circle arc, exactly like references:
+  Center bottom: Student node (largest)
+  Arranged in arc above: 5 team member nodes
+  
+  Arc coordinates (approximate, SVG viewBox 860x420):
+  Center student: x=430, y=340
+
+  5 nodes along arc (left to right):
+    Node 1 — Teacher:        x=100,  y=240
+    Node 2 — Parapro:        x=220,  y=130
+    Node 3 — Therapist:      x=430,  y=80
+    Node 4 — Admin:          x=640,  y=130
+    Node 5 — Parent:         x=760,  y=240
+
+CONNECTING LINES:
+  Draw curved SVG paths from center student 
+  to each of the 5 nodes.
+  
+  Each path:
+    stroke: rgba(0,0,0,0.10)
+    stroke-width: 1.5
+    stroke-dasharray: 4 4
+    fill: none
+    Gently curved (quadratic bezier, 
+    control point above midpoint)
+
+  ANIMATION — "march" effect on dashes:
+    @keyframes march { 
+      to { stroke-dashoffset: -16; } 
+    }
+    Each path: animation: march 1.5s linear infinite
+    Stagger delay: 0.2s between each path
+    This makes dashes appear to flow FROM student 
+    TO each team member — like data flowing outward
+
+CENTER NODE — Student:
+  Circle: r=44px
+  Background: #53AEF3 (blue)
+  Border: 3px solid white
+  Box-shadow: 0 4px 16px rgba(83,174,243,0.30)
+  
+  Inside: student silhouette icon (simple SVG person)
+  Color: white
+  
+  Label below circle:
+    "Emma R." DM Sans 600 13px #1A1A1E
+    "Student" DM Sans 400 11px #6E6E73
+
+5 TEAM MEMBER NODES:
+  Each circle: r=36px
+  Border: 2.5px solid white
+  Box-shadow: 0 4px 12px rgba(0,0,0,0.10)
+  
+  Each a different soft color:
+    Teacher:     background #E8F5E9, initials color #2A8A4A
+    Parapro:     background #E3F2FD, initials color #1565C0
+    Therapist:   background #F3E5F5, initials color #7B1FA2
+    Admin:       background #FFF3E0, initials color #E65100
+    Parent:      background #FCE4EC, initials color #C2185B
+
+  Inside each: 2-letter initials
+    Teacher: "SK" | Parapro: "MJ" | Therapist: "RP"
+    Admin: "JL" | Parent: "AT"
+  Font: DM Sans 700 13px
+  
+  Label below each circle:
+    Role name: DM Sans 600 12px #1A1A1E
+    e.g. "Teacher", "Parapro", "Therapist"
+
+FLOATING ACTIVITY LABELS:
+  4 floating pill labels positioned near the arcs,
+  exactly like the reference images:
+
+  Label 1 — near Teacher arc (left side):
+    Text: "✓ Goal Updated"
+    Background: white
+    Border: 1px solid rgba(0,0,0,0.08)
+    Border-radius: 9999px
+    Padding: 6px 14px
+    Font: DM Sans 500 12px #1A1A1E
+    Box-shadow: 0 2px 8px rgba(0,0,0,0.08)
+    Position: x=60, y=170
+    
+    Left dot: 7px circle, background #22C55E
+
+  Label 2 — near Parapro arc (upper left):
+    Text: "📝 Note Added"
+    Same style
+    Position: x=240, y=60
+    Left dot: #53AEF3
+
+  Label 3 — near Admin arc (upper right):
+    Text: "▶ Trial Recorded"
+    Same style
+    Position: x=570, y=55
+    Left dot: #8B5CF6
+
+  Label 4 — near Parent arc (right side):
+    Text: "👁 Report Viewed"
+    Same style  
+    Position: x=730, y=170
+    Left dot: #F59E0B
+
+  ANIMATION on floating labels:
+    Each label: translateY(0px) → translateY(-6px) → translateY(0px)
+    Duration: 3s, ease-in-out, infinite
+    Each label has different delay: 0s, 0.8s, 1.6s, 2.4s
+
+═══════════════════════════════════════════════
+SCROLL REVEAL
+═══════════════════════════════════════════════
+
+On scroll into view:
+  Headline block: opacity 0→1, translateY 20px→0
+  Duration: 600ms ease
+
+  Center node: scale 0→1, opacity 0→1
+  Duration: 500ms cubic-bezier(0.34,1.56,0.64,1)
+  Delay: 300ms
+
+  Each team node: scale 0→1, opacity 0→1
+  Stagger: 100ms each, starting delay 500ms
+  Duration: 400ms cubic-bezier(0.34,1.56,0.64,1)
+
+  Connecting lines: stroke-dashoffset full→0
+  Duration: 800ms ease, delay 600ms
+
+  Floating labels: opacity 0→1, translateY 10px→0
+  Stagger: 150ms, delay starts 900ms
+
+DO NOT CHANGE ANYTHING ELSE.

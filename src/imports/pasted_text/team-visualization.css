@@ -1,0 +1,260 @@
+═══════════════════════════════════════════════
+SECTION WRAPPER
+═══════════════════════════════════════════════
+
+Background: #F8F8F5
+Padding: 80px
+Position: relative
+Overflow: hidden
+
+═══════════════════════════════════════════════
+SVG CANVAS
+═══════════════════════════════════════════════
+
+One SVG element, centered:
+  Width: 100%
+  Max-width: 900px
+  Height: 500px
+  Margin: 0 auto
+  Display: block
+  ViewBox: "0 0 900 500"
+  Overflow: visible
+
+═══════════════════════════════════════════════
+NODE POSITIONS (exact coordinates)
+═══════════════════════════════════════════════
+
+Center student node:   cx=450, cy=360
+Teacher node:          cx=120, cy=310
+Parapro node:          cx=240, cy=160
+Therapist node:        cx=450, cy=90
+Admin node:            cx=660, cy=160
+Parent node:           cx=780, cy=310
+
+═══════════════════════════════════════════════
+CONNECTING LINES
+═══════════════════════════════════════════════
+
+Draw 5 straight lines from center (450,360) 
+to each team node.
+
+Each line:
+  stroke: rgba(0,0,0,0.12)
+  stroke-width: 1.5
+  stroke-dasharray: 5 5
+  fill: none
+
+ANIMATION — dashes march outward:
+@keyframes march {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: 20; }
+}
+
+Each line:
+  animation: march 1.5s linear infinite
+
+Stagger animation-delay:
+  To Teacher:   0s
+  To Parapro:   0.3s
+  To Therapist: 0.6s
+  To Admin:     0.9s
+  To Parent:    1.2s
+
+TRAVELING DOT on each line:
+  <circle r="3.5">
+  fill: #53AEF3
+  Using <animateMotion> along each line path:
+    dur: "2s"
+    repeatCount: "indefinite"
+  Each dot begin offset:
+    Teacher dot:   begin="0s"
+    Parapro dot:   begin="0.4s"
+    Therapist dot: begin="0.8s"
+    Admin dot:     begin="1.2s"
+    Parent dot:    begin="1.6s"
+
+═══════════════════════════════════════════════
+CENTER NODE — STUDENT (Emma R.)
+═══════════════════════════════════════════════
+
+Outer pulse ring:
+  <circle cx=450 cy=360 r=56>
+  fill: rgba(83,174,243,0.12)
+  @keyframes breathe {
+    0%,100% { r: 56; opacity: 0.5; }
+    50%      { r: 64; opacity: 0.2; }
+  }
+  animation: breathe 3s ease-in-out infinite
+
+Main circle:
+  <circle cx=450 cy=360 r=44>
+  fill: #53AEF3
+  stroke: white, stroke-width: 3
+
+Person icon inside (simple SVG):
+  Head: <circle cx=450 cy=348 r=10 fill=white>
+  Body: <path d="M428 384 Q450 368 472 384" 
+        fill=white stroke=none>
+
+Label below:
+  "Emma R." — font-weight 600, font-size 14px, 
+              fill #1A1A1E, text-anchor middle
+              y=418
+  "Student" — font-weight 400, font-size 12px,
+              fill #6E6E73, text-anchor middle
+              y=434
+
+═══════════════════════════════════════════════
+TEAM MEMBER NODES — ALL 5
+═══════════════════════════════════════════════
+
+Each node = pulse ring + main circle + initials + label
+
+Node sizes: r=34 for main circle, r=42 for pulse ring
+
+PULSE RING animation per node:
+@keyframes pulse-X {
+  0%,100% { r: 42; opacity: 0.35; }
+  50%      { r: 50; opacity: 0; }
+}
+Duration: 2.5s ease-out infinite
+Each node different delay: 0s, 0.5s, 1s, 1.5s, 2s
+
+NODE 1 — Teacher (cx=120, cy=310):
+  Pulse ring fill: rgba(42,138,74,0.15)
+  Main circle fill: #E8F5E9, stroke: white stroke-width 2.5
+  Initials "SK": fill #2A8A4A, font-weight 700, font-size 14px
+  Label "Teacher": fill #1A1A1E, font-size 13px, y=358
+  Pulse delay: 0s
+
+NODE 2 — Parapro (cx=240, cy=160):
+  Pulse ring fill: rgba(21,101,192,0.12)
+  Main circle fill: #E3F2FD, stroke: white
+  Initials "MJ": fill #1565C0, font-weight 700, font-size 14px
+  Label "Parapro": fill #1A1A1E, font-size 13px, y=208
+  Pulse delay: 0.5s
+
+NODE 3 — Therapist (cx=450, cy=90):
+  Pulse ring fill: rgba(123,31,162,0.12)
+  Main circle fill: #F3E5F5, stroke: white
+  Initials "RP": fill #7B1FA2, font-weight 700, font-size 14px
+  Label "Therapist": fill #1A1A1E, font-size 13px, y=138
+  Pulse delay: 1s
+
+NODE 4 — Admin (cx=660, cy=160):
+  Pulse ring fill: rgba(230,81,0,0.10)
+  Main circle fill: #FFF3E0, stroke: white
+  Initials "JL": fill #E65100, font-weight 700, font-size 14px
+  Label "Admin": fill #1A1A1E, font-size 13px, y=208
+  Pulse delay: 1.5s
+
+NODE 5 — Parent (cx=780, cy=310):
+  Pulse ring fill: rgba(194,24,91,0.10)
+  Main circle fill: #FCE4EC, stroke: white
+  Initials "AT": fill #C2185B, font-weight 700, font-size 14px
+  Label "Parent": fill #1A1A1E, font-size 13px, y=358
+  Pulse delay: 2s
+
+═══════════════════════════════════════════════
+FLOATING ACTIVITY LABELS (HTML divs over SVG)
+═══════════════════════════════════════════════
+
+Position the SVG wrapper as position:relative.
+Place 4 HTML divs position:absolute over the SVG.
+
+Each label pill:
+  Background: #FFFFFF
+  Border: 1px solid rgba(0,0,0,0.08)
+  Border-radius: 9999px
+  Padding: 7px 14px
+  Box-shadow: 0 2px 12px rgba(0,0,0,0.08)
+  Display: flex, align-items: center, gap: 8px
+  Font: DM Sans 500 12px, color #1A1A1E
+  White-space: nowrap
+  Pointer-events: none
+
+Left colored dot per label:
+  Width: 7px, height: 7px
+  Border-radius: 50%
+
+LABEL 1 — "✓ Goal Updated":
+  Position: top: 52%, left: 2%
+  Dot color: #22C55E
+  
+  @keyframes bob1 {
+    0%,100% { transform: translateY(0px); }
+    50%      { transform: translateY(-8px); }
+  }
+  animation: bob1 3s ease-in-out infinite
+
+LABEL 2 — "📝 Note Added":
+  Position: top: 18%, left: 20%
+  Dot color: #53AEF3
+
+  @keyframes bob2 {
+    0%,100% { transform: translateY(0px); }
+    50%      { transform: translateY(-8px); }
+  }
+  animation: bob2 3.2s ease-in-out infinite
+  animation-delay: 0.6s
+
+LABEL 3 — "▶ Trial Recorded":
+  Position: top: 14%, right: 18%
+  Dot color: #8B5CF6
+
+  animation: bob1 2.8s ease-in-out infinite
+  animation-delay: 1.2s
+
+LABEL 4 — "👁 Report Viewed":
+  Position: top: 52%, right: 2%
+  Dot color: #F59E0B
+
+  animation: bob2 3.4s ease-in-out infinite
+  animation-delay: 1.8s
+
+═══════════════════════════════════════════════
+NODE HOVER INTERACTION
+═══════════════════════════════════════════════
+
+When hovering any team node:
+  Main circle: scale 1→1.12
+  transition: transform 250ms ease
+  transform-origin: node center
+  cursor: pointer
+
+═══════════════════════════════════════════════
+SCROLL REVEAL
+═══════════════════════════════════════════════
+
+On section entering viewport:
+
+Center node: scale 0→1, opacity 0→1
+  Duration: 500ms cubic-bezier(0.34,1.56,0.64,1)
+  Delay: 0ms
+
+5 team nodes: scale 0→1, opacity 0→1
+  Duration: 400ms cubic-bezier(0.34,1.56,0.64,1)
+  Stagger: 80ms each
+  Delay starts: 200ms
+
+Lines: opacity 0→1
+  Duration: 600ms ease
+  Delay: 600ms
+
+Floating labels: opacity 0→1, translateY 10px→0
+  Duration: 400ms ease
+  Stagger: 100ms
+  Delay starts: 800ms
+
+Use IntersectionObserver with threshold 0.3.
+Add .visible class to trigger animations.
+
+═══════════════════════════════════════════════
+WRAP ALL ANIMATIONS IN:
+═══════════════════════════════════════════════
+
+@media (prefers-reduced-motion: no-preference) {
+  /* all keyframes and animation rules */
+}
+
+DO NOT CHANGE ANYTHING ELSE.
