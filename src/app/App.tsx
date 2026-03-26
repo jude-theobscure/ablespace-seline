@@ -12,6 +12,23 @@ import { SecuritySection } from "./components/security-section";
 import { AIFeaturesSection } from "./components/ai-features-section";
 import { SchoolsDistrictsSection } from "./components/schools-districts-section";
 import { FAQSection } from "./components/faq-section";
+import { SchoolsDistrictsPage } from "./pages/schools-districts-page";
+import { DataTypesPage } from "./pages/data-types-page";
+import { IepAuditPage } from "./pages/iep-audit-page";
+import { ServiceTimePage } from "./pages/service-time-page";
+import { AccommodationsPage } from "./pages/accommodations-page";
+import { RotatingSchedulePage } from "./pages/rotating-schedule-page";
+import { MedicaidBillingPage } from "./pages/medicaid-billing-page";
+import { ReportsPage } from "./pages/reports-page";
+import { CollaborationPage } from "./pages/collaboration-page";
+import { AbleSpaceAiPage } from "./pages/ablespace-ai-page";
+import { PricingPage } from "./pages/pricing-page";
+import { BlogPage } from "./pages/blog-page";
+import { TutorialsPage } from "./pages/tutorials-page";
+import { CoursesPage } from "./pages/courses-page";
+import { FaqPage } from "./pages/faq-page";
+import { ReviewsPage } from "./pages/reviews-page";
+import { ContactPage } from "./pages/contact-page";
 
 /* ── Design tokens ──────────────────────────────────────────── */
 const BG    = "#F8F8F5";
@@ -94,6 +111,13 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [hoverPrimary, setHoverPrimary] = useState(false);
   const [hoverGhost,   setHoverGhost]   = useState(false);
+  type Page = "home" | "schools" | "datatypes" | "iep-audit" | "service-time" | "accommodations" | "rotating-schedule" | "medicaid-billing" | "reports" | "collaboration" | "ai" | "pricing" | "blog" | "tutorials" | "courses" | "faq" | "reviews" | "contact";
+  const [page, setPage] = useState<Page>("home");
+
+  const navigate = (p: Page) => {
+    setPage(p);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 8);
@@ -138,7 +162,7 @@ export default function App() {
       {/*  NAVBAR                                              */}
       {/* ════════════════════════════════════════════════════ */}
       <div style={{
-        position: "sticky", top: 0, zIndex: 100,
+        position: "fixed", top: 0, left: 0, right: 0, zIndex: 100,
         background: "rgba(248,248,245,0.92)",
         backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)",
         borderBottom: scrolled ? "1px solid rgba(0,0,0,0.07)" : "1px solid transparent",
@@ -146,86 +170,96 @@ export default function App() {
       }}>
       <nav style={{
         height: 64,
-        display: "flex", alignItems: "center", justifyContent: "space-between",
+        display: "flex", alignItems: "center",
         maxWidth: 1200, margin: "0 auto", padding: isMobile ? "0 20px" : "0 80px",
-        boxSizing: "border-box",
+        boxSizing: "border-box", gap: 32,
       }}>
 
-        {/* Logo */}
-        <a href="#" style={{ display:"flex", alignItems:"center", gap:10, textDecoration:"none", flexShrink:0 }}>
+        {/* Logo icon only */}
+        <a href="#" onClick={(e) => { e.preventDefault(); navigate("home"); }} style={{ display:"flex", alignItems:"center", textDecoration:"none", flexShrink:0 }}>
           <AbleSpaceLogo />
-          <span style={{ fontFamily:SANS, fontWeight:700, fontSize:15.5, color:DARK, letterSpacing:"-0.4px" }}>
-            AbleSpace
-          </span>
         </a>
 
-        {/* Centre links — hidden on mobile */}
+        {/* Links — immediately after logo, hidden on mobile */}
         {!isMobile && (
-          <div style={{ display:"flex", alignItems:"center", gap:26 }}>
-            <NavLink href="#" dropdown>Product</NavLink>
-            <NavLink href="#">Schools/Districts</NavLink>
-            <a href="#" style={{
-              fontFamily:SANS, fontSize:14, color:MUTED, fontWeight:400,
-              textDecoration:"none", display:"inline-flex", alignItems:"center", gap:7,
-            }}>
-              AbleSpace AI
-              <div style={{ display:"flex" }}>
-                {AVATARS.map((src, i) => (
-                  <img key={i} src={src} alt="" style={{
-                    width:18, height:18, borderRadius:"50%", objectFit:"cover",
-                    border:`1.5px solid ${BG}`, marginLeft: i === 0 ? 0 : -6,
-                  }} />
-                ))}
-              </div>
-            </a>
-            <NavLink href="#">Tutorials</NavLink>
-            <NavLink href="#" dropdown>Resources</NavLink>
-            <NavLink href="#">Pricing</NavLink>
+          <div style={{ display:"flex", alignItems:"center", gap:24 }}>
+            <ProductMenu navigate={navigate} />
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate("schools"); }} style={{
+              fontFamily: SANS, fontSize: 14,
+              color: page === "schools" ? DARK : MUTED,
+              fontWeight: page === "schools" ? 500 : 400,
+              textDecoration: "none", whiteSpace: "nowrap",
+            }}>Schools</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate("ai"); }} style={{
+              fontFamily: SANS, fontSize: 14,
+              color: page === "ai" ? DARK : MUTED,
+              fontWeight: page === "ai" ? 500 : 400,
+              textDecoration: "none", whiteSpace: "nowrap",
+            }}>AbleSpace AI</a>
+            <ResourcesMenu navigate={navigate} />
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate("pricing"); }} style={{
+              fontFamily: SANS, fontSize: 14,
+              color: page === "pricing" ? DARK : MUTED,
+              fontWeight: page === "pricing" ? 500 : 400,
+              textDecoration: "none", whiteSpace: "nowrap",
+            }}>Pricing</a>
           </div>
         )}
 
+        {/* Spacer */}
+        <div style={{ flex: 1 }} />
+
         {/* Right actions */}
-        <div style={{ display:"flex", alignItems:"center", gap:isMobile ? 8 : 12, flexShrink:0 }}>
+        <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0 }}>
           {!isMobile && (
             <>
-              <a href="#" style={{
-                display: "inline-flex", alignItems: "center",
-                height: 40, padding: "0 20px",
-                borderRadius: 12,
-                fontFamily: SANS, fontWeight: 500, fontSize: 14,
-                textDecoration: "none", boxSizing: "border-box",
-                whiteSpace: "nowrap", cursor: "pointer",
-                color: DARK, background: "transparent",
-                border: "1.5px solid rgba(0,0,0,0.18)",
-                lineHeight: 1,
-              }}>Get a Quote</a>
-              <div style={{ width:1, height:18, background:"rgba(0,0,0,0.12)", flexShrink:0 }} />
-              <a href="#" style={{ fontFamily:SANS, fontSize:14, color:MUTED, fontWeight:400, textDecoration:"none" }}>
+              <a href="#" style={{ fontFamily:SANS, fontSize:14, color:MUTED, fontWeight:400, textDecoration:"none", padding:"0 6px" }}>
                 Login
               </a>
+              <a href="#" style={{
+                ...BTN_BASE,
+                height: 40, padding: "0 18px",
+                color: DARK, background: "transparent",
+                border: "1.5px solid rgba(0,0,0,0.18)",
+              }}>Get a demo</a>
             </>
           )}
           <a href="#" style={{
-            display: "inline-flex", alignItems: "center",
-            height: isMobile ? 36 : 40, padding: "0 16px",
-            borderRadius: 12,
-            fontFamily: SANS, fontWeight: 500, fontSize: 14,
-            textDecoration: "none", boxSizing: "border-box",
-            whiteSpace: "nowrap", cursor: "pointer",
+            ...BTN_BASE,
+            height: isMobile ? 36 : 40, padding: "0 18px",
             background: BLUE, color: "#fff", border: "none",
-            lineHeight: 1,
-          }}>Sign up for free</a>
+          }}>Start for free</a>
         </div>
       </nav>
       </div>
 
       {/* ════════════════════════════════════════════════════ */}
-      {/*  HERO — single column, left-aligned                 */}
+      {/*  PAGE CONTENT                                        */}
       {/* ════════════════════════════════════════════════════ */}
+      {page === "schools" ? <SchoolsDistrictsPage /> :
+       page === "datatypes" ? <DataTypesPage /> :
+       page === "iep-audit" ? <IepAuditPage /> :
+       page === "service-time" ? <ServiceTimePage /> :
+       page === "accommodations" ? <AccommodationsPage /> :
+       page === "rotating-schedule" ? <RotatingSchedulePage /> :
+       page === "medicaid-billing" ? <MedicaidBillingPage /> :
+       page === "reports" ? <ReportsPage /> :
+       page === "collaboration" ? <CollaborationPage /> :
+       page === "ai" ? <AbleSpaceAiPage /> :
+       page === "pricing" ? <PricingPage /> :
+       page === "blog" ? <BlogPage /> :
+       page === "tutorials" ? <TutorialsPage /> :
+       page === "courses" ? <CoursesPage /> :
+       page === "faq" ? <FaqPage /> :
+       page === "reviews" ? <ReviewsPage /> :
+       page === "contact" ? <ContactPage /> :
+       <>
+
+      {/* ── HERO — single column, left-aligned ── */}
       <section style={{
         position: "relative", zIndex: 1,
         maxWidth: 1200, margin: "0 auto",
-        padding: isMobile ? "48px 20px 0" : "72px 80px 0",
+        padding: isMobile ? "112px 20px 0" : "136px 80px 0",
         boxSizing: "border-box",
       }}>
 
@@ -425,6 +459,7 @@ export default function App() {
       <FAQSection />
       <CTABannerSection />
       <FooterSection />
+      </>}
     </div>
   );
 }
@@ -462,5 +497,412 @@ function NavLink({
         </svg>
       )}
     </a>
+  );
+}
+
+const PRODUCT_ITEMS = [
+  { label: "IEP Audit",          desc: "Track every IEP goal with precision and ease." },
+  { label: "Data Types",         desc: "9+ collection types built for special ed teams." },
+  { label: "Service Time",       desc: "Auto-track sessions and generate billing notes." },
+  { label: "Accommodations",     desc: "One-tap tracking linked to each student's IEP." },
+  { label: "Rotating Schedule",  desc: "Smart calendar sync for all session types." },
+  { label: "Medicaid Billing",   desc: "Auto-generate compliant billing after every session." },
+  { label: "Reports",            desc: "20+ auto-generated graphs ready for IEP meetings." },
+  { label: "Collaboration",      desc: "Share progress across your entire special ed team." },
+];
+
+const FOR_LINKS = [
+  {
+    label: "Learn more",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <circle cx="7" cy="7" r="5.5" stroke="#6E6E73" strokeWidth="1.2"/>
+        <path d="M7 6.5v3M7 4.5v.5" stroke="#6E6E73" strokeWidth="1.2" strokeLinecap="round"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Get a Quote",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <rect x="2" y="2" width="10" height="10" rx="2" stroke="#6E6E73" strokeWidth="1.2"/>
+        <path d="M4.5 5h5M4.5 7h3.5M4.5 9h4" stroke="#6E6E73" strokeWidth="1.1" strokeLinecap="round"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Schedule a Demo",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <circle cx="7" cy="7" r="5.5" stroke="#6E6E73" strokeWidth="1.2"/>
+        <path d="M7 4v3.5l2 1.5" stroke="#6E6E73" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    ),
+  },
+];
+
+type NavPage = "home" | "schools" | "datatypes" | "iep-audit" | "service-time" | "accommodations" | "rotating-schedule" | "medicaid-billing" | "reports" | "collaboration" | "ai" | "pricing" | "blog" | "tutorials" | "courses" | "faq" | "reviews" | "contact";
+
+const PRODUCT_NAV: Record<string, NavPage> = {
+  "IEP Audit": "iep-audit",
+  "Data Types": "datatypes",
+  "Service Time": "service-time",
+  "Accommodations": "accommodations",
+  "Rotating Schedule": "rotating-schedule",
+  "Medicaid Billing": "medicaid-billing",
+  "Reports": "reports",
+  "Collaboration": "collaboration",
+};
+
+const RESOURCES_NAV: Record<string, NavPage> = {
+  "Blog": "blog",
+  "Tutorials": "tutorials",
+  "Courses": "courses",
+  "FAQs": "faq",
+  "Reviews": "reviews",
+  "Contact Us": "contact",
+};
+
+function ProductMenu({ navigate }: { navigate: (p: NavPage) => void }) {
+  const [open, setOpen] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const [hoveredLink, setHoveredLink] = useState<number | null>(null);
+
+  return (
+    <div
+      style={{ position: "relative" }}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      {/* Trigger */}
+      <a href="#" style={{
+        fontFamily: SANS, fontSize: 14, color: open ? DARK : MUTED,
+        fontWeight: 400, textDecoration: "none",
+        display: "inline-flex", alignItems: "center", gap: 3,
+        whiteSpace: "nowrap", transition: "color 0.15s",
+      }}>
+        Product
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+          style={{ opacity: 0.45, transform: open ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>
+          <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5"
+            strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </a>
+
+      {/* Dropdown panel — outer div bridges the gap so hover isn't lost */}
+      {open && (
+        <div style={{
+          position: "absolute",
+          top: "100%",
+          left: "-24px",
+          paddingTop: 12,
+          zIndex: 200,
+          width: 780,
+        }}>
+        <div style={{
+          background: "#FFFFFF",
+          borderRadius: 16,
+          boxShadow: "0 12px 48px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
+          border: "1px solid rgba(0,0,0,0.07)",
+          display: "flex",
+          overflow: "hidden",
+        }}>
+
+          {/* Left — Product items */}
+          <div style={{ flex: 1, padding: "24px 24px 24px 24px" }}>
+            <p style={{
+              fontFamily: SANS, fontWeight: 500, fontSize: 11,
+              color: MUTED, letterSpacing: "1.5px", textTransform: "uppercase",
+              margin: "0 0 14px",
+            }}>Product</p>
+
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px 12px" }}>
+              {PRODUCT_ITEMS.map((item, i) => (
+                <a
+                  key={item.label}
+                  href="#"
+                  onClick={(e) => { e.preventDefault(); navigate(PRODUCT_NAV[item.label]); setOpen(false); }}
+                  onMouseEnter={() => setHoveredItem(i)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  style={{
+                    display: "block",
+                    padding: "10px 12px",
+                    borderRadius: 10,
+                    textDecoration: "none",
+                    background: hoveredItem === i ? "rgba(0,0,0,0.04)" : "transparent",
+                    border: "1px solid",
+                    borderColor: hoveredItem === i ? "rgba(0,0,0,0.07)" : "transparent",
+                    transition: "background 0.15s, border-color 0.15s",
+                  }}
+                >
+                  <div style={{
+                    fontFamily: SANS, fontWeight: 600, fontSize: 13.5,
+                    color: DARK, marginBottom: 2,
+                  }}>{item.label}</div>
+                  <div style={{
+                    fontFamily: SANS, fontWeight: 400, fontSize: 12,
+                    color: MUTED, lineHeight: 1.45,
+                  }}>{item.desc}</div>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div style={{ width: 1, background: "rgba(0,0,0,0.07)", flexShrink: 0 }} />
+
+          {/* Right — Product For */}
+          <div style={{ width: 290, padding: "24px 24px", flexShrink: 0 }}>
+            <p style={{
+              fontFamily: SANS, fontWeight: 500, fontSize: 11,
+              color: MUTED, letterSpacing: "1.5px", textTransform: "uppercase",
+              margin: "0 0 14px",
+            }}>Product For</p>
+
+            {/* Feature card */}
+            <div style={{
+              background: "#F8F8F5",
+              borderRadius: 12,
+              padding: "16px",
+              marginBottom: 4,
+            }}>
+              <h3 style={{
+                fontFamily: SANS, fontWeight: 700, fontSize: 20,
+                color: DARK, margin: "0 0 8px", lineHeight: 1.2,
+              }}>Schools/Districts</h3>
+              <p style={{
+                fontFamily: SANS, fontWeight: 400, fontSize: 12.5,
+                color: MUTED, margin: 0, lineHeight: 1.55,
+              }}>
+                Ease the burden of paperwork on providers, and enhance compliance
+                by leveraging the power of digital data
+              </p>
+            </div>
+
+            {/* Links */}
+            {FOR_LINKS.map((link, i) => (
+              <a
+                key={link.label}
+                href="#"
+                onMouseEnter={() => setHoveredLink(i)}
+                onMouseLeave={() => setHoveredLink(null)}
+                style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  padding: "11px 0",
+                  borderBottom: i < FOR_LINKS.length - 1 ? "1px solid rgba(0,0,0,0.06)" : "none",
+                  textDecoration: "none",
+                  transition: "opacity 0.15s",
+                  opacity: hoveredLink !== null && hoveredLink !== i ? 0.5 : 1,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  {link.icon}
+                  <span style={{
+                    fontFamily: SANS, fontWeight: 400, fontSize: 13.5, color: DARK,
+                  }}>{link.label}</span>
+                </div>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ opacity: 0.35 }}>
+                  <path d="M3 9L9 3M9 3H4.5M9 3V7.5" stroke={DARK} strokeWidth="1.4"
+                    strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </a>
+            ))}
+          </div>
+
+        </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const RESOURCES_ITEMS = [
+  { label: "Blog",      desc: "Insights, tips, and best practices for special ed teams." },
+  { label: "Tutorials", desc: "Step-by-step guides to get the most out of AbleSpace." },
+  { label: "Courses",   desc: "Structured learning paths for educators and providers." },
+];
+
+const SUPPORT_LINKS = [
+  {
+    label: "FAQs",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <circle cx="7" cy="7" r="5.5" stroke="#6E6E73" strokeWidth="1.2"/>
+        <path d="M5.5 5.5a1.5 1.5 0 0 1 3 .5c0 1-1.5 1.5-1.5 2.5" stroke="#6E6E73" strokeWidth="1.2" strokeLinecap="round"/>
+        <circle cx="7" cy="10" r="0.6" fill="#6E6E73"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Reviews",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M7 2l1.3 2.6 2.9.4-2.1 2 .5 2.9L7 8.5l-2.6 1.4.5-2.9-2.1-2 2.9-.4L7 2z"
+          stroke="#6E6E73" strokeWidth="1.2" strokeLinejoin="round"/>
+      </svg>
+    ),
+  },
+  {
+    label: "Contact Us",
+    icon: (
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M2 3.5h10a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H4l-3 1.5V4.5a1 1 0 0 1 1-1z"
+          stroke="#6E6E73" strokeWidth="1.2" strokeLinejoin="round"/>
+      </svg>
+    ),
+  },
+];
+
+function ResourcesMenu({ navigate }: { navigate: (p: NavPage) => void }) {
+  const [open, setOpen] = useState(false);
+  const [hoveredItem, setHoveredItem] = useState<number | null>(null);
+  const [hoveredLink, setHoveredLink] = useState<number | null>(null);
+
+  return (
+    <div
+      style={{ position: "relative" }}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+    >
+      {/* Trigger */}
+      <a href="#" style={{
+        fontFamily: SANS, fontSize: 14, color: open ? DARK : MUTED,
+        fontWeight: 400, textDecoration: "none",
+        display: "inline-flex", alignItems: "center", gap: 3,
+        whiteSpace: "nowrap", transition: "color 0.15s",
+      }}>
+        Resources
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+          style={{ opacity: 0.45, transform: open ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>
+          <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5"
+            strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </a>
+
+      {/* Dropdown panel */}
+      {open && (
+        <div style={{
+          position: "absolute",
+          top: "100%",
+          left: "-24px",
+          paddingTop: 12,
+          zIndex: 200,
+          width: 620,
+        }}>
+        <div style={{
+          background: "#FFFFFF",
+          borderRadius: 16,
+          boxShadow: "0 12px 48px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
+          border: "1px solid rgba(0,0,0,0.07)",
+          display: "flex",
+          overflow: "hidden",
+        }}>
+
+          {/* Left — Resources items */}
+          <div style={{ flex: 1, padding: "24px" }}>
+            <p style={{
+              fontFamily: SANS, fontWeight: 500, fontSize: 11,
+              color: MUTED, letterSpacing: "1.5px", textTransform: "uppercase",
+              margin: "0 0 14px",
+            }}>Resources</p>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              {RESOURCES_ITEMS.map((item, i) => (
+                <a
+                  key={item.label}
+                  href="#"
+                  onClick={(e) => { e.preventDefault(); navigate(RESOURCES_NAV[item.label]); setOpen(false); }}
+                  onMouseEnter={() => setHoveredItem(i)}
+                  onMouseLeave={() => setHoveredItem(null)}
+                  style={{
+                    display: "block",
+                    padding: "14px 16px",
+                    borderRadius: 10,
+                    textDecoration: "none",
+                    border: "1px solid",
+                    borderColor: hoveredItem === i ? "rgba(0,0,0,0.10)" : "rgba(0,0,0,0.07)",
+                    background: hoveredItem === i ? "rgba(0,0,0,0.02)" : "transparent",
+                    transition: "background 0.15s, border-color 0.15s",
+                  }}
+                >
+                  <div style={{
+                    fontFamily: SANS, fontWeight: 600, fontSize: 14,
+                    color: DARK, marginBottom: 3,
+                  }}>{item.label}</div>
+                  <div style={{
+                    fontFamily: SANS, fontWeight: 400, fontSize: 12.5,
+                    color: MUTED, lineHeight: 1.45,
+                  }}>{item.desc}</div>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div style={{ width: 1, background: "rgba(0,0,0,0.07)", flexShrink: 0 }} />
+
+          {/* Right — Support */}
+          <div style={{ width: 270, padding: "24px", flexShrink: 0 }}>
+            <p style={{
+              fontFamily: SANS, fontWeight: 500, fontSize: 11,
+              color: MUTED, letterSpacing: "1.5px", textTransform: "uppercase",
+              margin: "0 0 14px",
+            }}>Support</p>
+
+            {/* Feature card */}
+            <div style={{
+              background: "#F8F8F5",
+              borderRadius: 12,
+              padding: "16px",
+              marginBottom: 4,
+            }}>
+              <h3 style={{
+                fontFamily: SANS, fontWeight: 700, fontSize: 20,
+                color: DARK, margin: "0 0 8px", lineHeight: 1.2,
+              }}>Need help?</h3>
+              <p style={{
+                fontFamily: SANS, fontWeight: 400, fontSize: 12.5,
+                color: MUTED, margin: 0, lineHeight: 1.55,
+              }}>
+                Everything you need to resolve questions, understand features,
+                and move forward with confidence.
+              </p>
+            </div>
+
+            {/* Links */}
+            {SUPPORT_LINKS.map((link, i) => (
+              <a
+                key={link.label}
+                href="#"
+                onClick={(e) => { e.preventDefault(); navigate(RESOURCES_NAV[link.label]); setOpen(false); }}
+                onMouseEnter={() => setHoveredLink(i)}
+                onMouseLeave={() => setHoveredLink(null)}
+                style={{
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  padding: "11px 0",
+                  borderBottom: i < SUPPORT_LINKS.length - 1 ? "1px solid rgba(0,0,0,0.06)" : "none",
+                  textDecoration: "none",
+                  transition: "opacity 0.15s",
+                  opacity: hoveredLink !== null && hoveredLink !== i ? 0.5 : 1,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  {link.icon}
+                  <span style={{
+                    fontFamily: SANS, fontWeight: 400, fontSize: 13.5, color: DARK,
+                  }}>{link.label}</span>
+                </div>
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ opacity: 0.35 }}>
+                  <path d="M3 9L9 3M9 3H4.5M9 3V7.5" stroke={DARK} strokeWidth="1.4"
+                    strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </a>
+            ))}
+          </div>
+
+        </div>
+        </div>
+      )}
+    </div>
   );
 }
