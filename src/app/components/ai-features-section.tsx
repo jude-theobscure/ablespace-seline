@@ -10,7 +10,7 @@ import aiFeature5     from "../../assets/ai-section/ai-feature-5.png";
 const CARD_IMAGES = [aiFeature1, aiFeature2, aiFeature3, aiFeature4, aiFeature5];
 
 /* ── Design tokens ────────────────────────────────────────── */
-const SERIF = "'Instrument Serif', serif";
+const SERIF = "'Source Sans 3', sans-serif";
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const DARK  = "#1A1A1E";
 const BLUE  = "#53AEF3";
@@ -80,7 +80,6 @@ export function AIFeaturesSection() {
     overflow: "hidden",
     display: "flex",
     flexDirection: "column",
-    boxShadow: "0 2px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04)",
     opacity: cardVis[i] ? 1 : 0,
     transform: cardVis[i] ? "translateY(0)" : "translateY(24px)",
     transition: "opacity 550ms ease, transform 550ms ease",
@@ -117,7 +116,7 @@ export function AIFeaturesSection() {
           </div>
 
           <h2 style={{
-            fontFamily: SERIF, fontWeight: 400, fontSize: isMobile ? 34 : 52,
+            fontFamily: SERIF, fontWeight: 600, fontSize: isMobile ? 34 : 52,
             lineHeight: 1.1, color: DARK, margin: "0 0 16px",
           }}>
             AI that works with you —<br />not extra work for you
@@ -273,7 +272,6 @@ function MockGoalGenerator() {
         borderRadius: 10,
         padding: "12px 14px",
         marginBottom: 12,
-        boxShadow: "0 1px 6px rgba(0,0,0,0.05)",
       }}>
         <div style={{ fontSize: 12, color: DARK, lineHeight: 1.55, fontWeight: 400 }}>
           "By June 2025, Emily will identify main ideas in grade-level
@@ -327,7 +325,6 @@ function MockTrackingSuggestions() {
               ? "1px solid rgba(83,174,243,0.20)"
               : "1px solid rgba(0,0,0,0.07)",
             marginBottom: 7,
-            boxShadow: "0 1px 4px rgba(0,0,0,0.03)",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -386,7 +383,6 @@ function MockProgressNotes() {
         background: "#FFFFFF",
         border: "1px solid rgba(0,0,0,0.08)",
         borderRadius: 10, padding: "12px 14px",
-        boxShadow: "0 1px 6px rgba(0,0,0,0.05)",
       }}>
         <div style={{ fontSize: 12, color: DARK, lineHeight: 1.6 }}>
           During today's session, Emily demonstrated progress toward her

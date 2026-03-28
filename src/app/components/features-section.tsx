@@ -20,7 +20,7 @@ const BG   = "#F8F8F5";
 const BLUE = "#53AEF3";
 const DARK = "#1A1A1E";
 const MUTED= "#6E6E73";
-const SERIF= "'Instrument Serif', serif";
+const SERIF = "'Source Sans 3', sans-serif";
 const SANS = "'DM Sans', system-ui, sans-serif";
 
 /* ── tab data ────────────────────────────────────────────────── */
@@ -127,7 +127,7 @@ export function FeaturesSection() {
             Everything you need
           </p>
           <h2 style={{
-            fontFamily: SERIF, fontWeight: 400, fontSize: isMobile ? 34 : 52,
+            fontFamily: SERIF, fontWeight: 600, fontSize: isMobile ? 34 : 52,
             color: DARK, lineHeight: 1.1, margin: 0,
           }}>
             Powerful features built<br />for real classrooms.
@@ -157,7 +157,6 @@ export function FeaturesSection() {
                   border: "none", outline: "none",
                   background: activeTab === i ? "#FFFFFF" : "transparent",
                   color: activeTab === i ? DARK : MUTED,
-                  boxShadow: activeTab === i ? "0 1px 4px rgba(0,0,0,0.10)" : "none",
                   transition: "all 200ms ease",
                   whiteSpace: "nowrap",
                 }}
@@ -197,7 +196,7 @@ export function FeaturesSection() {
                   {PANELS[displayedTab].num}
                 </div>
                 <h3 style={{
-                  fontFamily: SERIF, fontWeight: 400, fontSize: 36,
+                  fontFamily: SERIF, fontWeight: 600, fontSize: 36,
                   color: DARK, lineHeight: 1.15, margin: "0 0 14px",
                 }}>
                   {PANELS[displayedTab].headline[0]}<br />{PANELS[displayedTab].headline[1]}
@@ -333,7 +332,7 @@ function MockupDataTracking() {
         {/* Accuracy */}
         <div style={{ width: 130, flexShrink: 0, padding: 14 }}>
           <p style={{ fontSize: 10, fontWeight: 500, color: MUTED, textTransform: "uppercase", letterSpacing: "0.8px", marginBottom: 6 }}>Accuracy</p>
-          <p style={{ fontFamily: SERIF, fontSize: 40, fontWeight: 400, color: DARK, lineHeight: 1, marginBottom: 14 }}>{count}%</p>
+          <p style={{ fontFamily: SERIF, fontSize: 40, fontWeight: 600, color: DARK, lineHeight: 1, marginBottom: 14 }}>{count}%</p>
           <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
             {phases.map((ph, i) => (
               <div key={ph.label} style={{
@@ -714,7 +713,6 @@ function MockupScheduling() {
         background: "#fff",
         border: "1px solid rgba(0,0,0,0.08)",
         borderRadius: 10,
-        boxShadow: "0 8px 24px rgba(0,0,0,0.10)",
         zIndex: 2,
         padding: 16,
         opacity: cardIn ? 1 : 0,

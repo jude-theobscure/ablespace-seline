@@ -1,22 +1,29 @@
 import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "./shared";
+import logo1 from "../../assets/social-proof/social-strip-logo-1@2x.png";
+import logo2 from "../../assets/social-proof/social-strip-logo-2@2x.png";
+import logo3 from "../../assets/social-proof/social-strip-logo-3@2x.png";
+import logo4 from "../../assets/social-proof/social-strip-logo-4@2x.png";
+import logo5 from "../../assets/social-proof/social-strip-logo-5@2x.png";
+import logo6 from "../../assets/social-proof/social-strip-logo-6@2x.png";
+import logo7 from "../../assets/social-proof/social-strip-logo-7@2x.png";
+import logo8 from "../../assets/social-proof/social-strip-logo-8@2x.png";
 
-const SERIF = "'Instrument Serif', serif";
+const SERIF = "'Source Sans 3', sans-serif";
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const DARK  = "#1A1A1E";
-const BLUE  = "#53AEF3";
 const MUTED = "#6E6E73";
 const BG    = "#F8F8F5";
 
 const LOGOS = [
-  { abbr: "RUSD",   name: "Riverside USD"         },
-  { abbr: "AISD",   name: "Austin ISD"            },
-  { abbr: "LAUSD",  name: "LAUSD"                 },
-  { abbr: "CPS",    name: "Chicago Public Schools" },
-  { abbr: "NYCDOE", name: "NYC DOE"               },
-  { abbr: "DISD",   name: "Dallas ISD"            },
-  { abbr: "BCS",    name: "Broward County Schools" },
-  { abbr: "BPS",    name: "Boston Public Schools"  },
+  { src: logo1 },
+  { src: logo2 },
+  { src: logo3 },
+  { src: logo4 },
+  { src: logo5 },
+  { src: logo6 },
+  { src: logo7 },
+  { src: logo8 },
 ];
 
 const STATS = [
@@ -67,14 +74,10 @@ export function SocialProofStrip() {
       ref={sectionRef}
       style={{
         background: BG,
-        padding: isMobile ? "40px 20px" : "48px 80px",
-        textAlign: "center",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        gap: 32,
+        padding: isMobile ? "40px 0" : "48px 0",
       }}
     >
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: isMobile ? "0 20px" : "0 80px", boxSizing: "border-box", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 32 }}>
       {/* Logo row */}
       <div style={{
         display: "flex",
@@ -86,53 +89,27 @@ export function SocialProofStrip() {
       }}>
         {LOGOS.map((logo, i) => (
           <div
-            key={logo.abbr}
+            key={i}
             style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 8,
               opacity: logosIn[i] ? 1 : 0,
               transform: logosIn[i] ? "scale(1)" : "scale(0.85)",
               transition: "opacity 500ms cubic-bezier(0.16,1,0.3,1), transform 500ms cubic-bezier(0.16,1,0.3,1)",
-            }}
-          >
-            {/* Circle seal */}
-            <div style={{
-              width: 44, height: 44,
-              borderRadius: "50%",
-              border: "1.5px solid rgba(0,0,0,0.15)",
-              background: "#FFFFFF",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              flexShrink: 0,
-              boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-            }}>
-              <span style={{
-                fontFamily: SANS,
-                fontWeight: 700,
-                fontSize: logo.abbr.length > 4 ? 8 : 10,
-                color: "#6E6E73",
-                letterSpacing: "-0.2px",
-                lineHeight: 1,
-                textAlign: "center",
-              }}>
-                {logo.abbr}
-              </span>
-            </div>
-            {/* District name */}
-            <span style={{
-              fontFamily: SANS,
-              fontWeight: 400,
-              fontSize: 10,
-              color: "#AEAEB2",
-              textAlign: "center",
-              maxWidth: 60,
-              lineHeight: 1.3,
-            }}>
-              {logo.name}
-            </span>
+            }}
+          >
+            <img
+              src={logo.src}
+              alt={`Partner logo ${i + 1}`}
+              style={{
+                height: isMobile ? 42 : 54,
+                width: "auto",
+                objectFit: "contain",
+                filter: "grayscale(100%)",
+                opacity: 0.55,
+              }}
+            />
           </div>
         ))}
       </div>
@@ -159,7 +136,7 @@ export function SocialProofStrip() {
             }}>
               <span style={{
                 fontFamily: SERIF,
-                fontWeight: 400,
+                fontWeight: 600,
                 fontSize: 36,
                 color: DARK,
                 lineHeight: 1,
@@ -185,6 +162,7 @@ export function SocialProofStrip() {
             )}
           </div>
         ))}
+      </div>
       </div>
     </section>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "../components/shared";
+import { MAX_W, PAD_X, PAD_X_MOB, SECT_PY, SECT_PY_MOB, HERO_PT, HERO_PT_MOB, HERO_PB, HERO_PB_MOB, H1_SIZE, H1_SIZE_MOB, H2_SIZE, H2_SIZE_MOB, BODY_SIZE, STAT_SIZE, STAT_SIZE_MOB, CARD_RADIUS, CTA_RADIUS, CTA_PAD_X, CTA_PAD_Y, CTA_PAD_X_MOB, CTA_PAD_Y_MOB, CARD_GAP, BTN_RADIUS, BTN_PAD, BTN_SIZE } from "./page-layout";
 
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const SERIF = "'Instrument Serif', serif";
@@ -121,7 +122,7 @@ function FeatureCard({ feature, isMobile }: { feature: typeof AI_FEATURES[0]; is
       onMouseLeave={() => setHovered(false)}
       style={{
         background: "#fff",
-        borderRadius: 20,
+        borderRadius: CARD_RADIUS,
         padding: isMobile ? "28px 24px" : "32px 28px",
         border: "1px solid rgba(0,0,0,0.07)",
         display: "flex",
@@ -129,9 +130,6 @@ function FeatureCard({ feature, isMobile }: { feature: typeof AI_FEATURES[0]; is
         gap: 16,
         cursor: "default",
         transition: "box-shadow 0.25s ease, transform 0.25s ease",
-        boxShadow: hovered
-          ? "0 20px 48px rgba(0,0,0,0.12)"
-          : "0 2px 12px rgba(0,0,0,0.05)",
         transform: hovered ? "translateY(-4px)" : "translateY(0)",
       }}
     >
@@ -220,7 +218,7 @@ export function AbleSpaceAiPage() {
           background: "linear-gradient(160deg, #0F172A 0%, #1E293B 50%, #0F172A 100%)",
           position: "relative",
           overflow: "hidden",
-          padding: isMobile ? "100px 24px 80px" : "140px 40px 120px",
+          padding: isMobile ? `${HERO_PT_MOB}px 0 ${HERO_PB_MOB}px` : `${HERO_PT}px 0 ${HERO_PB}px`,
           display: "flex",
           justifyContent: "center",
         }}
@@ -254,7 +252,10 @@ export function AbleSpaceAiPage() {
         <div
           ref={heroReveal.ref}
           style={{
-            maxWidth: 820,
+            maxWidth: MAX_W,
+            margin: "0 auto",
+            padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`,
+            boxSizing: "border-box",
             width: "100%",
             textAlign: "center",
             position: "relative",
@@ -283,7 +284,7 @@ export function AbleSpaceAiPage() {
           <h1
             style={{
               fontFamily: SERIF,
-              fontSize: isMobile ? 38 : 64,
+              fontSize: isMobile ? H1_SIZE_MOB : H1_SIZE,
               fontWeight: 400,
               color: "#ffffff",
               lineHeight: 1.08,
@@ -296,7 +297,7 @@ export function AbleSpaceAiPage() {
           <p
             style={{
               fontFamily: SANS,
-              fontSize: 20,
+              fontSize: BODY_SIZE,
               fontWeight: 300,
               color: "rgba(255,255,255,0.65)",
               lineHeight: 1.65,
@@ -322,12 +323,12 @@ export function AbleSpaceAiPage() {
               style={{
                 fontFamily: SANS,
                 fontWeight: 600,
-                fontSize: 15,
+                fontSize: BTN_SIZE,
                 color: "#fff",
                 background: BLUE,
                 border: "none",
-                borderRadius: 12,
-                padding: "14px 28px",
+                borderRadius: BTN_RADIUS,
+                padding: BTN_PAD,
                 cursor: "pointer",
                 letterSpacing: "0.01em",
               }}
@@ -338,12 +339,12 @@ export function AbleSpaceAiPage() {
               style={{
                 fontFamily: SANS,
                 fontWeight: 600,
-                fontSize: 15,
+                fontSize: BTN_SIZE,
                 color: "#fff",
                 background: "transparent",
                 border: "1px solid rgba(255,255,255,0.25)",
-                borderRadius: 12,
-                padding: "14px 28px",
+                borderRadius: BTN_RADIUS,
+                padding: BTN_PAD,
                 cursor: "pointer",
                 letterSpacing: "0.01em",
               }}
@@ -375,8 +376,8 @@ export function AbleSpaceAiPage() {
       </section>
 
       {/* ── AI Features ── */}
-      <section style={{ background: BG, padding: isMobile ? "72px 24px" : "100px 40px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      <section style={{ background: BG, padding: isMobile ? `${SECT_PY_MOB}px 0` : `${SECT_PY}px 0` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
           <div
             ref={featuresReveal.ref}
             style={{ textAlign: "center", marginBottom: 56, ...revealStyle(featuresReveal.vis) }}
@@ -399,7 +400,7 @@ export function AbleSpaceAiPage() {
             <h2
               style={{
                 fontFamily: SERIF,
-                fontSize: isMobile ? 34 : 48,
+                fontSize: isMobile ? H2_SIZE_MOB : H2_SIZE,
                 fontWeight: 400,
                 color: DARK,
                 margin: 0,
@@ -414,7 +415,7 @@ export function AbleSpaceAiPage() {
             style={{
               display: "grid",
               gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
-              gap: 20,
+              gap: CARD_GAP,
             }}
           >
             {AI_FEATURES.map((feature, i) => (
@@ -432,8 +433,8 @@ export function AbleSpaceAiPage() {
       </section>
 
       {/* ── How It's Different ── */}
-      <section style={{ background: "#fff", padding: isMobile ? "72px 24px" : "100px 40px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      <section style={{ background: "#fff", padding: isMobile ? `${SECT_PY_MOB}px 0` : `${SECT_PY}px 0` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
           <div
             ref={diffReveal.ref}
             style={{ textAlign: "center", marginBottom: 56, ...revealStyle(diffReveal.vis) }}
@@ -456,7 +457,7 @@ export function AbleSpaceAiPage() {
             <h2
               style={{
                 fontFamily: SERIF,
-                fontSize: isMobile ? 34 : 48,
+                fontSize: isMobile ? H2_SIZE_MOB : H2_SIZE,
                 fontWeight: 400,
                 color: DARK,
                 margin: 0,
@@ -527,8 +528,8 @@ export function AbleSpaceAiPage() {
       </section>
 
       {/* ── How It Works ── */}
-      <section style={{ background: BG, padding: isMobile ? "72px 24px" : "100px 40px" }}>
-        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+      <section style={{ background: BG, padding: isMobile ? `${SECT_PY_MOB}px 0` : `${SECT_PY}px 0` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
           <div
             ref={stepsReveal.ref}
             style={{ textAlign: "center", marginBottom: 64, ...revealStyle(stepsReveal.vis) }}
@@ -551,7 +552,7 @@ export function AbleSpaceAiPage() {
             <h2
               style={{
                 fontFamily: SERIF,
-                fontSize: isMobile ? 34 : 48,
+                fontSize: isMobile ? H2_SIZE_MOB : H2_SIZE,
                 fontWeight: 400,
                 color: DARK,
                 margin: 0,
@@ -620,17 +621,15 @@ export function AbleSpaceAiPage() {
       </section>
 
       {/* ── CTA ── */}
-      <section style={{ background: BG, padding: isMobile ? "60px 24px 80px" : "80px 40px 100px" }}>
+      <section style={{ background: BG, padding: isMobile ? `0 0 ${SECT_PY_MOB}px` : `0 0 ${SECT_PY}px` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
         <div
           ref={ctaReveal.ref}
           style={{
-            maxWidth: 780,
-            margin: "0 auto",
             background: "#fff",
-            borderRadius: 28,
-            padding: isMobile ? "48px 28px" : "64px 72px",
+            borderRadius: isMobile ? 20 : CTA_RADIUS,
+            padding: isMobile ? `${CTA_PAD_Y_MOB}px ${CTA_PAD_X_MOB}px` : `${CTA_PAD_Y}px ${CTA_PAD_X}px`,
             textAlign: "center",
-            boxShadow: "0 4px 32px rgba(0,0,0,0.07)",
             border: "1px solid rgba(0,0,0,0.06)",
             ...revealStyle(ctaReveal.vis),
           }}
@@ -638,7 +637,7 @@ export function AbleSpaceAiPage() {
           <h2
             style={{
               fontFamily: SERIF,
-              fontSize: isMobile ? 34 : 48,
+              fontSize: isMobile ? H2_SIZE_MOB : H2_SIZE,
               fontWeight: 400,
               color: DARK,
               margin: "0 0 16px",
@@ -671,12 +670,12 @@ export function AbleSpaceAiPage() {
               style={{
                 fontFamily: SANS,
                 fontWeight: 600,
-                fontSize: 15,
+                fontSize: BTN_SIZE,
                 color: "#fff",
                 background: BLUE,
                 border: "none",
-                borderRadius: 12,
-                padding: "14px 28px",
+                borderRadius: BTN_RADIUS,
+                padding: BTN_PAD,
                 cursor: "pointer",
                 letterSpacing: "0.01em",
               }}
@@ -687,12 +686,12 @@ export function AbleSpaceAiPage() {
               style={{
                 fontFamily: SANS,
                 fontWeight: 600,
-                fontSize: 15,
+                fontSize: BTN_SIZE,
                 color: DARK,
                 background: "transparent",
                 border: `1.5px solid rgba(26,26,30,0.2)`,
-                borderRadius: 12,
-                padding: "14px 28px",
+                borderRadius: BTN_RADIUS,
+                padding: BTN_PAD,
                 cursor: "pointer",
                 letterSpacing: "0.01em",
               }}
@@ -700,6 +699,7 @@ export function AbleSpaceAiPage() {
               Book a demo
             </button>
           </div>
+        </div>
         </div>
       </section>
     </div>

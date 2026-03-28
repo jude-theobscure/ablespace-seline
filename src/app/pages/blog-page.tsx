@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "../components/shared";
+import { MAX_W, PAD_X, PAD_X_MOB, SECT_PY, SECT_PY_MOB, HERO_PT, HERO_PT_MOB, HERO_PB, HERO_PB_MOB, H1_SIZE, H1_SIZE_MOB, H2_SIZE, H2_SIZE_MOB, BODY_SIZE, STAT_SIZE, STAT_SIZE_MOB, CARD_RADIUS, CTA_RADIUS, CTA_PAD_X, CTA_PAD_Y, CTA_PAD_X_MOB, CTA_PAD_Y_MOB, CARD_GAP, BTN_RADIUS, BTN_PAD, BTN_SIZE } from "./page-layout";
 
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const SERIF = "'Instrument Serif', serif";
@@ -100,11 +101,8 @@ function ArticleCard({ article, index }: { article: typeof ARTICLES[0]; index: n
       onMouseLeave={() => setHovered(false)}
       style={{
         background: "#fff",
-        borderRadius: 16,
+        borderRadius: CARD_RADIUS,
         overflow: "hidden",
-        boxShadow: hovered
-          ? "0 16px 48px rgba(0,0,0,0.12)"
-          : "0 2px 12px rgba(0,0,0,0.06)",
         transform: vis
           ? hovered ? "translateY(-4px)" : "translateY(0)"
           : "translateY(24px)",
@@ -195,10 +193,11 @@ export function BlogPage() {
       <section
         style={{
           background: "linear-gradient(160deg, #F0F7FF 0%, #F8F8F5 55%, #F5F0FF 100%)",
-          padding: isMobile ? "80px 24px 64px" : "120px 24px 96px",
+          padding: isMobile ? `${HERO_PT_MOB}px 0 ${HERO_PB_MOB}px` : `${HERO_PT}px 0 ${HERO_PB}px`,
           textAlign: "center",
         }}
       >
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box", position: "relative", zIndex: 1, textAlign: "center" }}>
         <div
           ref={heroReveal.ref}
           style={{
@@ -228,7 +227,7 @@ export function BlogPage() {
           <h1
             style={{
               fontFamily: SERIF,
-              fontSize: isMobile ? 40 : 60,
+              fontSize: isMobile ? H1_SIZE_MOB : H1_SIZE,
               fontWeight: 400,
               color: DARK,
               lineHeight: 1.1,
@@ -242,7 +241,7 @@ export function BlogPage() {
           <p
             style={{
               fontFamily: SANS,
-              fontSize: isMobile ? 15 : 17,
+              fontSize: BODY_SIZE,
               color: MUTED,
               lineHeight: 1.7,
               margin: "0 auto 36px",
@@ -269,19 +268,18 @@ export function BlogPage() {
             }}
           />
         </div>
+        </div>
       </section>
 
       {/* Featured Article */}
-      <section style={{ padding: isMobile ? "48px 24px" : "72px 24px" }}>
+      <section style={{ padding: isMobile ? `${SECT_PY_MOB}px 0` : `${SECT_PY}px 0` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
         <div
           ref={featuredReveal.ref}
           style={{
-            maxWidth: 1080,
-            margin: "0 auto",
             background: "#fff",
             borderRadius: 20,
             overflow: "hidden",
-            boxShadow: "0 4px 24px rgba(0,0,0,0.07)",
             display: "grid",
             gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
             opacity: featuredReveal.vis ? 1 : 0,
@@ -351,16 +349,18 @@ export function BlogPage() {
             </a>
           </div>
         </div>
+        </div>
       </section>
 
       {/* Article Grid */}
-      <section style={{ padding: isMobile ? "0 24px 64px" : "0 24px 80px" }}>
-        <div ref={gridReveal.ref} style={{ maxWidth: 1080, margin: "0 auto" }}>
+      <section style={{ padding: isMobile ? `0 0 ${SECT_PY_MOB}px` : `0 0 ${SECT_PY}px` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
+        <div ref={gridReveal.ref}>
           <div
             style={{
               display: "grid",
               gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
-              gap: 24,
+              gap: CARD_GAP,
             }}
           >
             {ARTICLES.map((article, i) => (
@@ -368,19 +368,18 @@ export function BlogPage() {
             ))}
           </div>
         </div>
+        </div>
       </section>
 
       {/* CTA Newsletter */}
-      <section style={{ padding: isMobile ? "0 24px 80px" : "0 24px 100px" }}>
+      <section style={{ padding: isMobile ? `0 0 ${SECT_PY_MOB}px` : `0 0 ${SECT_PY}px` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
         <div
           ref={ctaReveal.ref}
           style={{
-            maxWidth: 1080,
-            margin: "0 auto",
             background: "#fff",
-            borderRadius: 20,
-            padding: isMobile ? "40px 24px" : "48px 56px",
-            boxShadow: "0 4px 24px rgba(0,0,0,0.07)",
+            borderRadius: isMobile ? 20 : CTA_RADIUS,
+            padding: isMobile ? `${CTA_PAD_Y_MOB}px ${CTA_PAD_X_MOB}px` : `${CTA_PAD_Y}px ${CTA_PAD_X}px`,
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
             alignItems: isMobile ? "flex-start" : "center",
@@ -428,13 +427,13 @@ export function BlogPage() {
             <button
               style={{
                 fontFamily: SANS,
-                fontSize: 14,
+                fontSize: BTN_SIZE,
                 fontWeight: 600,
                 color: "#fff",
                 background: BLUE,
                 border: "none",
-                borderRadius: 10,
-                padding: "12px 24px",
+                borderRadius: BTN_RADIUS,
+                padding: BTN_PAD,
                 cursor: "pointer",
                 whiteSpace: "nowrap",
               }}
@@ -442,6 +441,7 @@ export function BlogPage() {
               Subscribe
             </button>
           </div>
+        </div>
         </div>
       </section>
     </div>

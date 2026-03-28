@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "./shared";
 
 const SANS  = "'DM Sans', system-ui, sans-serif";
-const SERIF = "'Instrument Serif', serif";
+const SERIF = "'Source Sans 3', sans-serif";
 const BLUE  = "#53AEF3";
 const DARK  = "#1A1A1E";
 
@@ -64,9 +64,10 @@ export function TestimonialsSection() {
       ref={ref}
       style={{
         background: "#F8F8F5",
-        padding: isMobile ? "60px 20px" : "100px 80px",
+        padding: isMobile ? "60px 0" : "100px 0",
       }}
     >
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: isMobile ? "0 20px" : "0 80px", boxSizing: "border-box" }}>
       {/* ── Header ── */}
       <div
         style={{
@@ -98,18 +99,16 @@ export function TestimonialsSection() {
         <h2
           style={{
             fontFamily: SERIF,
-            fontWeight: 400,
-            fontSize: isMobile ? 34 : 52,
-            lineHeight: 1.1,
+            fontWeight: 600,
+            fontSize: isMobile ? 28 : 42,
+            lineHeight: 1.15,
             color: DARK,
             textAlign: "center",
             margin: "0 auto",
-            maxWidth: 600,
+            maxWidth: 560,
           }}
         >
-          Trusted by special ed teams
-          <br />
-          across the country.
+          Trusted by special ed teams across the country.
         </h2>
       </div>
 
@@ -132,7 +131,6 @@ export function TestimonialsSection() {
               border: "1px solid rgba(0,0,0,0.07)",
               borderRadius: 24,
               padding: 28,
-              boxShadow: "0 4px 28px rgba(0,0,0,0.06), 0 1px 6px rgba(0,0,0,0.04)",
               opacity: vis ? 1 : 0,
               transform: vis ? "translateY(0)" : "translateY(32px)",
               transition: `opacity 500ms cubic-bezier(0.16,1,0.3,1) ${200 + i * 80}ms,
@@ -217,7 +215,6 @@ export function TestimonialsSection() {
           border: "1px solid rgba(0,0,0,0.07)",
           borderRadius: 24,
           padding: "40px 48px",
-          boxShadow: "0 2px 20px rgba(0,0,0,0.04)",
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : "1fr auto",
           gap: isMobile ? 24 : 48,
@@ -312,6 +309,7 @@ export function TestimonialsSection() {
             ★★★★★
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

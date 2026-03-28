@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate as useRRNavigate, useLocation } from "react-router";
 import { useIsMobile } from "./components/shared";
+import navbarLogo from "../assets/navbar/icon-logo.svg";
 import dashImg from "../assets/c588e3d6fd588f8e1f139a98e572e19e10a451dd.png";
+import featureGraphic from "../assets/Feature Graphics.png";
 import { FeaturesSection } from "./components/features-section";
 import { SocialProofStrip } from "./components/social-proof-strip";
 import { ProblemSolutionSection } from "./components/problem-solution-section";
@@ -12,6 +15,7 @@ import { SecuritySection } from "./components/security-section";
 import { AIFeaturesSection } from "./components/ai-features-section";
 import { SchoolsDistrictsSection } from "./components/schools-districts-section";
 import { FAQSection } from "./components/faq-section";
+import { Btn3D } from "./components/btn-3d";
 import { SchoolsDistrictsPage } from "./pages/schools-districts-page";
 import { DataTypesPage } from "./pages/data-types-page";
 import { IepAuditPage } from "./pages/iep-audit-page";
@@ -29,6 +33,9 @@ import { CoursesPage } from "./pages/courses-page";
 import { FaqPage } from "./pages/faq-page";
 import { ReviewsPage } from "./pages/reviews-page";
 import { ContactPage } from "./pages/contact-page";
+import { FigmaMcpPage } from "./pages/figma-mcp-page";
+import { LoginPage, SignUpPage } from "./pages/auth-page";
+import { T } from "./styles/typography-home";
 
 /* ── Design tokens ──────────────────────────────────────────── */
 const BG    = "#F8F8F5";
@@ -36,15 +43,14 @@ const BLUE  = "#53AEF3";
 const DARK  = "#1A1A1E";
 const MUTED = "#6E6E73";
 
-const SERIF = "'Instrument Serif', serif";
 const SANS  = "'DM Sans', system-ui, sans-serif";
 
 const BTN_BASE: React.CSSProperties = {
-  height: 40,
-  padding: "0 20px",
-  borderRadius: 12,
+  height: 36,
+  padding: "0 16px",
+  borderRadius: 8,
   fontFamily: "'DM Sans', system-ui, sans-serif",
-  fontWeight: 500,
+  fontWeight: 600,
   fontSize: 14,
   display: "inline-flex",
   alignItems: "center",
@@ -56,17 +62,6 @@ const BTN_BASE: React.CSSProperties = {
   cursor: "pointer",
 };
 
-/* ── Avatars (navbar AI row) ────────────────────────────────── */
-const AVATARS = [
-  "https://images.unsplash.com/photo-1589220286904-3dcef62c68ee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=80",
-  "https://images.unsplash.com/photo-1762753674498-73ec49feafc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=80",
-  "https://images.unsplash.com/photo-1696718569329-bb9b81c05c98?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=80",
-];
-
-const LOGO_PILLS = [
-  "Austin ISD", "Riverside USD", "Bright Futures",
-  "Pathway Schools", "Horizon Academy", "Sunrise Learning",
-];
 
 const COMPLIANCE = [
   {
@@ -105,17 +100,48 @@ const COMPLIANCE = [
   },
 ];
 
+/* ── Route map ──────────────────────────────────────────────── */
+type Page = "home" | "schools" | "datatypes" | "iep-audit" | "service-time" | "accommodations" | "rotating-schedule" | "medicaid-billing" | "reports" | "collaboration" | "ai" | "pricing" | "blog" | "tutorials" | "courses" | "faq" | "reviews" | "contact" | "figma-mcp" | "login" | "signup";
+
+const PAGE_ROUTES: Record<Page, string> = {
+  "home": "/",
+  "schools": "/schools",
+  "datatypes": "/data-types",
+  "iep-audit": "/iep-audit",
+  "service-time": "/service-time",
+  "accommodations": "/accommodations",
+  "rotating-schedule": "/rotating-schedule",
+  "medicaid-billing": "/medicaid-billing",
+  "reports": "/reports",
+  "collaboration": "/collaboration",
+  "ai": "/ai",
+  "pricing": "/pricing",
+  "blog": "/blog",
+  "tutorials": "/tutorials",
+  "courses": "/courses",
+  "faq": "/faq",
+  "reviews": "/reviews",
+  "contact": "/contact",
+  "figma-mcp": "/figma-mcp",
+  "login": "/login",
+  "signup": "/signup",
+};
+
+const ROUTES_PAGE: Record<string, Page> = Object.fromEntries(
+  Object.entries(PAGE_ROUTES).map(([k, v]) => [v, k as Page])
+);
+
 /* ═══════════════════════════════════════════════════════════ */
 export default function App() {
   const isMobile = useIsMobile();
   const [scrolled, setScrolled] = useState(false);
-  const [hoverPrimary, setHoverPrimary] = useState(false);
-  const [hoverGhost,   setHoverGhost]   = useState(false);
-  type Page = "home" | "schools" | "datatypes" | "iep-audit" | "service-time" | "accommodations" | "rotating-schedule" | "medicaid-billing" | "reports" | "collaboration" | "ai" | "pricing" | "blog" | "tutorials" | "courses" | "faq" | "reviews" | "contact";
-  const [page, setPage] = useState<Page>("home");
+  const rrNavigate = useRRNavigate();
+  const location = useLocation();
+
+  const page: Page = ROUTES_PAGE[location.pathname] ?? "home";
 
   const navigate = (p: Page) => {
-    setPage(p);
+    rrNavigate(PAGE_ROUTES[p]);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -124,6 +150,9 @@ export default function App() {
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
+
+  if (page === "login") return <LoginPage onNavigate={navigate} />;
+  if (page === "signup") return <SignUpPage onNavigate={navigate} />;
 
   return (
     <div style={{
@@ -177,7 +206,7 @@ export default function App() {
 
         {/* Logo icon only */}
         <a href="#" onClick={(e) => { e.preventDefault(); navigate("home"); }} style={{ display:"flex", alignItems:"center", textDecoration:"none", flexShrink:0 }}>
-          <AbleSpaceLogo />
+          <img src={navbarLogo} alt="AbleSpace" width={28} height={28} />
         </a>
 
         {/* Links — immediately after logo, hidden on mobile */}
@@ -203,6 +232,12 @@ export default function App() {
               fontWeight: page === "pricing" ? 500 : 400,
               textDecoration: "none", whiteSpace: "nowrap",
             }}>Pricing</a>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate("figma-mcp"); }} style={{
+              fontFamily: SANS, fontSize: 14,
+              color: page === "figma-mcp" ? DARK : MUTED,
+              fontWeight: page === "figma-mcp" ? 500 : 400,
+              textDecoration: "none", whiteSpace: "nowrap",
+            }}>Figma MCP</a>
           </div>
         )}
 
@@ -213,22 +248,22 @@ export default function App() {
         <div style={{ display:"flex", alignItems:"center", gap:8, flexShrink:0 }}>
           {!isMobile && (
             <>
-              <a href="#" style={{ fontFamily:SANS, fontSize:14, color:MUTED, fontWeight:400, textDecoration:"none", padding:"0 6px" }}>
-                Login
-              </a>
               <a href="#" style={{
                 ...BTN_BASE,
-                height: 40, padding: "0 18px",
-                color: DARK, background: "transparent",
-                border: "1.5px solid rgba(0,0,0,0.18)",
-              }}>Get a demo</a>
+                color: "#65635F", background: "transparent",
+                border: "1px solid #E0E0E0",
+                marginRight: 4,
+              }}>Get a Quote</a>
+              <div style={{ width: 1, height: 20, background: "rgba(0,0,0,0.15)" }} />
+              <a href="#" onClick={(e) => { e.preventDefault(); navigate("login"); }} style={{ fontFamily:SANS, fontSize:14, color:"#65635F", fontWeight:600, textDecoration:"none", padding:"0 6px" }}>
+                Login
+              </a>
             </>
           )}
-          <a href="#" style={{
+          <a href="#" onClick={(e) => { e.preventDefault(); navigate("signup"); }} style={{
             ...BTN_BASE,
-            height: isMobile ? 36 : 40, padding: "0 18px",
             background: BLUE, color: "#fff", border: "none",
-          }}>Start for free</a>
+          }}>Sign up for FREE</a>
         </div>
       </nav>
       </div>
@@ -253,54 +288,45 @@ export default function App() {
        page === "faq" ? <FaqPage /> :
        page === "reviews" ? <ReviewsPage /> :
        page === "contact" ? <ContactPage /> :
+       page === "figma-mcp" ? <FigmaMcpPage /> :
        <>
 
-      {/* ── HERO — single column, left-aligned ── */}
+      {/* ── HERO — two column: left text, right feature graphic ── */}
       <section style={{
         position: "relative", zIndex: 1,
-        maxWidth: 1200, margin: "0 auto",
-        padding: isMobile ? "112px 20px 0" : "136px 80px 0",
-        boxSizing: "border-box",
+        padding: isMobile ? "112px 0 60px" : "136px 0 80px",
       }}>
-
-        {/* Left content column — 640px max */}
+        <div style={{ maxWidth: 1200, margin: "0 auto", padding: isMobile ? "0 20px" : "0 80px", boxSizing: "border-box" }}>
         <div style={{
-          maxWidth: 640,
+          display: "flex",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: isMobile ? "flex-start" : "center",
+          gap: isMobile ? 48 : 60,
+        }}>
+
+        {/* Left content column */}
+        <div style={{
+          flex: isMobile ? "none" : "0 0 480px",
           display: "flex", flexDirection: "column", alignItems: "flex-start",
-          paddingBottom: 0,
         }}>
 
           {/* ① HEADLINE */}
           <h1 style={{
-            fontFamily: "'Instrument Serif', serif",
-            fontWeight: 400,
-            fontSize: isMobile ? 38 : 64,
-            lineHeight: 1.08,
-            letterSpacing: "-0.5px",
-            color: DARK,
+            ...T.h1(isMobile),
             margin: 0,
             marginBottom: 16,
             maxWidth: 640,
           }}>
             <span style={{ display: "block" }}>
-              <mark style={{
-                background: "rgba(83,174,243,0.18)",
-                borderRadius: 8,
-                padding: "0 6px",
-                color: "inherit",
-              }}>
-                AI-Powered
-              </mark>
-              {" "}IEP Tracking
+              AI-Powered IEP Tracking
             </span>
             <span style={{ display: "block" }}>for Sped-Ed Professionals</span>
           </h1>
 
           {/* ② SUBHEADLINE */}
           <p style={{
-            fontFamily: SANS, fontWeight: 300,
-            fontSize: 17, lineHeight: 1.5,
-            color: MUTED, maxWidth: 460,
+            ...T.heroSub(),
+            maxWidth: 460,
             margin: 0, marginBottom: 24,
           }}>
             Track IEP goals, services, and accommodations in one place —
@@ -309,51 +335,8 @@ export default function App() {
 
           {/* ③ CTA BUTTONS */}
           <div style={{ display:"flex", flexDirection: isMobile ? "column" : "row", alignItems:"flex-start", gap:12, marginBottom:28, width: isMobile ? "100%" : "auto" }}>
-
-            {/* Primary */}
-            <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-start" }}>
-              <a
-                href="#"
-                onMouseEnter={() => setHoverPrimary(true)}
-                onMouseLeave={() => setHoverPrimary(false)}
-                style={{
-                  ...BTN_BASE,
-                  background: hoverPrimary ? "#3D9FE8" : BLUE,
-                  color: "#fff",
-                  border: "none",
-                  transform: hoverPrimary ? "translateY(-1px)" : "none",
-                }}
-              >
-                Sign Up for Free
-                <span style={{ opacity: 0.75 }}>→</span>
-              </a>
-              <span style={{
-                fontFamily: SANS, fontWeight: 400, fontSize: 11,
-                color: "#AEAEB2", marginTop: 6,
-              }}>For educators &amp; providers</span>
-            </div>
-
-            {/* Ghost */}
-            <div style={{ display:"flex", flexDirection:"column", alignItems:"flex-start" }}>
-              <a
-                href="#"
-                onMouseEnter={() => setHoverGhost(true)}
-                onMouseLeave={() => setHoverGhost(false)}
-                style={{
-                  ...BTN_BASE,
-                  color: DARK,
-                  background: hoverGhost ? "rgba(0,0,0,0.04)" : "transparent",
-                  border: `1.5px solid ${hoverGhost ? DARK : "rgba(0,0,0,0.18)"}`,
-                }}
-              >
-                Learn More
-                <span style={{ opacity: 0.65 }}>→</span>
-              </a>
-              <span style={{
-                fontFamily: SANS, fontWeight: 400, fontSize: 11,
-                color: "#AEAEB2", marginTop: 6,
-              }}>For school administrators</span>
-            </div>
+            <Btn3D label="Educators" variant="primary">Sign Up for Free</Btn3D>
+            <Btn3D label="Admins" variant="ghost">Learn More</Btn3D>
           </div>
 
           {/* ④ COMPLIANCE BADGES + G2 */}
@@ -362,8 +345,8 @@ export default function App() {
               <div key={label} style={{ display:"flex", flexDirection:"row", alignItems:"center", gap:8 }}>
                 {icon}
                 <div style={{ display:"flex", flexDirection:"column" }}>
-                  <span style={{ fontFamily:SANS, fontWeight:600, fontSize:13, color:"#A0A0A0", lineHeight:1.2 }}>{label}</span>
-                  <span style={{ fontFamily:SANS, fontWeight:400, fontSize:12, color:"#BBBBBB", lineHeight:1.2 }}>{sub}</span>
+                  <span style={{ ...T.bodySm(), fontWeight: 600, color: "#A0A0A0" }}>{label}</span>
+                  <span style={{ ...T.caption(), color: "#BBBBBB" }}>{sub}</span>
                 </div>
               </div>
             ))}
@@ -375,78 +358,71 @@ export default function App() {
                 borderRadius: 3, padding: "2px 5px",
               }}>G2</span>
               <div style={{ display:"flex", flexDirection:"column" }}>
-                <span style={{ color:"#F5A623", fontSize:12, fontWeight:600, lineHeight:1.2 }}>★★★★★</span>
-                <span style={{ fontFamily:SANS, fontWeight:400, fontSize:12, color:"#BBBBBB", lineHeight:1.2 }}>5.0 Rating</span>
+                <span style={{ ...T.caption(), fontWeight: 600, color: "#F5A623" }}>★★★★★</span>
+                <span style={{ ...T.caption(), color: "#BBBBBB" }}>5.0 Rating</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* ═══════════════════════════════════════════════ */}
-        {/*  DASHBOARD SCREENSHOT in browser chrome frame   */}
-        {/* ════════════════════════════════════════════════ */}
-        <div style={{
-          marginTop: 0,
-          width: "100%",
-          position: "relative",
-        }}>
-          {/* Browser window wrapper */}
+        {/* Right column — feature graphic */}
+        <div style={{ flex: 1, minWidth: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <img
+            src={featureGraphic}
+            alt="AbleSpace feature graphic"
+            style={{ width: "100%", height: "auto", display: "block" }}
+          />
+        </div>
+
+        </div>{/* end flex row */}
+
+        {/* ── Dashboard screenshot — full width below ── */}
+        <div style={{ marginTop: 96, width: "100%", position: "relative" }}>
           <div style={{
             width: "100%",
             borderRadius: "24px 24px 0 0",
             border: "1px solid rgba(0,0,0,0.07)",
-            boxShadow: "0 -12px 64px rgba(0,0,0,0.10), 0 -4px 20px rgba(0,0,0,0.05)",
             overflow: "hidden",
           }}>
-
-            {/* ── Top bar: traffic lights + URL pill ── */}
+            {/* Top bar */}
             <div style={{
-              height: 42,
-              background: "#F0F0EE",
+              height: 42, background: "#F0F0EE",
               borderBottom: "1px solid rgba(0,0,0,0.06)",
-              display: "flex",
-              alignItems: "center",
-              position: "relative",
-              flexShrink: 0,
+              display: "flex", alignItems: "center",
+              position: "relative", flexShrink: 0,
             }}>
-              {/* Traffic lights */}
               <div style={{ display:"flex", alignItems:"center", gap:6, marginLeft:16 }}>
                 <div style={{ width:11, height:11, borderRadius:"50%", background:"#FF5F57" }} />
                 <div style={{ width:11, height:11, borderRadius:"50%", background:"#FEBC2E" }} />
                 <div style={{ width:11, height:11, borderRadius:"50%", background:"#28C840" }} />
               </div>
-              {/* URL bar — centered */}
               <div style={{
                 position: "absolute", left:"50%", transform:"translateX(-50%)",
-                background: "rgba(0,0,0,0.07)",
-                borderRadius: 9999, padding: "4px 16px", width: 200,
-                textAlign: "center",
-                fontFamily: SANS, fontSize: 13, color: MUTED,
-                letterSpacing: "-0.1px",
+                background: "rgba(0,0,0,0.07)", borderRadius: 9999,
+                padding: "4px 16px", width: 200, textAlign: "center",
+                fontFamily: SANS, fontSize: 13, color: MUTED, letterSpacing: "-0.1px",
               }}>
                 app.ablespace.io
               </div>
             </div>
-
-            {/* ── Dashboard screenshot ── */}
-            <div style={{ position: "relative", display: "block", lineHeight: 0, overflow: "hidden" }}>
+            {/* Screenshot */}
+            <div style={{ lineHeight: 0 }}>
               <img
                 src={dashImg}
-                alt="AbleSpace dashboard — IEP goal tracking interface"
+                alt="AbleSpace dashboard"
                 style={{ width: "100%", display: "block", objectFit: "cover" }}
               />
-              {/* Fade overlay — bottom 60% fades to BG */}
-              <div style={{
-                position: "absolute",
-                bottom: 0, left: 0,
-                width: "100%", height: "60%",
-                background: "linear-gradient(to bottom, rgba(248,248,245,0) 0%, rgba(248,248,245,0.5) 40%, rgba(248,248,245,0.9) 70%, #F8F8F5 100%)",
-                pointerEvents: "none",
-                zIndex: 2,
-              }} />
             </div>
           </div>
+          {/* Fade to BG at bottom — outside overflow:hidden so it covers the border too */}
+          <div style={{
+            position: "absolute", bottom: 0, left: 0,
+            width: "100%", height: "60%",
+            background: "linear-gradient(to bottom, transparent 0%, rgba(248,248,245,0.7) 50%, #F8F8F5 75%)",
+            pointerEvents: "none", zIndex: 2,
+          }} />
         </div>
+      </div>
       </section>
       <SocialProofStrip />
       <ProblemSolutionSection />
@@ -466,39 +442,6 @@ export default function App() {
 
 /* ─── Sub-components ──────────────────────────────────────── */
 
-function AbleSpaceLogo() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-      <rect width="32" height="32" rx="10" fill="#53AEF3" />
-      <path d="M9 24L16 8L23 24" stroke="white" strokeWidth="2.5"
-        strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M11.5 19.5h9" stroke="white" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx="24.5" cy="8.5" r="2.5" fill="white" opacity="0.85" />
-    </svg>
-  );
-}
-
-function NavLink({
-  href, children, dropdown,
-}: { href: string; children: React.ReactNode; dropdown?: boolean }) {
-  return (
-    <a href={href} style={{
-      fontFamily: "'DM Sans', system-ui, sans-serif",
-      fontSize: 14, color: "#6E6E73", fontWeight: 400,
-      textDecoration: "none",
-      display: "inline-flex", alignItems: "center", gap: 3,
-      whiteSpace: "nowrap",
-    }}>
-      {children}
-      {dropdown && (
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ opacity:0.45 }}>
-          <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5"
-            strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      )}
-    </a>
-  );
-}
 
 const PRODUCT_ITEMS = [
   { label: "IEP Audit",          desc: "Track every IEP goal with precision and ease." },
@@ -602,7 +545,6 @@ function ProductMenu({ navigate }: { navigate: (p: NavPage) => void }) {
         <div style={{
           background: "#FFFFFF",
           borderRadius: 16,
-          boxShadow: "0 12px 48px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
           border: "1px solid rgba(0,0,0,0.07)",
           display: "flex",
           overflow: "hidden",
@@ -792,7 +734,6 @@ function ResourcesMenu({ navigate }: { navigate: (p: NavPage) => void }) {
         <div style={{
           background: "#FFFFFF",
           borderRadius: 16,
-          boxShadow: "0 12px 48px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06)",
           border: "1px solid rgba(0,0,0,0.07)",
           display: "flex",
           overflow: "hidden",

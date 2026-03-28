@@ -508,7 +508,6 @@ function FloatCard({
       background:   "#FFFFFF",
       border:       "1px solid rgba(107,94,205,0.10)",
       borderRadius: 14,
-      boxShadow:    "0 4px 20px rgba(107,94,205,0.10)",
       padding:      "14px 16px",
       zIndex:       5,
       opacity:      vis ? 1 : 0,

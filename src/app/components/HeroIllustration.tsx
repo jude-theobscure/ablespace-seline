@@ -112,8 +112,6 @@ export function HeroIllustration() {
             height: 118,
             background: "#ffffff",
             borderRadius: 16,
-            boxShadow:
-              "0 10px 32px rgba(0,0,0,0.10), 0 2px 8px rgba(0,0,0,0.05)",
             border: "1px solid rgba(0,0,0,0.045)",
             transform: `rotate(${card.rotate}deg)`,
             transformOrigin: "center center",

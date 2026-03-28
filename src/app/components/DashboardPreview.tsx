@@ -79,7 +79,6 @@ export function DashboardPreview() {
       className="w-full rounded-t-2xl overflow-hidden"
       style={{
         background: "#ffffff",
-        boxShadow: "0 -2px 0px rgba(0,0,0,0.04), 0 8px 80px rgba(0,0,0,0.12), 0 2px 16px rgba(0,0,0,0.06)",
         border: "1px solid rgba(0,0,0,0.06)",
         borderBottom: "none",
         maxHeight: 420,

@@ -100,8 +100,6 @@ export function AbleSpaceDashboard() {
           width: "100%",
           borderRadius: 20,
           border: "1px solid rgba(0,0,0,0.08)",
-          boxShadow:
-            "0 24px 80px rgba(13,184,160,0.08), 0 4px 24px rgba(0,0,0,0.06)",
           overflow: "hidden",
           background: "#ffffff",
           fontFamily: DM,

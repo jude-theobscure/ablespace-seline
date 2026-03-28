@@ -1,10 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "../components/shared";
+import heroImg from "../../assets/accommodations/accommodations-hero-section.png";
+import feature1Img from "../../assets/accommodations/feature-1.png";
+import feature2Img from "../../assets/accommodations/feature-2.png";
+import feature3Img from "../../assets/accommodations/feature-3.png";
+import { SocialProofStrip } from "../components/social-proof-strip";
+import { TestimonialsSection } from "../components/testimonials-section";
+import { FAQSection } from "../components/faq-section";
+import { CTABannerSection } from "../components/cta-banner-section";
+import { FooterSection } from "../components/footer-section";
+import { MAX_W, PAD_X, PAD_X_MOB, SECT_PY, SECT_PY_MOB } from "./page-layout";
+import { Btn3D } from "../components/btn-3d";
+import { T } from "../styles/typography";
+import { FeatureRow } from "../components/feature-row";
+import { FeatureSplitCard } from "../components/feature-split-card";
 
 const SANS  = "'DM Sans', system-ui, sans-serif";
-const SERIF = "'Instrument Serif', serif";
-const BLUE  = "#53AEF3";
-const DARK  = "#1A1A1E";
 const MUTED = "#6E6E73";
 const BG    = "#F8F8F5";
 
@@ -33,90 +44,44 @@ function useReveal(threshold = 0.12) {
 
 const FEATURES = [
   {
-    name: "Accommodation Library",
-    icon: "📋",
-    color: "#EDE8F8",
-    iconColor: "#6B5ECD",
-    desc: "Browse 50+ pre-built accommodations aligned to IDEA. Assign to students with one tap and they appear in every session view.",
-    tags: ["Library", "IDEA", "Quick Setup"],
+    img: feature1Img,
+    title: "Accommodation Library & One-Tap Assignment",
+    desc: "Browse 50+ pre-built accommodations aligned to IDEA. Assign to any student in seconds — they appear instantly in every session view.",
+    bullets: [
+      "50+ IDEA-aligned accommodation types built in",
+      "Create and save custom accommodations",
+      "Assign to one or many students at once",
+      "Accommodations sync to every provider's view",
+    ],
   },
   {
-    name: "Implementation Tracking",
-    icon: "✅",
-    color: "#E0F7F5",
-    iconColor: "#0DB8A0",
-    desc: "Log whether each accommodation was provided in every session. Build a defensible record automatically.",
-    tags: ["Logging", "Compliance", "Defensible Record"],
+    img: feature2Img,
+    title: "Per-Session Implementation Tracking",
+    desc: "During each session, mark which accommodations were provided with a single tap. Build a defensible, timestamped record automatically.",
+    bullets: [
+      "One-tap logging during or after every session",
+      "Tracks which provider delivered each accommodation",
+      "Flags missed accommodations before they become issues",
+      "Full implementation history per student",
+    ],
   },
   {
-    name: "Teacher Alerts",
-    icon: "🔔",
-    color: "#FEF3C7",
-    iconColor: "#D97706",
-    desc: "When an accommodation is added or modified, every relevant teacher gets notified instantly.",
-    tags: ["Notifications", "Collaboration", "Teachers"],
-  },
-  {
-    name: "504 Plan Support",
-    icon: "📄",
-    color: "#E0F2FE",
-    iconColor: "#0284C7",
-    desc: "Manage both IEP and 504 plan accommodations in the same system. Track implementation across all student plans.",
-    tags: ["504 Plans", "IEP", "Unified"],
-  },
-  {
-    name: "Compliance Reports",
-    icon: "📊",
-    color: "#FCE7F3",
-    iconColor: "#DB2777",
-    desc: "Generate accommodation implementation reports for parent meetings, audits, and state submissions in one click.",
-    tags: ["Reports", "Audit", "Parents"],
-  },
-  {
-    name: "Customizable Categories",
-    icon: "🎨",
-    color: "#F0FDF4",
-    iconColor: "#16A34A",
-    desc: "Group accommodations by type (testing, environment, presentation) and filter by student, classroom, or provider.",
-    tags: ["Organization", "Filtering", "Custom"],
-  },
-];
-
-const STATS = [
-  { value: "50+", label: "Accommodation types" },
-  { value: "1-tap", label: "Logging per session" },
-  { value: "100%", label: "IDEA-aligned" },
-  { value: "2×", label: "Faster IEP prep" },
-];
-
-const HOW_IT_WORKS = [
-  {
-    step: "01",
-    title: "Assign accommodations",
-    desc: "Select from the built-in library or create custom accommodations. Assign them to any student in seconds.",
-  },
-  {
-    step: "02",
-    title: "Track implementation",
-    desc: "During each session or class period, mark which accommodations were provided. One tap, done.",
-  },
-  {
-    step: "03",
-    title: "Report with confidence",
-    desc: "Pull an accommodation compliance report at any time. Every implementation is timestamped and audit-ready.",
+    img: feature3Img,
+    title: "Audit-Ready Compliance Reports",
+    desc: "Generate a complete accommodation implementation report for parent meetings, audits, or state submissions in one click — no digging required.",
+    bullets: [
+      "Pre-built report formats for IEP and 504 reviews",
+      "Export to PDF, CSV, or print directly",
+      "Covers both IEP and 504 plan accommodations",
+      "Meets IDEA documentation standards",
+    ],
   },
 ];
 
 export function AccommodationsPage() {
   const isMobile = useIsMobile();
   const heroReveal = useReveal(0.05);
-  const statsReveal = useReveal(0.1);
-  const gridReveal = useReveal(0.08);
-  const howReveal = useReveal(0.1);
-  const ctaReveal = useReveal(0.1);
-
-  const [hovA, setHovA] = useState(false);
-  const [hovB, setHovB] = useState(false);
+  const featReveal = useReveal(0.08);
 
   return (
     <div style={{ background: BG, minHeight: "100vh", overflowX: "hidden" }}>
@@ -125,464 +90,170 @@ export function AccommodationsPage() {
       <section
         ref={heroReveal.ref}
         style={{
-          background: "linear-gradient(160deg, #F0F7FF 0%, #F8F8F5 55%, #F5F0FF 100%)",
-          padding: isMobile ? "80px 20px 60px" : "120px 80px 80px",
-          textAlign: "center",
-          position: "relative",
-          overflow: "hidden",
+          position: "relative", zIndex: 1,
+          maxWidth: MAX_W, margin: "0 auto",
+          padding: isMobile ? "112px 20px 0" : "136px 80px 0",
+          boxSizing: "border-box",
         }}
       >
-        {/* Decorative blobs */}
         <div style={{
-          position: "absolute", top: -60, left: "10%",
-          width: 400, height: 400,
-          background: "radial-gradient(circle, rgba(83,174,243,0.12) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }} />
-        <div style={{
-          position: "absolute", bottom: -40, right: "5%",
-          width: 300, height: 300,
-          background: "radial-gradient(circle, rgba(107,94,205,0.10) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }} />
-
-        <div style={{ position: "relative", zIndex: 1 }}>
-          {/* Label */}
-          <div style={{
-            display: "inline-block",
-            fontFamily: SANS, fontWeight: 500, fontSize: 11,
-            letterSpacing: 2, color: BLUE,
-            background: "rgba(83,174,243,0.08)",
-            border: "1px solid rgba(83,174,243,0.15)",
-            padding: "5px 14px", borderRadius: 9999,
-            marginBottom: 20,
-            opacity: heroReveal.vis ? 1 : 0,
-            transform: heroReveal.vis ? "translateY(0)" : "translateY(16px)",
-            transition: "opacity 600ms ease, transform 600ms ease",
-          }}>
-            ACCOMMODATIONS TRACKING
-          </div>
-
+          maxWidth: 640, margin: "0 auto",
+          display: "flex", flexDirection: "column", alignItems: "center",
+          textAlign: "center",
+          opacity: heroReveal.vis ? 1 : 0,
+          transform: heroReveal.vis ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 600ms ease, transform 600ms ease",
+        }}>
           <h1 style={{
-            fontFamily: SERIF, fontWeight: 400,
-            fontSize: isMobile ? 38 : 62,
-            lineHeight: 1.08,
-            color: DARK,
-            margin: "0 auto 20px",
-            maxWidth: 820,
-            opacity: heroReveal.vis ? 1 : 0,
-            transform: heroReveal.vis ? "translateY(0)" : "translateY(24px)",
-            transition: "opacity 600ms ease 80ms, transform 600ms ease 80ms",
+            ...T.h1(isMobile),
+            margin: 0, marginBottom: 16, maxWidth: 640,
           }}>
-            Every accommodation,
-            <br />
-            <span style={{ color: BLUE }}>always implemented.</span>
+            <span style={{ display: "block" }}>Accommodations that</span>
+            <span style={{ display: "block" }}>prove compliance.</span>
           </h1>
 
           <p style={{
-            fontFamily: SANS, fontWeight: 300,
-            fontSize: isMobile ? 17 : 20,
-            color: MUTED, lineHeight: 1.6,
-            margin: "0 auto 40px",
-            maxWidth: 560,
-            opacity: heroReveal.vis ? 1 : 0,
-            transform: heroReveal.vis ? "translateY(0)" : "translateY(20px)",
-            transition: "opacity 600ms ease 160ms, transform 600ms ease 160ms",
+            ...T.heroSub(),
+            maxWidth: 460,
+            margin: 0, marginBottom: 24,
           }}>
-            AbleSpace makes it effortless to assign, track, and report on IEP and 504 accommodations — so every student gets what they're entitled to, every time.
+            Assign IEP and 504 accommodations, track implementation every session,
+            and generate audit-ready reports — all in one place.
           </p>
 
           <div style={{
-            display: "flex", justifyContent: "center", gap: 12, flexWrap: "wrap",
-            opacity: heroReveal.vis ? 1 : 0,
-            transform: heroReveal.vis ? "translateY(0)" : "translateY(16px)",
-            transition: "opacity 600ms ease 240ms, transform 600ms ease 240ms",
+            display: "flex", flexDirection: isMobile ? "column" : "row",
+            alignItems: "center", justifyContent: "center", gap: 12,
+            marginBottom: 28, width: isMobile ? "100%" : "auto",
           }}>
-            <a
-              href="#"
-              onMouseEnter={() => setHovA(true)}
-              onMouseLeave={() => setHovA(false)}
-              style={{
-                display: "inline-flex", alignItems: "center",
-                fontFamily: SANS, fontWeight: 500, fontSize: 15,
-                color: "white", background: hovA ? "#3D9FE8" : BLUE,
-                border: "none", borderRadius: 12,
-                padding: "13px 28px", textDecoration: "none",
-                cursor: "pointer",
-                transform: hovA ? "translateY(-1px)" : "none",
-                transition: "background 0.18s, transform 0.15s",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Start tracking accommodations free →
-            </a>
-            <a
-              href="#"
-              onMouseEnter={() => setHovB(true)}
-              onMouseLeave={() => setHovB(false)}
-              style={{
-                display: "inline-flex", alignItems: "center",
-                fontFamily: SANS, fontWeight: 400, fontSize: 15,
-                color: DARK,
-                background: hovB ? "rgba(0,0,0,0.04)" : "transparent",
-                border: "1.5px solid rgba(0,0,0,0.15)",
-                borderRadius: 12, padding: "13px 28px",
-                textDecoration: "none", cursor: "pointer",
-                transition: "background 0.18s",
-                whiteSpace: "nowrap",
-              }}
-            >
-              See how it works
-            </a>
+            <Btn3D label="Educators" variant="primary">Start for Free</Btn3D>
+            <Btn3D label="Admins" variant="ghost">Learn More</Btn3D>
+          </div>
+
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "center",
+            flexWrap: "wrap", gap: isMobile ? 16 : 28,
+          }}>
+            {[
+              { label: "HIPAA", sub: "Compliant" },
+              { label: "ISO 27001", sub: "Certified" },
+              { label: "FERPA", sub: "Compliant" },
+            ].map(({ label, sub }) => (
+              <div key={label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 1.5L2 4v4c0 3.3 2.5 5.8 6 6.5 3.5-.7 6-3.2 6-6.5V4L8 1.5z"
+                    stroke="#C0BFBA" strokeWidth="1.3" strokeLinejoin="round"/>
+                  <path d="M5.5 8l1.8 1.8L10.5 6" stroke="#C0BFBA" strokeWidth="1.3"
+                    strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <span style={{ ...T.bodySm(), fontWeight: 600, color: "#A0A0A0" }}>{label}</span>
+                  <span style={{ ...T.caption(), color: "#BBBBBB" }}>{sub}</span>
+                </div>
+              </div>
+            ))}
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{
+                background: "#FF492C", color: "#fff",
+                fontFamily: SANS, fontWeight: 700, fontSize: 11,
+                borderRadius: 3, padding: "2px 5px",
+              }}>G2</span>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ ...T.caption(), fontWeight: 600, color: "#F5A623" }}>★★★★★</span>
+                <span style={{ ...T.caption(), color: "#BBBBBB" }}>5.0 Rating</span>
+              </div>
+            </div>
           </div>
         </div>
-      </section>
 
-      {/* ── Stats strip ── */}
-      <section style={{
-        background: "#FFFFFF",
-        borderTop: "1px solid rgba(0,0,0,0.06)",
-        borderBottom: "1px solid rgba(0,0,0,0.06)",
-        padding: isMobile ? "32px 20px" : "40px 80px",
-      }}>
-        <div
-          ref={statsReveal.ref}
-          style={{
-            display: "grid",
-            gridTemplateColumns: isMobile ? "1fr 1fr" : "repeat(4, 1fr)",
-            gap: isMobile ? "24px 12px" : 0,
-            maxWidth: 900, margin: "0 auto",
-          }}
-        >
-          {STATS.map((s, i) => (
-            <div
-              key={s.label}
-              style={{
-                textAlign: "center",
-                borderRight: (!isMobile && i < STATS.length - 1) ? "1px solid rgba(0,0,0,0.07)" : "none",
-                padding: "0 24px",
-                opacity: statsReveal.vis ? 1 : 0,
-                transform: statsReveal.vis ? "translateY(0)" : "translateY(20px)",
-                transition: `opacity 500ms ease ${i * 80}ms, transform 500ms ease ${i * 80}ms`,
-              }}
-            >
+        {/* Hero screenshot */}
+        <div style={{ marginTop: 96, width: "100%", position: "relative" }}>
+          <div style={{
+            width: "100%",
+            borderRadius: "24px 24px 0 0",
+            border: "1px solid rgba(0,0,0,0.07)",
+            overflow: "hidden",
+          }}>
+            <div style={{
+              height: 42, background: "#F0F0EE",
+              borderBottom: "1px solid rgba(0,0,0,0.06)",
+              display: "flex", alignItems: "center",
+              position: "relative", flexShrink: 0,
+            }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: 16 }}>
+                <div style={{ width: 11, height: 11, borderRadius: "50%", background: "#FF5F57" }} />
+                <div style={{ width: 11, height: 11, borderRadius: "50%", background: "#FEBC2E" }} />
+                <div style={{ width: 11, height: 11, borderRadius: "50%", background: "#28C840" }} />
+              </div>
               <div style={{
-                fontFamily: SERIF, fontWeight: 400,
-                fontSize: isMobile ? 36 : 44,
-                color: DARK, lineHeight: 1,
-                marginBottom: 6,
-              }}>{s.value}</div>
-              <div style={{
-                fontFamily: SANS, fontWeight: 400,
-                fontSize: 13, color: MUTED,
-              }}>{s.label}</div>
+                position: "absolute", left: "50%", transform: "translateX(-50%)",
+                background: "rgba(0,0,0,0.07)", borderRadius: 9999,
+                padding: "4px 16px", width: 200, textAlign: "center",
+                fontFamily: SANS, fontSize: 13, color: MUTED, letterSpacing: "-0.1px",
+              }}>
+                app.ablespace.io
+              </div>
             </div>
-          ))}
+            <div style={{ lineHeight: 0 }}>
+              <img
+                src={heroImg}
+                alt="AbleSpace Accommodations dashboard"
+                style={{ width: "100%", display: "block", objectFit: "cover" }}
+              />
+            </div>
+          </div>
+          {/* Fade to BG at bottom */}
+          <div style={{
+            position: "absolute", bottom: 0, left: 0,
+            width: "100%", height: "60%",
+            background: `linear-gradient(to bottom, transparent 0%, rgba(248,248,245,0.7) 50%, #F8F8F5 75%)`,
+            pointerEvents: "none", zIndex: 2,
+          }} />
         </div>
       </section>
 
-      {/* ── Features grid ── */}
+      <SocialProofStrip />
+
+      {/* ── Features ── */}
       <section style={{
-        padding: isMobile ? "60px 20px" : "100px 80px",
+        padding: isMobile ? `${SECT_PY_MOB}px 0` : `${SECT_PY}px 0`,
         background: BG,
       }}>
-        <div
-          ref={gridReveal.ref}
-          style={{
-            textAlign: "center", marginBottom: 56,
-            opacity: gridReveal.vis ? 1 : 0,
-            transform: gridReveal.vis ? "translateY(0)" : "translateY(24px)",
-            transition: "opacity 600ms ease, transform 600ms ease",
-          }}
-        >
-          <div style={{
-            display: "inline-block",
-            fontFamily: SANS, fontWeight: 500, fontSize: 11,
-            letterSpacing: 2, color: BLUE,
-            background: "rgba(83,174,243,0.08)",
-            border: "1px solid rgba(83,174,243,0.15)",
-            padding: "5px 14px", borderRadius: 9999, marginBottom: 20,
-          }}>
-            50+ ACCOMMODATION TYPES
-          </div>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
           <h2 style={{
-            fontFamily: SERIF, fontWeight: 400,
-            fontSize: isMobile ? 34 : 52,
-            lineHeight: 1.1, color: DARK,
-            margin: "0 auto 16px", maxWidth: 600,
-          }}>
-            Assign, track, and prove
-            <br />every accommodation.
-          </h2>
-          <p style={{
-            fontFamily: SANS, fontWeight: 300,
-            fontSize: 18, color: MUTED, lineHeight: 1.55,
-            margin: "0 auto", maxWidth: 520,
-          }}>
-            From testing accommodations to environmental supports, AbleSpace gives every student a defensible implementation record.
-          </p>
-        </div>
-
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
-          gap: 20,
-          maxWidth: 1080, margin: "0 auto",
-        }}>
-          {FEATURES.map((ft, i) => (
-            <FeatureCard key={ft.name} ft={ft} i={i} vis={gridReveal.vis} />
-          ))}
-        </div>
-      </section>
-
-      {/* ── How it works ── */}
-      <section style={{
-        background: "#FFFFFF",
-        padding: isMobile ? "60px 20px" : "100px 80px",
-      }}>
-        <div
-          ref={howReveal.ref}
-          style={{
-            textAlign: "center", marginBottom: 60,
-            opacity: howReveal.vis ? 1 : 0,
-            transform: howReveal.vis ? "translateY(0)" : "translateY(24px)",
-            transition: "opacity 600ms ease, transform 600ms ease",
-          }}
-        >
-          <div style={{
-            display: "inline-block",
-            fontFamily: SANS, fontWeight: 500, fontSize: 11,
-            letterSpacing: 2, color: BLUE,
-            background: "rgba(83,174,243,0.08)",
-            border: "1px solid rgba(83,174,243,0.15)",
-            padding: "5px 14px", borderRadius: 9999, marginBottom: 20,
-          }}>
-            HOW IT WORKS
-          </div>
-          <h2 style={{
-            fontFamily: SERIF, fontWeight: 400,
-            fontSize: isMobile ? 34 : 52,
-            lineHeight: 1.1, color: DARK,
-            margin: "0 auto", maxWidth: 600,
-          }}>
-            From assignment to
-            <br />audit-ready record.
-          </h2>
-        </div>
-
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
-          gap: isMobile ? 32 : 48,
-          maxWidth: 1000, margin: "0 auto",
-          position: "relative",
-        }}>
-          {/* Connector line (desktop only) */}
-          {!isMobile && (
-            <div style={{
-              position: "absolute",
-              top: 28, left: "16.66%", right: "16.66%",
-              height: 1,
-              background: "linear-gradient(90deg, rgba(83,174,243,0.3), rgba(107,94,205,0.3))",
-            }} />
-          )}
-
-          {HOW_IT_WORKS.map((step, i) => (
-            <div
-              key={step.step}
-              style={{
-                textAlign: "center",
-                opacity: howReveal.vis ? 1 : 0,
-                transform: howReveal.vis ? "translateY(0)" : "translateY(28px)",
-                transition: `opacity 500ms ease ${i * 120}ms, transform 500ms ease ${i * 120}ms`,
-              }}
-            >
-              <div style={{
-                width: 56, height: 56, borderRadius: "50%",
-                background: BLUE,
-                display: "flex", alignItems: "center", justifyContent: "center",
-                margin: "0 auto 20px",
-                position: "relative", zIndex: 1,
-              }}>
-                <span style={{
-                  fontFamily: SANS, fontWeight: 700,
-                  fontSize: 14, color: "white",
-                }}>{step.step}</span>
-              </div>
-              <h3 style={{
-                fontFamily: SANS, fontWeight: 600,
-                fontSize: 17, color: DARK,
-                margin: "0 0 10px",
-              }}>{step.title}</h3>
-              <p style={{
-                fontFamily: SANS, fontWeight: 400,
-                fontSize: 14, color: MUTED,
-                lineHeight: 1.6, margin: 0,
-              }}>{step.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── CTA ── */}
-      <section style={{ background: BG, padding: isMobile ? "0 20px 60px" : "0 80px 100px" }}>
-        <div
-          ref={ctaReveal.ref}
-          style={{
-            background: "#FFFFFF",
-            border: "1px solid rgba(0,0,0,0.07)",
-            borderRadius: isMobile ? 20 : 32,
-            padding: isMobile ? "40px 24px" : "72px 80px",
-            boxShadow: "0 8px 56px rgba(0,0,0,0.08), 0 2px 16px rgba(0,0,0,0.04)",
+            ...T.h2(isMobile),
+            margin: "0 0 64px",
             textAlign: "center",
-            position: "relative", overflow: "hidden",
-            opacity: ctaReveal.vis ? 1 : 0,
-            transform: ctaReveal.vis ? "translateY(0) scale(1)" : "translateY(32px) scale(0.98)",
-            transition: "opacity 700ms cubic-bezier(0.16,1,0.3,1), transform 700ms cubic-bezier(0.16,1,0.3,1)",
-          }}
-        >
-          <div style={{
-            position: "absolute", top: -80, left: -80,
-            width: 300, height: 300,
-            background: "radial-gradient(circle, rgba(83,174,243,0.08) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }} />
-          <div style={{
-            position: "absolute", bottom: -40, right: "10%",
-            width: 200, height: 200,
-            background: "radial-gradient(circle, rgba(107,94,205,0.08) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }} />
+          }}>
+            Accommodations Features
+          </h2>
+          <div
+            ref={featReveal.ref}
+            style={{ display: "flex", flexDirection: "column", gap: isMobile ? 64 : 100 }}
+          >
+            {FEATURES.map((ft, i) => {
+              const revealStyle: React.CSSProperties = {
+                opacity: featReveal.vis ? 1 : 0,
+                transform: featReveal.vis ? "translateY(0)" : "translateY(32px)",
+                transition: `opacity 600ms ease ${i * 120}ms, transform 600ms ease ${i * 120}ms`,
+              };
 
-          <div style={{ position: "relative", zIndex: 1 }}>
-            <div style={{
-              display: "inline-block",
-              fontFamily: SANS, fontWeight: 500, fontSize: 11,
-              letterSpacing: 2, color: BLUE,
-              background: "rgba(83,174,243,0.08)",
-              border: "1px solid rgba(83,174,243,0.15)",
-              padding: "5px 14px", borderRadius: 9999, marginBottom: 20,
-            }}>
-              GET STARTED FREE
-            </div>
+              if (i === 1) return (
+                <FeatureSplitCard key={ft.title} {...ft} imagePosition="right" revealStyle={revealStyle} />
+              );
 
-            <h2 style={{
-              fontFamily: SERIF, fontWeight: 400,
-              fontSize: isMobile ? 34 : 52,
-              lineHeight: 1.1, color: DARK,
-              margin: "0 0 16px",
-            }}>
-              Every student gets what
-              <br />they're entitled to.
-            </h2>
-
-            <p style={{
-              fontFamily: SANS, fontWeight: 300,
-              fontSize: 18, color: MUTED,
-              margin: "0 0 36px", lineHeight: 1.5,
-            }}>
-              Free to start. No credit card.
-              <br />Set up in under an hour.
-            </p>
-
-            <div style={{
-              display: "flex", justifyContent: "center",
-              gap: 12, flexWrap: "wrap",
-            }}>
-              <a
-                href="#"
-                style={{
-                  display: "inline-flex", alignItems: "center",
-                  fontFamily: SANS, fontWeight: 500, fontSize: 15,
-                  color: "white", background: BLUE,
-                  border: "none", borderRadius: 12,
-                  padding: "12px 28px", textDecoration: "none",
-                  cursor: "pointer", whiteSpace: "nowrap",
-                }}
-              >
-                Sign Up for Free →
-              </a>
-              <a
-                href="#"
-                style={{
-                  display: "inline-flex", alignItems: "center",
-                  fontFamily: SANS, fontWeight: 400, fontSize: 15,
-                  color: DARK, background: "transparent",
-                  border: "1.5px solid rgba(0,0,0,0.15)",
-                  borderRadius: 12, padding: "12px 28px",
-                  textDecoration: "none", cursor: "pointer", whiteSpace: "nowrap",
-                }}
-              >
-                Schedule a Demo →
-              </a>
-            </div>
+              return (
+                <FeatureRow key={ft.title} {...ft} flip={i % 2 === 1} revealStyle={revealStyle} />
+              );
+            })}
           </div>
         </div>
       </section>
-    </div>
-  );
-}
 
-function FeatureCard({ ft, i, vis }: {
-  ft: typeof FEATURES[number];
-  i: number;
-  vis: boolean;
-}) {
-  const [hov, setHov] = useState(false);
-  return (
-    <div
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        background: "#FFFFFF",
-        border: "1px solid rgba(0,0,0,0.07)",
-        borderRadius: 20,
-        padding: 28,
-        boxShadow: hov
-          ? "0 12px 40px rgba(0,0,0,0.10), 0 2px 10px rgba(0,0,0,0.06)"
-          : "0 4px 20px rgba(0,0,0,0.05), 0 1px 4px rgba(0,0,0,0.04)",
-        transform: hov ? "translateY(-3px)" : "translateY(0)",
-        opacity: vis ? 1 : 0,
-        transition: `opacity 500ms cubic-bezier(0.16,1,0.3,1) ${100 + i * 60}ms,
-                     transform 300ms ease,
-                     box-shadow 300ms ease`,
-        cursor: "default",
-      }}
-    >
-      {/* Icon */}
-      <div style={{
-        width: 48, height: 48, borderRadius: 14,
-        background: ft.color,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        marginBottom: 16, fontSize: 22,
-      }}>
-        {ft.icon}
-      </div>
-
-      {/* Name */}
-      <div style={{
-        fontFamily: SANS, fontWeight: 600,
-        fontSize: 16, color: DARK, marginBottom: 8,
-      }}>{ft.name}</div>
-
-      {/* Description */}
-      <p style={{
-        fontFamily: SANS, fontWeight: 400,
-        fontSize: 13.5, color: MUTED,
-        lineHeight: 1.6, margin: "0 0 16px",
-      }}>{ft.desc}</p>
-
-      {/* Tags */}
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-        {ft.tags.map(tag => (
-          <span key={tag} style={{
-            fontFamily: SANS, fontWeight: 500,
-            fontSize: 11, color: ft.iconColor,
-            background: ft.color,
-            padding: "3px 10px", borderRadius: 9999,
-          }}>{tag}</span>
-        ))}
-      </div>
+      <TestimonialsSection />
+      <FAQSection />
+      <CTABannerSection />
+      <FooterSection />
     </div>
   );
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useIsMobile } from "./shared";
 
 /* ── Design tokens ────────────────────────────────────────── */
-const SERIF = "'Instrument Serif', serif";
+const SERIF = "'Source Sans 3', sans-serif";
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const DARK  = "#1A1A1E";
 const BLUE  = "#53AEF3";
@@ -57,7 +57,7 @@ export function FAQSection() {
             FAQ
           </p>
           <h2 style={{
-            fontFamily: SERIF, fontWeight: 400, fontSize: isMobile ? 34 : 48,
+            fontFamily: SERIF, fontWeight: 600, fontSize: isMobile ? 34 : 48,
             lineHeight: 1.1, color: DARK, margin: "0 0 16px",
           }}>
             Frequently asked questions
@@ -116,7 +116,6 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
           border: open ? "none" : "1px solid rgba(0,0,0,0.08)",
           display: "flex", alignItems: "center", justifyContent: "center",
           transition: "background 0.22s, border-color 0.22s",
-          boxShadow: open ? "0 2px 12px rgba(83,174,243,0.30)" : "none",
         }}>
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path

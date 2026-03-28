@@ -95,10 +95,11 @@ export function FooterSection() {
     <footer
       style={{
         background: "#1A1A1E",
-        padding: isMobile ? "48px 20px 24px" : "64px 80px 32px",
+        padding: isMobile ? "48px 0 24px" : "64px 0 32px",
         fontFamily: SANS,
       }}
     >
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: isMobile ? "0 20px" : "0 80px", boxSizing: "border-box" }}>
       {/* ── Top grid ── */}
       <div
         style={{
@@ -271,6 +272,7 @@ export function FooterSection() {
         >
           HIPAA · FERPA · ISO 27001
         </span>
+      </div>
       </div>
     </footer>
   );

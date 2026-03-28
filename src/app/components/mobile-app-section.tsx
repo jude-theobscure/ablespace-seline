@@ -3,7 +3,7 @@ import { useIsMobile } from "./shared";
 import mobileAppImg from "../../assets/mobile-app.png";
 
 /* ── Design tokens ────────────────────────────────────────── */
-const SERIF = "'Instrument Serif', serif";
+const SERIF = "'Source Sans 3', sans-serif";
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const DARK  = "#1A1A1E";
 const BLUE  = "#53AEF3";
@@ -71,7 +71,7 @@ export function MobileAppSection() {
 
           {/* Headline */}
           <h2 style={{
-            fontFamily: SERIF, fontWeight: 400, fontSize: isMobile ? 34 : 48,
+            fontFamily: SERIF, fontWeight: 600, fontSize: isMobile ? 34 : 48,
             lineHeight: 1.1, color: DARK, margin: "0 0 16px",
           }}>
             Take AbleSpace anywhere

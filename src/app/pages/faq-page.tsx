@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "../components/shared";
+import { MAX_W, PAD_X, PAD_X_MOB, SECT_PY, SECT_PY_MOB, HERO_PT, HERO_PT_MOB, HERO_PB, HERO_PB_MOB, H1_SIZE, H1_SIZE_MOB, H2_SIZE, H2_SIZE_MOB, BODY_SIZE, STAT_SIZE, STAT_SIZE_MOB, CARD_RADIUS, CTA_RADIUS, CTA_PAD_X, CTA_PAD_Y, CTA_PAD_X_MOB, CTA_PAD_Y_MOB, CARD_GAP, BTN_RADIUS, BTN_PAD, BTN_SIZE } from "./page-layout";
 
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const SERIF = "'Instrument Serif', serif";
@@ -140,9 +141,6 @@ function FaqItem({
         marginBottom: 8,
         padding: "20px 24px",
         cursor: "pointer",
-        boxShadow: isOpen
-          ? "0 4px 20px rgba(0,0,0,0.08)"
-          : "0 2px 8px rgba(0,0,0,0.05)",
         transition: "box-shadow 0.2s ease",
       }}
     >
@@ -201,10 +199,11 @@ export function FaqPage() {
       <section
         style={{
           background: "linear-gradient(160deg, #F0F7FF 0%, #F8F8F5 55%, #F5F0FF 100%)",
-          padding: isMobile ? "80px 24px 64px" : "120px 24px 96px",
+          padding: isMobile ? `${HERO_PT_MOB}px 0 ${HERO_PB_MOB}px` : `${HERO_PT}px 0 ${HERO_PB}px`,
           textAlign: "center",
         }}
       >
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box", position: "relative", zIndex: 1, textAlign: "center" }}>
         <div
           ref={heroReveal.ref}
           style={{
@@ -234,7 +233,7 @@ export function FaqPage() {
           <h1
             style={{
               fontFamily: SERIF,
-              fontSize: isMobile ? 40 : 60,
+              fontSize: isMobile ? H1_SIZE_MOB : H1_SIZE,
               fontWeight: 400,
               color: DARK,
               lineHeight: 1.1,
@@ -248,7 +247,7 @@ export function FaqPage() {
           <p
             style={{
               fontFamily: SANS,
-              fontSize: isMobile ? 15 : 17,
+              fontSize: BODY_SIZE,
               color: MUTED,
               lineHeight: 1.7,
               margin: 0,
@@ -257,10 +256,12 @@ export function FaqPage() {
             Everything your team needs to know about AbleSpace — from getting started to advanced billing.
           </p>
         </div>
+        </div>
       </section>
 
       {/* FAQ Accordion */}
-      <section style={{ padding: isMobile ? "48px 24px 32px" : "72px 24px 48px" }}>
+      <section style={{ padding: isMobile ? `${SECT_PY_MOB}px 0` : `${SECT_PY}px 0` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
         <div
           ref={faqReveal.ref}
           style={{
@@ -302,19 +303,18 @@ export function FaqPage() {
             </div>
           ))}
         </div>
+        </div>
       </section>
 
       {/* Contact CTA */}
-      <section style={{ padding: isMobile ? "0 24px 80px" : "0 24px 100px" }}>
+      <section style={{ padding: isMobile ? `0 0 ${SECT_PY_MOB}px` : `0 0 ${SECT_PY}px` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
         <div
           ref={ctaReveal.ref}
           style={{
-            maxWidth: 800,
-            margin: "0 auto",
             background: "#fff",
-            borderRadius: 20,
-            padding: isMobile ? "40px 28px" : "56px 64px",
-            boxShadow: "0 4px 24px rgba(0,0,0,0.07)",
+            borderRadius: isMobile ? 20 : CTA_RADIUS,
+            padding: isMobile ? `${CTA_PAD_Y_MOB}px ${CTA_PAD_X_MOB}px` : `${CTA_PAD_Y}px ${CTA_PAD_X}px`,
             textAlign: "center",
             opacity: ctaReveal.vis ? 1 : 0,
             transform: ctaReveal.vis ? "translateY(0)" : "translateY(24px)",
@@ -324,7 +324,7 @@ export function FaqPage() {
           <div
             style={{
               fontFamily: SERIF,
-              fontSize: isMobile ? 26 : 32,
+              fontSize: isMobile ? H2_SIZE_MOB : H2_SIZE,
               color: DARK,
               marginBottom: 12,
             }}
@@ -354,13 +354,13 @@ export function FaqPage() {
             <button
               style={{
                 fontFamily: SANS,
-                fontSize: 15,
+                fontSize: BTN_SIZE,
                 fontWeight: 600,
                 color: "#fff",
                 background: BLUE,
                 border: "none",
-                borderRadius: 10,
-                padding: "13px 28px",
+                borderRadius: BTN_RADIUS,
+                padding: BTN_PAD,
                 cursor: "pointer",
                 width: isMobile ? "100%" : "auto",
               }}
@@ -370,13 +370,13 @@ export function FaqPage() {
             <button
               style={{
                 fontFamily: SANS,
-                fontSize: 15,
+                fontSize: BTN_SIZE,
                 fontWeight: 600,
                 color: DARK,
                 background: "transparent",
                 border: "1.5px solid rgba(0,0,0,0.15)",
-                borderRadius: 10,
-                padding: "13px 28px",
+                borderRadius: BTN_RADIUS,
+                padding: BTN_PAD,
                 cursor: "pointer",
                 width: isMobile ? "100%" : "auto",
               }}
@@ -384,6 +384,7 @@ export function FaqPage() {
               Schedule a Call
             </button>
           </div>
+        </div>
         </div>
       </section>
     </div>

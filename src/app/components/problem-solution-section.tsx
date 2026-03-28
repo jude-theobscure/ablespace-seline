@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "./shared";
 
 /* ── Design tokens (mirrors existing page) ────────────────── */
-const SERIF = "'Instrument Serif', serif";
+const SERIF = "'Source Sans 3', sans-serif";
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const DARK  = "#1A1A1E";
 const BLUE  = "#53AEF3";
@@ -87,7 +87,7 @@ export function ProblemSolutionSection() {
             Why AbleSpace
           </p>
           <h2 style={{
-            fontFamily: SERIF, fontWeight: 400, fontSize: isMobile ? 34 : 48,
+            fontFamily: SERIF, fontWeight: 600, fontSize: isMobile ? 34 : 48,
             lineHeight: 1.1, color: DARK, margin: "0 0 14px",
           }}>
             There's a better way to manage IEPs
@@ -128,7 +128,7 @@ export function ProblemSolutionSection() {
 
             {/* Headline */}
             <h3 style={{
-              fontFamily: SERIF, fontWeight: 400, fontSize: 28,
+              fontFamily: SERIF, fontWeight: 600, fontSize: 28,
               lineHeight: 1.2, color: DARK, margin: "0 0 10px",
             }}>
               Managing IEPs across disconnected tools
@@ -166,7 +166,6 @@ export function ProblemSolutionSection() {
                       borderRadius: 10,
                       padding: "10px 14px",
                       display: "flex", alignItems: "center", gap: 10,
-                      boxShadow: "0 2px 10px rgba(0,0,0,0.07)",
                       boxSizing: "border-box",
                     }}
                   >
@@ -229,7 +228,6 @@ export function ProblemSolutionSection() {
             borderRadius: 28,
             padding: "40px",
             boxSizing: "border-box",
-            boxShadow: "0 4px 32px rgba(0,0,0,0.06)",
             ...reveal(rightVis),
           }}>
 
@@ -244,7 +242,7 @@ export function ProblemSolutionSection() {
 
             {/* Headline */}
             <h3 style={{
-              fontFamily: SERIF, fontWeight: 400, fontSize: 28,
+              fontFamily: SERIF, fontWeight: 600, fontSize: 28,
               lineHeight: 1.2, color: DARK, margin: "0 0 10px",
             }}>
               Everything in one place, powered by AI

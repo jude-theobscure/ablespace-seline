@@ -1,15 +1,25 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "../components/shared";
+import heroImg from "../../assets/medicaid-billing/medicaid-billing-hero.png";
+import feature1Img from "../../assets/medicaid-billing/feature-1.png";
+import feature2Img from "../../assets/medicaid-billing/feature-2.png";
+import feature3Img from "../../assets/medicaid-billing/feature-3.png";
+import feature4Img from "../../assets/medicaid-billing/feature-4.png";
+import { SocialProofStrip } from "../components/social-proof-strip";
+import { TestimonialsSection } from "../components/testimonials-section";
+import { FAQSection } from "../components/faq-section";
+import { CTABannerSection } from "../components/cta-banner-section";
+import { FooterSection } from "../components/footer-section";
+import { MAX_W, PAD_X, PAD_X_MOB, SECT_PY, SECT_PY_MOB } from "./page-layout";
+import { Btn3D } from "../components/btn-3d";
+import { T } from "../styles/typography";
+import { FeatureCardsGrid } from "../components/feature-cards-grid";
+import { FeatureRow } from "../components/feature-row";
+import { FeatureSplitCard } from "../components/feature-split-card";
 
 const SANS  = "'DM Sans', system-ui, sans-serif";
-const SERIF = "'Instrument Serif', serif";
-const BLUE  = "#53AEF3";
-const DARK  = "#1A1A1E";
 const MUTED = "#6E6E73";
 const BG    = "#F8F8F5";
-
-const BADGE_BG   = ["#EDE8F8","#E0F7F5","#FEF3C7","#E0F2FE","#FCE7F3","#F0FDF4"];
-const ICON_COLOR = ["#6B5ECD","#0DB8A0","#D97706","#0284C7","#DB2777","#16A34A"];
 
 function useReveal(threshold = 0.12) {
   const ref = useRef<HTMLDivElement>(null);
@@ -34,487 +44,226 @@ function useReveal(threshold = 0.12) {
   return { ref, vis };
 }
 
-const STATS = [
-  { value: "$2,400", label: "Average monthly reimbursement increase" },
-  { value: "98%", label: "Clean claim rate" },
-  { value: "0", label: "Manual billing entries" },
-  { value: "3 days", label: "Average claim turnaround" },
-];
-
 const FEATURES = [
   {
-    emoji: "💰",
-    title: "Auto Claim Generation",
-    desc: "Session data converts to Medicaid billing codes automatically. No manual entry, no coding errors.",
-    tags: ["Automation","Billing Codes","Accuracy"],
+    img: feature1Img,
+    title: "Auto-Generate Billing Notes After Every Session",
+    desc: "AbleSpace creates compliant Medicaid billing notes the moment a session ends — no dictation, no templates, no extra steps.",
+    bullets: [
+      "Session data auto-populates every billing note",
+      "Meets state and federal Medicaid documentation requirements",
+      "Supports school-based Medicaid billing (SBMB)",
+      "Works across speech, OT, PT, and counseling",
+    ],
   },
   {
-    emoji: "🔍",
-    title: "Eligibility Verification",
-    desc: "Check student Medicaid eligibility before the session so you never bill for an ineligible student.",
-    tags: ["Eligibility","Pre-verification","Compliance"],
-  },
-  {
-    emoji: "📋",
-    title: "ICD & CPT Mapping",
-    desc: "AbleSpace maps services to the correct ICD-10 diagnoses and CPT procedure codes automatically.",
-    tags: ["ICD-10","CPT","Coding"],
-  },
-  {
-    emoji: "⚠️",
-    title: "Denial Management",
-    desc: "Track denied claims, identify patterns, and resubmit with corrections — all in one dashboard.",
-    tags: ["Denials","Tracking","Resubmission"],
-  },
-  {
-    emoji: "📊",
-    title: "Revenue Analytics",
-    desc: "See your billing pipeline at a glance — submitted, pending, paid, and denied — updated daily.",
-    tags: ["Analytics","Revenue","Dashboard"],
-  },
-  {
-    emoji: "🔒",
-    title: "Compliance Safeguards",
-    desc: "Every claim is checked against CMS guidelines before submission. Built-in audit trails protect against takebacks.",
-    tags: ["CMS","Audit Trail","HIPAA"],
+    img: feature4Img,
+    title: "One-Click Submission & Reimbursement Tracking",
+    desc: "Submit claims directly from AbleSpace and track reimbursement status in real time — no third-party billing software required.",
+    bullets: [
+      "Direct submission to Medicaid payers",
+      "Real-time claim status and reimbursement tracking",
+      "Automatic rejection alerts with fix suggestions",
+      "Saves 5+ hours of billing work per provider per week",
+    ],
   },
 ];
 
-const STEPS = [
+const CARDS = [
   {
-    num: "01",
-    title: "Log your session",
-    desc: "Record the session as usual in AbleSpace. Service type, duration, and student data are captured automatically.",
+    img: feature2Img,
+    label: "CLAIM HISTORY",
+    title: "Every claim, always on record",
+    desc: "Search and review the full billing history for any student or provider. Audit-ready records at your fingertips, no manual filing required.",
+    cta: "Claim History",
   },
   {
-    num: "02",
-    title: "Review generated claims",
-    desc: "AbleSpace creates a clean claim for every billable session. Review in seconds or set auto-approval for clean records.",
-  },
-  {
-    num: "03",
-    title: "Submit and track",
-    desc: "Submit directly or export to your billing clearinghouse. Track every claim from submission to payment.",
+    img: feature3Img,
+    label: "REIMBURSEMENT DASHBOARD",
+    title: "Know exactly what you're owed",
+    desc: "Track pending, approved, and rejected claims in one dashboard. Spot billing gaps before they affect your district's Medicaid reimbursements.",
+    cta: "Reimbursement Dashboard",
   },
 ];
 
 export function MedicaidBillingPage() {
   const isMobile = useIsMobile();
-
-  const hero     = useReveal();
-  const stats    = useReveal();
-  const features = useReveal();
-  const steps    = useReveal();
-  const cta      = useReveal();
-
-  const [hovA, setHovA] = useState(false);
-  const [hovB, setHovB] = useState(false);
-  const [hovCtaA, setHovCtaA] = useState(false);
-  const [hovCtaB, setHovCtaB] = useState(false);
-  const [hovCard, setHovCard] = useState<number | null>(null);
-
-  const fade = (vis: boolean, delay = 0): React.CSSProperties => ({
-    opacity: vis ? 1 : 0,
-    transform: vis ? "translateY(0)" : "translateY(28px)",
-    transition: `opacity 650ms cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 650ms cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
-  });
+  const heroReveal = useReveal(0.05);
+  const featReveal = useReveal(0.08);
 
   return (
-    <div style={{ backgroundColor: BG, minHeight: "100vh", fontFamily: SANS }}>
+    <div style={{ background: BG, minHeight: "100vh", overflowX: "hidden" }}>
 
-      {/* ── Hero ─────────────────────────────────────────────── */}
-      <section style={{
-        background: "linear-gradient(160deg, #F0F7FF 0%, #F8F8F5 55%, #F5F0FF 100%)",
-        padding: isMobile ? "80px 20px 60px" : "120px 80px 80px",
-        position: "relative",
-        overflow: "hidden",
-      }}>
-        {/* Blobs */}
+      {/* ── Hero ── */}
+      <section
+        ref={heroReveal.ref}
+        style={{
+          position: "relative", zIndex: 1,
+          maxWidth: MAX_W, margin: "0 auto",
+          padding: isMobile ? "112px 20px 0" : "136px 80px 0",
+          boxSizing: "border-box",
+        }}
+      >
         <div style={{
-          position: "absolute", top: -80, right: -60,
-          width: 420, height: 420,
-          background: "radial-gradient(ellipse, rgba(83,174,243,0.13) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }} />
-        <div style={{
-          position: "absolute", bottom: -100, left: -80,
-          width: 360, height: 360,
-          background: "radial-gradient(ellipse, rgba(13,184,160,0.10) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }} />
-
-        <div
-          ref={hero.ref}
-          style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 1, ...fade(hero.vis) }}
-        >
-          {/* Label pill */}
-          <div style={{
-            display: "inline-flex", alignItems: "center", gap: 6,
-            background: "rgba(83,174,243,0.10)",
-            border: "1px solid rgba(83,174,243,0.20)",
-            borderRadius: 9999, padding: "5px 14px", marginBottom: 28,
-          }}>
-            <span style={{ fontSize: 12, color: BLUE }}>💰</span>
-            <span style={{ fontFamily: SANS, fontWeight: 500, fontSize: 12, color: BLUE, letterSpacing: "0.5px" }}>
-              Medicaid Billing
-            </span>
-          </div>
-
+          maxWidth: 640, margin: "0 auto",
+          display: "flex", flexDirection: "column", alignItems: "center",
+          textAlign: "center",
+          opacity: heroReveal.vis ? 1 : 0,
+          transform: heroReveal.vis ? "translateY(0)" : "translateY(20px)",
+          transition: "opacity 600ms ease, transform 600ms ease",
+        }}>
           <h1 style={{
-            fontFamily: SERIF, fontWeight: 400,
-            fontSize: isMobile ? 38 : 62,
-            lineHeight: 1.08, color: DARK,
-            margin: "0 0 22px", letterSpacing: "-0.5px",
+            ...T.h1(isMobile),
+            margin: 0, marginBottom: 16, maxWidth: 640,
           }}>
-            Every billable minute,<br />captured automatically.
+            <span style={{ display: "block" }}>Medicaid Billing that</span>
+            <span style={{ display: "block" }}>pays you back faster.</span>
           </h1>
 
           <p style={{
-            fontFamily: SANS, fontWeight: 300, fontSize: isMobile ? 16 : 20,
-            color: MUTED, lineHeight: 1.65, margin: "0 0 36px", maxWidth: 560,
+            ...T.heroSub(),
+            maxWidth: 460,
+            margin: 0, marginBottom: 24,
           }}>
-            AbleSpace turns your session data into clean, compliant Medicaid claims — eliminating manual coding, reducing denials, and maximizing reimbursements.
+            Auto-generate compliant billing notes, submit claims in one click,
+            and track every reimbursement — all inside AbleSpace.
           </p>
 
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <a
-              href="#"
-              onMouseEnter={() => setHovA(true)}
-              onMouseLeave={() => setHovA(false)}
-              style={{
-                display: "inline-flex", alignItems: "center",
-                height: 48, padding: "0 28px", borderRadius: 12,
-                fontFamily: SANS, fontWeight: 500, fontSize: 15,
-                background: hovA ? "#3D9FE8" : BLUE, color: "#fff",
-                textDecoration: "none",
-                transition: "background 0.18s, transform 0.15s",
-                transform: hovA ? "translateY(-1px)" : "none",
-              }}
-            >
-              See How It Works →
-            </a>
-            <a
-              href="#"
-              onMouseEnter={() => setHovB(true)}
-              onMouseLeave={() => setHovB(false)}
-              style={{
-                display: "inline-flex", alignItems: "center",
-                height: 48, padding: "0 28px", borderRadius: 12,
-                fontFamily: SANS, fontWeight: 400, fontSize: 15,
-                background: hovB ? "rgba(0,0,0,0.04)" : "transparent",
-                color: DARK, textDecoration: "none",
-                border: "1.5px solid rgba(0,0,0,0.18)",
-                transition: "background 0.18s",
-              }}
-            >
-              Schedule a Demo
-            </a>
+          <div style={{
+            display: "flex", flexDirection: isMobile ? "column" : "row",
+            alignItems: "center", justifyContent: "center", gap: 12,
+            marginBottom: 28, width: isMobile ? "100%" : "auto",
+          }}>
+            <Btn3D label="Educators" variant="primary">Start for Free</Btn3D>
+            <Btn3D label="Admins" variant="ghost">Learn More</Btn3D>
           </div>
-        </div>
-      </section>
 
-      {/* ── Stats strip ──────────────────────────────────────── */}
-      <div style={{ background: "#fff", borderTop: "1px solid rgba(0,0,0,0.06)", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
-        <div
-          ref={stats.ref}
-          style={{
-            maxWidth: 1200, margin: "0 auto",
-            padding: isMobile ? "32px 20px" : "32px 80px",
-            display: "grid",
-            gridTemplateColumns: isMobile ? "repeat(2,1fr)" : "repeat(4,1fr)",
-            gap: isMobile ? "24px 16px" : 0,
-            ...fade(stats.vis),
-          }}
-        >
-          {STATS.map((s, i) => (
-            <div
-              key={s.label}
-              style={{
-                textAlign: "center",
-                borderRight: !isMobile && i < STATS.length - 1 ? "1px solid rgba(0,0,0,0.08)" : "none",
-                padding: isMobile ? 0 : "0 32px",
-              }}
-            >
-              <div style={{ fontFamily: SERIF, fontWeight: 400, fontSize: isMobile ? 30 : 38, color: DARK, lineHeight: 1 }}>
-                {s.value}
-              </div>
-              <div style={{ fontFamily: SANS, fontWeight: 400, fontSize: 13, color: MUTED, marginTop: 6 }}>
-                {s.label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* ── Features grid ────────────────────────────────────── */}
-      <section style={{ background: BG, padding: isMobile ? "60px 20px" : "100px 80px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div ref={features.ref}>
-            <div style={{ textAlign: "center", marginBottom: 16, ...fade(features.vis) }}>
-              <div style={{
-                display: "inline-flex", alignItems: "center", gap: 6,
-                background: "rgba(83,174,243,0.10)",
-                border: "1px solid rgba(83,174,243,0.20)",
-                borderRadius: 9999, padding: "5px 14px",
-              }}>
-                <span style={{ fontFamily: SANS, fontWeight: 500, fontSize: 12, color: BLUE, letterSpacing: "0.5px" }}>
-                  Core Features
-                </span>
-              </div>
-            </div>
-
-            <h2 style={{
-              fontFamily: SERIF, fontWeight: 400,
-              fontSize: isMobile ? 32 : 46,
-              lineHeight: 1.1, color: DARK,
-              textAlign: "center", margin: "0 0 56px",
-              ...fade(features.vis, 80),
-            }}>
-              Billing that works as hard<br />as your providers.
-            </h2>
-
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)",
-              gap: 20,
-            }}>
-              {FEATURES.map((f, i) => (
-                <div
-                  key={f.title}
-                  onMouseEnter={() => setHovCard(i)}
-                  onMouseLeave={() => setHovCard(null)}
-                  style={{
-                    background: "#fff",
-                    border: "1px solid rgba(0,0,0,0.07)",
-                    borderRadius: 20,
-                    padding: "28px 28px 32px",
-                    cursor: "default",
-                    boxShadow: hovCard === i ? "0 12px 40px rgba(0,0,0,0.10)" : "0 2px 12px rgba(0,0,0,0.05)",
-                    transform: hovCard === i ? "translateY(-3px)" : "translateY(0)",
-                    transition: "box-shadow 0.22s ease, transform 0.22s ease",
-                    opacity: features.vis ? 1 : 0,
-                  }}
-                >
-                  <div style={{
-                    width: 48, height: 48,
-                    background: BADGE_BG[i % BADGE_BG.length],
-                    borderRadius: 14,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    marginBottom: 18,
-                    fontSize: 22,
-                  }}>
-                    {f.emoji}
-                  </div>
-
-                  <h3 style={{
-                    fontFamily: SANS, fontWeight: 600, fontSize: 16,
-                    color: DARK, margin: "0 0 10px",
-                  }}>{f.title}</h3>
-
-                  <p style={{
-                    fontFamily: SANS, fontWeight: 300, fontSize: 14.5,
-                    color: MUTED, margin: "0 0 18px", lineHeight: 1.65,
-                  }}>{f.desc}</p>
-
-                  <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-                    {f.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        style={{
-                          fontFamily: SANS, fontWeight: 500, fontSize: 11.5,
-                          color: ICON_COLOR[i % ICON_COLOR.length],
-                          background: BADGE_BG[i % BADGE_BG.length],
-                          borderRadius: 9999, padding: "3px 10px",
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "center",
+            flexWrap: "wrap", gap: isMobile ? 16 : 28,
+          }}>
+            {[
+              { label: "HIPAA", sub: "Compliant" },
+              { label: "ISO 27001", sub: "Certified" },
+              { label: "FERPA", sub: "Compliant" },
+            ].map(({ label, sub }) => (
+              <div key={label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M8 1.5L2 4v4c0 3.3 2.5 5.8 6 6.5 3.5-.7 6-3.2 6-6.5V4L8 1.5z"
+                    stroke="#C0BFBA" strokeWidth="1.3" strokeLinejoin="round"/>
+                  <path d="M5.5 8l1.8 1.8L10.5 6" stroke="#C0BFBA" strokeWidth="1.3"
+                    strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <span style={{ ...T.bodySm(), fontWeight: 600, color: "#A0A0A0" }}>{label}</span>
+                  <span style={{ ...T.caption(), color: "#BBBBBB" }}>{sub}</span>
                 </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── How it works ─────────────────────────────────────── */}
-      <section style={{ background: "#fff", padding: isMobile ? "60px 20px" : "100px 80px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div ref={steps.ref}>
-            <div style={{ textAlign: "center", marginBottom: 16, ...fade(steps.vis) }}>
-              <div style={{
-                display: "inline-flex", alignItems: "center", gap: 6,
-                background: "rgba(83,174,243,0.10)",
-                border: "1px solid rgba(83,174,243,0.20)",
-                borderRadius: 9999, padding: "5px 14px",
-              }}>
-                <span style={{ fontFamily: SANS, fontWeight: 500, fontSize: 12, color: BLUE, letterSpacing: "0.5px" }}>
-                  How It Works
-                </span>
+              </div>
+            ))}
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{
+                background: "#FF492C", color: "#fff",
+                fontFamily: SANS, fontWeight: 700, fontSize: 11,
+                borderRadius: 3, padding: "2px 5px",
+              }}>G2</span>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <span style={{ ...T.caption(), fontWeight: 600, color: "#F5A623" }}>★★★★★</span>
+                <span style={{ ...T.caption(), color: "#BBBBBB" }}>5.0 Rating</span>
               </div>
             </div>
-
-            <h2 style={{
-              fontFamily: SERIF, fontWeight: 400,
-              fontSize: isMobile ? 32 : 46,
-              lineHeight: 1.1, color: DARK,
-              textAlign: "center", margin: "0 0 64px",
-              ...fade(steps.vis, 80),
-            }}>
-              From session to payment<br />in three steps.
-            </h2>
-
-            <div style={{
-              display: "grid",
-              gridTemplateColumns: isMobile ? "1fr" : "repeat(3,1fr)",
-              gap: isMobile ? 40 : 0,
-              position: "relative",
-            }}>
-              {!isMobile && (
-                <div style={{
-                  position: "absolute",
-                  top: 24, left: "16.67%", right: "16.67%",
-                  height: 1,
-                  background: "rgba(83,174,243,0.30)",
-                  zIndex: 0,
-                }} />
-              )}
-
-              {STEPS.map((step, i) => (
-                <div
-                  key={step.num}
-                  style={{
-                    textAlign: "center",
-                    padding: isMobile ? 0 : "0 40px",
-                    position: "relative", zIndex: 1,
-                    opacity: steps.vis ? 1 : 0,
-                    transform: steps.vis ? "translateY(0)" : "translateY(24px)",
-                    transition: `opacity 600ms ease ${i * 130}ms, transform 600ms ease ${i * 130}ms`,
-                  }}
-                >
-                  <div style={{
-                    width: 48, height: 48, borderRadius: "50%",
-                    background: BLUE, color: "#fff",
-                    fontFamily: SANS, fontWeight: 700, fontSize: 14,
-                    display: "inline-flex", alignItems: "center", justifyContent: "center",
-                    marginBottom: 22,
-                    boxShadow: "0 4px 16px rgba(83,174,243,0.35)",
-                  }}>
-                    {step.num}
-                  </div>
-                  <h3 style={{
-                    fontFamily: SANS, fontWeight: 600, fontSize: 17,
-                    color: DARK, margin: "0 0 10px",
-                  }}>{step.title}</h3>
-                  <p style={{
-                    fontFamily: SANS, fontWeight: 300, fontSize: 14.5,
-                    color: MUTED, margin: 0, lineHeight: 1.65,
-                  }}>{step.desc}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
-      </section>
 
-      {/* ── CTA banner ───────────────────────────────────────── */}
-      <section style={{ background: BG, padding: isMobile ? "40px 20px 80px" : "60px 80px 100px" }}>
-        <div
-          ref={cta.ref}
-          style={{
-            maxWidth: 1200, margin: "0 auto",
-            background: "#fff",
+        {/* Dashboard screenshot in browser chrome */}
+        <div style={{ marginTop: 96, width: "100%", position: "relative" }}>
+          <div style={{
+            width: "100%",
+            borderRadius: "24px 24px 0 0",
             border: "1px solid rgba(0,0,0,0.07)",
-            borderRadius: 28,
-            padding: isMobile ? "48px 24px" : "72px 80px",
-            textAlign: "center",
-            position: "relative", overflow: "hidden",
-            boxShadow: "0 4px 40px rgba(0,0,0,0.06)",
-            ...fade(cta.vis),
-          }}
-        >
-          {/* Blobs */}
-          <div style={{
-            position: "absolute", top: -60, right: -60,
-            width: 320, height: 320,
-            background: "radial-gradient(ellipse, rgba(83,174,243,0.12) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }} />
-          <div style={{
-            position: "absolute", bottom: -60, left: -60,
-            width: 280, height: 280,
-            background: "radial-gradient(ellipse, rgba(13,184,160,0.09) 0%, transparent 70%)",
-            pointerEvents: "none",
-          }} />
-
-          <div style={{ position: "relative", zIndex: 1 }}>
+            overflow: "hidden",
+          }}>
             <div style={{
-              display: "inline-flex", alignItems: "center", gap: 6,
-              background: "rgba(83,174,243,0.10)",
-              border: "1px solid rgba(83,174,243,0.20)",
-              borderRadius: 9999, padding: "5px 14px", marginBottom: 24,
+              height: 42, background: "#F0F0EE",
+              borderBottom: "1px solid rgba(0,0,0,0.06)",
+              display: "flex", alignItems: "center",
+              position: "relative", flexShrink: 0,
             }}>
-              <span style={{ fontFamily: SANS, fontWeight: 500, fontSize: 12, color: BLUE, letterSpacing: "0.5px" }}>
-                Maximize your reimbursements
-              </span>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, marginLeft: 16 }}>
+                <div style={{ width: 11, height: 11, borderRadius: "50%", background: "#FF5F57" }} />
+                <div style={{ width: 11, height: 11, borderRadius: "50%", background: "#FEBC2E" }} />
+                <div style={{ width: 11, height: 11, borderRadius: "50%", background: "#28C840" }} />
+              </div>
+              <div style={{
+                position: "absolute", left: "50%", transform: "translateX(-50%)",
+                background: "rgba(0,0,0,0.07)", borderRadius: 9999,
+                padding: "4px 16px", width: 200, textAlign: "center",
+                fontFamily: SANS, fontSize: 13, color: MUTED, letterSpacing: "-0.1px",
+              }}>
+                app.ablespace.io
+              </div>
             </div>
-
-            <h2 style={{
-              fontFamily: SERIF, fontWeight: 400,
-              fontSize: isMobile ? 32 : 50,
-              lineHeight: 1.1, color: DARK,
-              margin: "0 0 16px",
-            }}>
-              Leave zero dollars<br />on the table.
-            </h2>
-
-            <p style={{
-              fontFamily: SANS, fontWeight: 300, fontSize: isMobile ? 15 : 18,
-              color: MUTED, margin: "0 0 36px", lineHeight: 1.6,
-              maxWidth: 440, marginLeft: "auto", marginRight: "auto",
-            }}>
-              Districts using AbleSpace see an average $2,400 increase in monthly Medicaid reimbursements within 90 days.
-            </p>
-
-            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <a
-                href="#"
-                onMouseEnter={() => setHovCtaA(true)}
-                onMouseLeave={() => setHovCtaA(false)}
-                style={{
-                  display: "inline-flex", alignItems: "center",
-                  height: 48, padding: "0 28px", borderRadius: 12,
-                  fontFamily: SANS, fontWeight: 500, fontSize: 15,
-                  background: hovCtaA ? "#3D9FE8" : BLUE, color: "#fff",
-                  textDecoration: "none",
-                  transition: "background 0.18s, transform 0.15s",
-                  transform: hovCtaA ? "translateY(-1px)" : "none",
-                }}
-              >
-                Start Billing Smarter →
-              </a>
-              <a
-                href="#"
-                onMouseEnter={() => setHovCtaB(true)}
-                onMouseLeave={() => setHovCtaB(false)}
-                style={{
-                  display: "inline-flex", alignItems: "center",
-                  height: 48, padding: "0 28px", borderRadius: 12,
-                  fontFamily: SANS, fontWeight: 400, fontSize: 15,
-                  background: hovCtaB ? "rgba(0,0,0,0.04)" : "transparent",
-                  color: DARK, textDecoration: "none",
-                  border: "1.5px solid rgba(0,0,0,0.18)",
-                  transition: "background 0.18s",
-                }}
-              >
-                Schedule a Demo
-              </a>
+            <div style={{ display: "block", lineHeight: 0 }}>
+              <img
+                src={heroImg}
+                alt="AbleSpace Medicaid Billing dashboard"
+                style={{ width: "100%", display: "block", objectFit: "cover" }}
+              />
             </div>
+          </div>
+          {/* Fade to BG at bottom — outside overflow:hidden so it covers the border too */}
+          <div style={{
+            position: "absolute", bottom: 0, left: 0,
+            width: "100%", height: "60%",
+            background: `linear-gradient(to bottom, transparent 0%, rgba(248,248,245,0.7) 50%, #F8F8F5 75%)`,
+            pointerEvents: "none", zIndex: 2,
+          }} />
+        </div>
+      </section>
+
+      <SocialProofStrip />
+
+      {/* ── Features ── */}
+      <section style={{
+        padding: isMobile ? `${SECT_PY_MOB}px 0` : `${SECT_PY}px 0`,
+        background: BG,
+      }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
+          <h2 style={{
+            ...T.h2(isMobile),
+            margin: "0 0 64px", textAlign: "center",
+          }}>
+            Medicaid Billing Features
+          </h2>
+          <div
+            ref={featReveal.ref}
+            style={{ display: "flex", flexDirection: "column", gap: isMobile ? 64 : 100 }}
+          >
+            {FEATURES.map((ft, i) => {
+              const revealStyle: React.CSSProperties = {
+                opacity: featReveal.vis ? 1 : 0,
+                transform: featReveal.vis ? "translateY(0)" : "translateY(32px)",
+                transition: `opacity 600ms ease ${i * 120}ms, transform 600ms ease ${i * 120}ms`,
+              };
+
+              if (i === 1) return (
+                <FeatureSplitCard key={ft.title} {...ft} imagePosition="left" revealStyle={revealStyle} />
+              );
+
+              return (
+                <React.Fragment key={ft.title}>
+                  <FeatureRow {...ft} flip={false} revealStyle={revealStyle} />
+                  <FeatureCardsGrid cards={CARDS} revealStyle={revealStyle} />
+                </React.Fragment>
+              );
+            })}
           </div>
         </div>
       </section>
 
+      <TestimonialsSection />
+      <FAQSection />
+      <CTABannerSection />
+      <FooterSection />
     </div>
   );
 }

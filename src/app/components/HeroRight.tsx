@@ -41,7 +41,6 @@ function Card({ style, children }: CardProps) {
       background:"#fff",
       borderRadius:16,
       border:"1px solid rgba(0,0,0,0.07)",
-      boxShadow: CARD_SHADOW,
       padding:"16px 18px",
       fontFamily:"'DM Sans', system-ui, sans-serif",
       ...style,

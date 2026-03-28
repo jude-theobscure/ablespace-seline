@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "./shared";
-
-const SANS  = "'DM Sans', system-ui, sans-serif";
-const SERIF = "'Instrument Serif', serif";
-const BLUE  = "#53AEF3";
-const DARK  = "#1A1A1E";
+import { Btn3D } from "./btn-3d";
+import { T } from "../styles/typography";
 
 const TRUST = [
   { icon: "🛡", label: "HIPAA Compliant" },
@@ -18,8 +15,6 @@ export function CTABannerSection() {
   const [vis, setVis] = useState(false);
   const triggered = useRef(false);
 
-  const [hovA, setHovA] = useState(false);
-  const [hovB, setHovB] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -42,9 +37,10 @@ export function CTABannerSection() {
     <section
       style={{
         background: "#F8F8F5",
-        padding: isMobile ? "0 20px 60px" : "0 80px 100px",
+        padding: isMobile ? "0 0 60px" : "0 0 100px",
       }}
     >
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: isMobile ? "0 20px" : "0 80px", boxSizing: "border-box" }}>
       <div
         ref={ref}
         style={{
@@ -52,7 +48,6 @@ export function CTABannerSection() {
           border: "1px solid rgba(0,0,0,0.07)",
           borderRadius: isMobile ? 20 : 32,
           padding: isMobile ? "40px 24px" : "72px 80px",
-          boxShadow: "0 8px 56px rgba(0,0,0,0.08), 0 2px 16px rgba(0,0,0,0.04)",
           position: "relative",
           overflow: "hidden",
           textAlign: "center",
@@ -87,11 +82,7 @@ export function CTABannerSection() {
           <div
             style={{
               display: "inline-block",
-              fontFamily: SANS,
-              fontWeight: 500,
-              fontSize: 11,
-              letterSpacing: 2,
-              color: BLUE,
+              ...T.label(),
               background: "rgba(83,174,243,0.08)",
               border: "1px solid rgba(83,174,243,0.15)",
               padding: "5px 14px",
@@ -105,11 +96,7 @@ export function CTABannerSection() {
           {/* Headline */}
           <h2
             style={{
-              fontFamily: SERIF,
-              fontWeight: 400,
-              fontSize: isMobile ? 34 : 52,
-              lineHeight: 1.1,
-              color: DARK,
+              ...T.h2(isMobile),
               margin: "0 0 16px",
             }}
           >
@@ -121,12 +108,8 @@ export function CTABannerSection() {
           {/* Subtext */}
           <p
             style={{
-              fontFamily: SANS,
-              fontWeight: 300,
-              fontSize: 18,
-              color: "#6E6E73",
+              ...T.bodyLg(),
               margin: "0 0 36px",
-              lineHeight: 1.5,
             }}
           >
             Free to start. No credit card.
@@ -135,93 +118,9 @@ export function CTABannerSection() {
           </p>
 
           {/* CTA Buttons */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: 12,
-              marginBottom: 32,
-              flexWrap: "wrap",
-            }}
-          >
-            {/* Button A */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <a
-                href="#"
-                onMouseEnter={() => setHovA(true)}
-                onMouseLeave={() => setHovA(false)}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontFamily: SANS,
-                  fontWeight: 500,
-                  fontSize: 15,
-                  color: "white",
-                  background: hovA ? "#3D9FE8" : BLUE,
-                  border: "none",
-                  borderRadius: 12,
-                  padding: "12px 28px",
-                  textDecoration: "none",
-                  cursor: "pointer",
-                  transition: "background 0.18s, transform 0.15s",
-                  transform: hovA ? "translateY(-1px)" : "none",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Sign Up for Free →
-              </a>
-              <span
-                style={{
-                  fontFamily: SANS,
-                  fontWeight: 400,
-                  fontSize: 11,
-                  color: "#AEAEB2",
-                  marginTop: 6,
-                }}
-              >
-                For educators &amp; providers
-              </span>
-            </div>
-
-            {/* Button B */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-              <a
-                href="#"
-                onMouseEnter={() => setHovB(true)}
-                onMouseLeave={() => setHovB(false)}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontFamily: SANS,
-                  fontWeight: 400,
-                  fontSize: 15,
-                  color: DARK,
-                  background: hovB ? "rgba(0,0,0,0.04)" : "transparent",
-                  border: "1.5px solid rgba(0,0,0,0.15)",
-                  borderRadius: 12,
-                  padding: "12px 28px",
-                  textDecoration: "none",
-                  cursor: "pointer",
-                  transition: "background 0.18s",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                Learn More →
-              </a>
-              <span
-                style={{
-                  fontFamily: SANS,
-                  fontWeight: 400,
-                  fontSize: 11,
-                  color: "#AEAEB2",
-                  marginTop: 6,
-                }}
-              >
-                For school administrators
-              </span>
-            </div>
+          <div style={{ display: "flex", justifyContent: "center", gap: 12, marginBottom: 32, flexWrap: "wrap" }}>
+            <Btn3D label="Educators" variant="primary">Sign Up for Free</Btn3D>
+            <Btn3D label="Admins" variant="ghost">Learn More</Btn3D>
           </div>
 
           {/* Trust row */}
@@ -241,10 +140,7 @@ export function CTABannerSection() {
                     display: "flex",
                     alignItems: "center",
                     gap: 6,
-                    fontFamily: SANS,
-                    fontWeight: 400,
-                    fontSize: 12,
-                    color: "#AEAEB2",
+                    ...T.caption(),
                   }}
                 >
                   <span style={{ fontSize: 14 }}>{item.icon}</span>
@@ -264,6 +160,7 @@ export function CTABannerSection() {
             ))}
           </div>
         </div>
+      </div>
       </div>
     </section>
   );

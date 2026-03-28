@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "./shared";
 import schoolsDistrictsImg from "../../assets/schools-districts.svg";
+import { Btn3D } from "./btn-3d";
+import { T } from "../styles/typography-home";
 
 /* ── Design tokens ────────────────────────────────────────── */
-const SERIF = "'Instrument Serif', serif";
+const SERIF = "'Source Sans 3', sans-serif";
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const DARK  = "#1A1A1E";
 const BLUE  = "#53AEF3";
@@ -23,8 +25,6 @@ export function SchoolsDistrictsSection() {
   const [rightVis, setRightVis] = useState(false);
   const triggered = useRef(false);
 
-  const [hovPrimary,   setHovPrimary]   = useState(false);
-  const [hovSecondary, setHovSecondary] = useState(false);
 
   useEffect(() => {
     const el = sectionRef.current;
@@ -93,7 +93,6 @@ export function SchoolsDistrictsSection() {
             background: "#FFFFFF",
             border: "1px solid rgba(0,0,0,0.07)",
             borderRadius: 24,
-            boxShadow: "0 12px 48px rgba(0,0,0,0.09), 0 3px 14px rgba(0,0,0,0.05)",
             overflow: "hidden",
           }}>
             {/* Browser chrome bar */}
@@ -115,7 +114,7 @@ export function SchoolsDistrictsSection() {
                 position: "absolute", left: "50%", transform: "translateX(-50%)",
                 background: "rgba(0,0,0,0.06)",
                 borderRadius: 9999, padding: "4px 14px",
-                fontFamily: SANS, fontSize: 11, color: MUTED,
+                ...T.label(), color: MUTED,
               }}>
                 app.ablespace.io/district
               </div>
@@ -137,8 +136,8 @@ export function SchoolsDistrictsSection() {
 
           {/* Label */}
           <p style={{
-            fontFamily: SANS, fontWeight: 500, fontSize: 12,
-            color: BLUE, letterSpacing: "2px", textTransform: "uppercase",
+            ...T.label(),
+            textTransform: "uppercase",
             margin: "0 0 16px",
           }}>
             For Schools &amp; Districts
@@ -146,16 +145,16 @@ export function SchoolsDistrictsSection() {
 
           {/* Headline */}
           <h2 style={{
-            fontFamily: SERIF, fontWeight: 400, fontSize: isMobile ? 34 : 48,
-            lineHeight: 1.1, color: DARK, margin: "0 0 18px",
+            ...T.h2(isMobile),
+            margin: "0 0 18px",
           }}>
             Roll out AbleSpace across your entire school or district
           </h2>
 
           {/* Subtext */}
           <p style={{
-            fontFamily: SANS, fontWeight: 300, fontSize: 18,
-            color: MUTED, margin: "0 0 36px", lineHeight: 1.6,
+            ...T.bodyLg(),
+            margin: "0 0 36px",
           }}>
             Give your team the tools they need to collaborate, track
             progress, and manage IEPs at scale — all in one place.
@@ -163,43 +162,8 @@ export function SchoolsDistrictsSection() {
 
           {/* CTA buttons */}
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 44 }}>
-            <a
-              href="#"
-              onMouseEnter={() => setHovPrimary(true)}
-              onMouseLeave={() => setHovPrimary(false)}
-              style={{
-                display: "inline-flex", alignItems: "center",
-                height: 44, padding: "0 24px",
-                background: hovPrimary ? "#3D9FE8" : BLUE,
-                color: "#FFFFFF",
-                fontFamily: SANS, fontWeight: 500, fontSize: 14,
-                borderRadius: 12, textDecoration: "none",
-                border: "none", cursor: "pointer",
-                transition: "background 0.18s, transform 0.15s",
-                transform: hovPrimary ? "translateY(-1px)" : "none",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Learn More
-            </a>
-            <a
-              href="#"
-              onMouseEnter={() => setHovSecondary(true)}
-              onMouseLeave={() => setHovSecondary(false)}
-              style={{
-                display: "inline-flex", alignItems: "center",
-                height: 44, padding: "0 24px",
-                background: hovSecondary ? "rgba(0,0,0,0.04)" : "transparent",
-                color: DARK,
-                fontFamily: SANS, fontWeight: 500, fontSize: 14,
-                borderRadius: 12, textDecoration: "none",
-                border: "1.5px solid rgba(0,0,0,0.18)", cursor: "pointer",
-                transition: "background 0.18s, border-color 0.18s",
-                whiteSpace: "nowrap",
-              }}
-            >
-              Contact Us
-            </a>
+            <Btn3D variant="primary">Learn More</Btn3D>
+            <Btn3D variant="ghost">Contact Us</Btn3D>
           </div>
 
           {/* Divider */}
@@ -243,8 +207,8 @@ function FeatureRow({ label }: { label: string }) {
         </svg>
       </div>
       <span style={{
-        fontFamily: SANS, fontWeight: 400, fontSize: 15,
-        color: DARK, lineHeight: 1.4,
+        ...T.body(),
+        color: DARK,
       }}>
         {label}
       </span>

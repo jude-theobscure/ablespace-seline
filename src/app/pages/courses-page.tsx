@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "../components/shared";
+import { MAX_W, PAD_X, PAD_X_MOB, SECT_PY, SECT_PY_MOB, HERO_PT, HERO_PT_MOB, HERO_PB, HERO_PB_MOB, H1_SIZE, H1_SIZE_MOB, H2_SIZE, H2_SIZE_MOB, BODY_SIZE, STAT_SIZE, STAT_SIZE_MOB, CARD_RADIUS, CTA_RADIUS, CTA_PAD_X, CTA_PAD_Y, CTA_PAD_X_MOB, CTA_PAD_Y_MOB, CARD_GAP, BTN_RADIUS, BTN_PAD, BTN_SIZE } from "./page-layout";
 
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const SERIF = "'Instrument Serif', serif";
@@ -112,9 +113,6 @@ function CourseCard({ course, index }: { course: typeof COURSES[0]; index: numbe
         background: "#fff",
         borderRadius: 20,
         padding: 32,
-        boxShadow: hovered
-          ? "0 20px 56px rgba(0,0,0,0.13)"
-          : "0 4px 20px rgba(0,0,0,0.07)",
         transform: vis
           ? hovered ? "translateY(-4px)" : "translateY(0)"
           : "translateY(28px)",
@@ -257,10 +255,11 @@ export function CoursesPage() {
       <section
         style={{
           background: "linear-gradient(160deg, #F0F7FF 0%, #F8F8F5 55%, #F5F0FF 100%)",
-          padding: isMobile ? "80px 24px 64px" : "120px 24px 96px",
+          padding: isMobile ? `${HERO_PT_MOB}px 0 ${HERO_PB_MOB}px` : `${HERO_PT}px 0 ${HERO_PB}px`,
           textAlign: "center",
         }}
       >
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box", position: "relative", zIndex: 1, textAlign: "center" }}>
         <div
           ref={heroReveal.ref}
           style={{
@@ -290,7 +289,7 @@ export function CoursesPage() {
           <h1
             style={{
               fontFamily: SERIF,
-              fontSize: isMobile ? 40 : 60,
+              fontSize: isMobile ? H1_SIZE_MOB : H1_SIZE,
               fontWeight: 400,
               color: DARK,
               lineHeight: 1.1,
@@ -304,7 +303,7 @@ export function CoursesPage() {
           <p
             style={{
               fontFamily: SANS,
-              fontSize: isMobile ? 15 : 17,
+              fontSize: BODY_SIZE,
               color: MUTED,
               lineHeight: 1.7,
               margin: "0 auto",
@@ -314,22 +313,21 @@ export function CoursesPage() {
             Multi-lesson courses designed by certified special education professionals. Earn CE credits and build skills your team can apply immediately.
           </p>
         </div>
+        </div>
       </section>
 
       {/* Benefits Strip */}
-      <section style={{ padding: isMobile ? "40px 24px 8px" : "56px 24px 8px" }}>
+      <section style={{ padding: isMobile ? `40px 0 8px` : `56px 0 8px` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
         <div
           ref={benefitsReveal.ref}
           style={{
-            maxWidth: 1080,
-            margin: "0 auto",
             background: "#fff",
             borderRadius: 20,
             padding: isMobile ? "28px 20px" : "28px 48px",
             display: "grid",
             gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
-            gap: 24,
-            boxShadow: "0 4px 20px rgba(0,0,0,0.07)",
+            gap: CARD_GAP,
             opacity: benefitsReveal.vis ? 1 : 0,
             transform: benefitsReveal.vis ? "translateY(0)" : "translateY(20px)",
             transition: "opacity 0.6s ease, transform 0.6s ease",
@@ -353,17 +351,20 @@ export function CoursesPage() {
             </div>
           ))}
         </div>
+        </div>
       </section>
 
       {/* Course Cards */}
-      <section style={{ padding: isMobile ? "48px 24px 80px" : "64px 24px 100px" }}>
+      <section style={{ padding: isMobile ? `${SECT_PY_MOB}px 0` : `${SECT_PY}px 0` }}>
         <div
           style={{
-            maxWidth: 1080,
+            maxWidth: MAX_W,
             margin: "0 auto",
+            padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`,
+            boxSizing: "border-box",
             display: "grid",
             gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
-            gap: 28,
+            gap: CARD_GAP,
           }}
         >
           {COURSES.map((course, i) => (

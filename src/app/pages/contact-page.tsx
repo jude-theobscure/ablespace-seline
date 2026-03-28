@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useIsMobile } from "../components/shared";
+import { MAX_W, PAD_X, PAD_X_MOB, SECT_PY, SECT_PY_MOB, HERO_PT, HERO_PT_MOB, HERO_PB, HERO_PB_MOB, H1_SIZE, H1_SIZE_MOB, H2_SIZE, H2_SIZE_MOB, BODY_SIZE, STAT_SIZE, STAT_SIZE_MOB, CARD_RADIUS, CTA_RADIUS, CTA_PAD_X, CTA_PAD_Y, CTA_PAD_X_MOB, CTA_PAD_Y_MOB, CARD_GAP, BTN_RADIUS, BTN_PAD, BTN_SIZE } from "./page-layout";
 
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const SERIF = "'Instrument Serif', serif";
@@ -98,10 +99,11 @@ export function ContactPage() {
       <section
         style={{
           background: "linear-gradient(160deg, #F0F7FF 0%, #F8F8F5 55%, #F5F0FF 100%)",
-          padding: isMobile ? "80px 24px 64px" : "120px 24px 96px",
+          padding: isMobile ? `${HERO_PT_MOB}px 0 ${HERO_PB_MOB}px` : `${HERO_PT}px 0 ${HERO_PB}px`,
           textAlign: "center",
         }}
       >
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box", position: "relative", zIndex: 1, textAlign: "center" }}>
         <div
           ref={heroReveal.ref}
           style={{
@@ -131,7 +133,7 @@ export function ContactPage() {
           <h1
             style={{
               fontFamily: SERIF,
-              fontSize: isMobile ? 40 : 60,
+              fontSize: isMobile ? H1_SIZE_MOB : H1_SIZE,
               fontWeight: 400,
               color: DARK,
               lineHeight: 1.1,
@@ -145,7 +147,7 @@ export function ContactPage() {
           <p
             style={{
               fontFamily: SANS,
-              fontSize: isMobile ? 15 : 17,
+              fontSize: BODY_SIZE,
               color: MUTED,
               lineHeight: 1.7,
               margin: 0,
@@ -154,15 +156,15 @@ export function ContactPage() {
             Whether you have a question, want a demo, or are ready to bring AbleSpace to your district — our team is here.
           </p>
         </div>
+        </div>
       </section>
 
       {/* Main content */}
-      <section style={{ padding: isMobile ? "48px 24px 80px" : "72px 24px 100px", background: "#fff" }}>
+      <section style={{ padding: isMobile ? `${SECT_PY_MOB}px 0` : `${SECT_PY}px 0`, background: "#fff" }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? `0 ${PAD_X_MOB}px` : `0 ${PAD_X}px`, boxSizing: "border-box" }}>
         <div
           ref={formReveal.ref}
           style={{
-            maxWidth: 1080,
-            margin: "0 auto",
             display: "grid",
             gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
             gap: isMobile ? 48 : 64,
@@ -345,7 +347,7 @@ export function ContactPage() {
                 key={card.title}
                 style={{
                   background: "#fff",
-                  borderRadius: 14,
+                  borderRadius: CARD_RADIUS,
                   padding: 20,
                   border: "1px solid rgba(0,0,0,0.07)",
                   marginBottom: 12,
@@ -425,6 +427,7 @@ export function ContactPage() {
               San Francisco, CA 📍
             </div>
           </div>
+        </div>
         </div>
       </section>
     </div>

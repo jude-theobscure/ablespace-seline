@@ -2,7 +2,7 @@ import React from "react";
 import { useIsMobile } from "./shared";
 
 /* ── Design tokens ────────────────────────────────────────── */
-const SERIF = "'Instrument Serif', serif";
+const SERIF = "'Source Sans 3', sans-serif";
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const DARK  = "#1A1A1E";
 const BLUE  = "#53AEF3";
@@ -33,7 +33,6 @@ export function SecuritySection() {
           borderRadius: 28,
           padding: isMobile ? "32px 20px" : "48px 56px",
           boxSizing: "border-box",
-          boxShadow: "0 4px 32px rgba(0,0,0,0.07), 0 1px 8px rgba(0,0,0,0.04)",
         }}>
 
           {/* Header */}
@@ -46,7 +45,7 @@ export function SecuritySection() {
               Safe &amp; Secure
             </p>
             <h2 style={{
-              fontFamily: SERIF, fontWeight: 400, fontSize: isMobile ? 28 : 36,
+              fontFamily: SERIF, fontWeight: 600, fontSize: isMobile ? 28 : 36,
               lineHeight: 1.15, color: DARK,
               margin: 0,
             }}>
