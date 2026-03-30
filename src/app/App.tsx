@@ -35,6 +35,16 @@ import { ReviewsPage } from "./pages/reviews-page";
 import { ContactPage } from "./pages/contact-page";
 import { FigmaMcpPage } from "./pages/figma-mcp-page";
 import { LoginPage, SignUpPage } from "./pages/auth-page";
+import { Concept1DarkMatter } from "./pages/concept-1-dark-matter";
+import { Concept2Brutalist } from "./pages/concept-2-brutalist";
+import { Concept3Aurora } from "./pages/concept-3-aurora";
+import { Concept4Bento } from "./pages/concept-4-bento";
+import { Concept5Editorial } from "./pages/concept-5-editorial";
+import { Concept6NeonNight } from "./pages/concept-6-neon-night";
+import { Concept7CreamGold } from "./pages/concept-7-cream-gold";
+import { Concept8Forest } from "./pages/concept-8-forest";
+import { Concept9ThreeDCards } from "./pages/concept-9-3d-cards";
+import { Concept10Retro } from "./pages/concept-10-retro";
 import { T } from "./styles/typography-home";
 
 /* ── Design tokens ──────────────────────────────────────────── */
@@ -101,7 +111,7 @@ const COMPLIANCE = [
 ];
 
 /* ── Route map ──────────────────────────────────────────────── */
-type Page = "home" | "schools" | "datatypes" | "iep-audit" | "service-time" | "accommodations" | "rotating-schedule" | "medicaid-billing" | "reports" | "collaboration" | "ai" | "pricing" | "blog" | "tutorials" | "courses" | "faq" | "reviews" | "contact" | "figma-mcp" | "login" | "signup";
+type Page = "home" | "schools" | "datatypes" | "iep-audit" | "service-time" | "accommodations" | "rotating-schedule" | "medicaid-billing" | "reports" | "collaboration" | "ai" | "pricing" | "blog" | "tutorials" | "courses" | "faq" | "reviews" | "contact" | "figma-mcp" | "login" | "signup" | "concept-1" | "concept-2" | "concept-3" | "concept-4" | "concept-5" | "concept-6" | "concept-7" | "concept-8" | "concept-9" | "concept-10";
 
 const PAGE_ROUTES: Record<Page, string> = {
   "home": "/",
@@ -125,6 +135,16 @@ const PAGE_ROUTES: Record<Page, string> = {
   "figma-mcp": "/figma-mcp",
   "login": "/login",
   "signup": "/signup",
+  "concept-1": "/concepts/dark-matter",
+  "concept-2": "/concepts/brutalist",
+  "concept-3": "/concepts/aurora",
+  "concept-4": "/concepts/bento",
+  "concept-5": "/concepts/editorial",
+  "concept-6": "/concepts/neon-night",
+  "concept-7": "/concepts/cream-gold",
+  "concept-8": "/concepts/forest",
+  "concept-9": "/concepts/3d-cards",
+  "concept-10": "/concepts/retro",
 };
 
 const ROUTES_PAGE: Record<string, Page> = Object.fromEntries(
@@ -238,6 +258,7 @@ export default function App() {
               fontWeight: page === "figma-mcp" ? 500 : 400,
               textDecoration: "none", whiteSpace: "nowrap",
             }}>Figma MCP</a>
+            <ConceptsMenu navigate={navigate} />
           </div>
         )}
 
@@ -289,6 +310,16 @@ export default function App() {
        page === "reviews" ? <ReviewsPage /> :
        page === "contact" ? <ContactPage /> :
        page === "figma-mcp" ? <FigmaMcpPage /> :
+       page === "concept-1"  ? <Concept1DarkMatter /> :
+       page === "concept-2"  ? <Concept2Brutalist /> :
+       page === "concept-3"  ? <Concept3Aurora /> :
+       page === "concept-4"  ? <Concept4Bento /> :
+       page === "concept-5"  ? <Concept5Editorial /> :
+       page === "concept-6"  ? <Concept6NeonNight /> :
+       page === "concept-7"  ? <Concept7CreamGold /> :
+       page === "concept-8"  ? <Concept8Forest /> :
+       page === "concept-9"  ? <Concept9ThreeDCards /> :
+       page === "concept-10" ? <Concept10Retro /> :
        <>
 
       {/* ── HERO — two column: left text, right feature graphic ── */}
@@ -484,7 +515,7 @@ const FOR_LINKS = [
   },
 ];
 
-type NavPage = "home" | "schools" | "datatypes" | "iep-audit" | "service-time" | "accommodations" | "rotating-schedule" | "medicaid-billing" | "reports" | "collaboration" | "ai" | "pricing" | "blog" | "tutorials" | "courses" | "faq" | "reviews" | "contact";
+type NavPage = "home" | "schools" | "datatypes" | "iep-audit" | "service-time" | "accommodations" | "rotating-schedule" | "medicaid-billing" | "reports" | "collaboration" | "ai" | "pricing" | "blog" | "tutorials" | "courses" | "faq" | "reviews" | "contact" | "concept-1" | "concept-2" | "concept-3" | "concept-4" | "concept-5" | "concept-6" | "concept-7" | "concept-8" | "concept-9" | "concept-10";
 
 const PRODUCT_NAV: Record<string, NavPage> = {
   "IEP Audit": "iep-audit",
@@ -842,6 +873,76 @@ function ResourcesMenu({ navigate }: { navigate: (p: NavPage) => void }) {
           </div>
 
         </div>
+        </div>
+      )}
+    </div>
+  );
+}
+const CONCEPTS_NAV: { label: string; desc: string; page: NavPage; color: string }[] = [
+  { label: "Dark Matter",   desc: "Deep space dark theme with glowing cards",    page: "concept-1",  color: "#53AEF3" },
+  { label: "Brutalist",     desc: "Raw, bold borders and stark typography",       page: "concept-2",  color: "#FF3B30" },
+  { label: "Aurora",        desc: "Northern lights gradient mesh aesthetic",      page: "concept-3",  color: "#C084FC" },
+  { label: "Bento Box",     desc: "Japanese bento grid, warm and playful",        page: "concept-4",  color: "#FF6B35" },
+  { label: "Editorial",     desc: "High-fashion magazine typographic layout",     page: "concept-5",  color: "#1A1A1E" },
+  { label: "Neon Night",    desc: "Cyberpunk dark with electric neon accents",    page: "concept-6",  color: "#FF2D78" },
+  { label: "Cream & Gold",  desc: "Ultra-luxury quiet confidence aesthetic",      page: "concept-7",  color: "#B8962E" },
+  { label: "Forest",        desc: "Nature-inspired organic earthy palette",       page: "concept-8",  color: "#2D6A4F" },
+  { label: "3D Depth",      desc: "Cards with perspective tilt hover effect",     page: "concept-9",  color: "#4F46E5" },
+  { label: "Retro Wave",    desc: "80s synthwave grid and neon chrome text",      page: "concept-10", color: "#FF00FF" },
+];
+
+function ConceptsMenu({ navigate }: { navigate: (p: NavPage) => void }) {
+  const [open, setOpen] = useState(false);
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  return (
+    <div style={{ position: "relative" }} onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
+      <a href="#" style={{
+        fontFamily: SANS, fontSize: 14, color: open ? DARK : MUTED,
+        fontWeight: 400, textDecoration: "none",
+        display: "inline-flex", alignItems: "center", gap: 3,
+        whiteSpace: "nowrap", transition: "color 0.15s",
+      }}>
+        Concepts
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none"
+          style={{ opacity: 0.45, transform: open ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}>
+          <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </a>
+
+      {open && (
+        <div style={{ position: "absolute", top: "100%", left: "-24px", paddingTop: 12, zIndex: 200, width: 520 }}>
+          <div style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid rgba(0,0,0,0.07)", padding: "16px" }}>
+            <p style={{ fontFamily: SANS, fontWeight: 500, fontSize: 11, color: MUTED, letterSpacing: "1.5px", textTransform: "uppercase", margin: "0 0 12px 4px" }}>
+              Design Concepts
+            </p>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px" }}>
+              {CONCEPTS_NAV.map((c, i) => (
+                <a
+                  key={c.page}
+                  href="#"
+                  onClick={(e) => { e.preventDefault(); navigate(c.page); setOpen(false); }}
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered(null)}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 10,
+                    padding: "10px 12px", borderRadius: 10, textDecoration: "none",
+                    background: hovered === i ? "rgba(0,0,0,0.03)" : "transparent",
+                    border: "1px solid", borderColor: hovered === i ? "rgba(0,0,0,0.07)" : "transparent",
+                    transition: "background 0.15s, border-color 0.15s",
+                  }}
+                >
+                  <div style={{ width: 28, height: 28, borderRadius: 7, background: c.color + "18", border: `1px solid ${c.color}30`, flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <div style={{ width: 8, height: 8, borderRadius: "50%", background: c.color }} />
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: 13, color: DARK }}>{c.label}</div>
+                    <div style={{ fontFamily: SANS, fontWeight: 400, fontSize: 11.5, color: MUTED, lineHeight: 1.35 }}>{c.desc}</div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>

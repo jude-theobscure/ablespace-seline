@@ -2,25 +2,27 @@ import React from "react";
 import { useIsMobile } from "../components/shared";
 import { Btn3D } from "../components/btn-3d";
 import { SocialProofStrip } from "../components/social-proof-strip";
-import { ProblemSolutionSection } from "../components/problem-solution-section";
-import { FeaturesSection } from "../components/features-section";
-import { AIFeaturesSection } from "../components/ai-features-section";
-import { SchoolsDistrictsSection } from "../components/schools-districts-section";
-import { MobileAppSection } from "../components/mobile-app-section";
-import { SecuritySection } from "../components/security-section";
 import { TestimonialsSection } from "../components/testimonials-section";
 import { FAQSection } from "../components/faq-section";
 import { CTABannerSection } from "../components/cta-banner-section";
 import { FooterSection } from "../components/footer-section";
+import { FeatureRow } from "../components/feature-row";
+import { FeatureCardsGrid } from "../components/feature-cards-grid";
+import { FeatureSplitCard } from "../components/feature-split-card";
 import { T } from "../styles/typography";
+import { MAX_W, PAD_X, PAD_X_MOB, SECT_PY, SECT_PY_MOB, BG, MUTED } from "../pages/page-layout";
 import featureGraphic from "../../assets/Feature Graphics.png";
 import dashImg from "../../assets/c588e3d6fd588f8e1f139a98e572e19e10a451dd.png";
+import feat1 from "../../assets/schools-districts/feature-1.png";
+import feat2 from "../../assets/schools-districts/feature-2.png";
+import feat3 from "../../assets/schools-districts/feature-3.png";
+import feat4 from "../../assets/schools-districts/feature-4.png";
+import feat5 from "../../assets/schools-districts/feature-5.png";
+import dataPrivacyImg from "../../assets/schools-districts/data-privacy.png";
 
 const SANS  = "'DM Sans', system-ui, sans-serif";
 const BLUE  = "#53AEF3";
 const DARK  = "#1A1A1E";
-const MUTED = "#6E6E73";
-const BG    = "#F8F8F5";
 
 const COMPLIANCE = [
   {
@@ -57,8 +59,27 @@ const COMPLIANCE = [
   },
 ];
 
+const GRID_CARDS = [
+  {
+    img: feat3,
+    label: "IEP MANAGEMENT",
+    title: "District-wide IEP oversight in one place",
+    desc: "Monitor every student's IEP progress across all schools. Admins get real-time compliance status without chasing down paperwork.",
+    cta: "Explore IEP tools",
+  },
+  {
+    img: feat4,
+    label: "REPORTING & ANALYTICS",
+    title: "Data-driven decisions for every principal",
+    desc: "Generate district-wide reports on service minutes, goal mastery, and caseload distribution — exportable in one click.",
+    cta: "See reporting",
+  },
+];
+
 export function SchoolsDistrictsPage() {
   const isMobile = useIsMobile();
+  const padX = isMobile ? PAD_X_MOB : PAD_X;
+  const sectPy = isMobile ? SECT_PY_MOB : SECT_PY;
 
   return (
     <div style={{ backgroundColor: BG, minHeight: "100vh", overflowX: "hidden", position: "relative" }}>
@@ -79,9 +100,9 @@ export function SchoolsDistrictsPage() {
           stroke="rgba(0,0,0,0.05)" strokeWidth="0.8" fill="none" strokeLinecap="round" />
       </svg>
 
-      {/* ── Hero ── */}
+      {/* ── 1. Hero ── */}
       <section style={{ position: "relative", zIndex: 1, padding: isMobile ? "112px 0 60px" : "136px 0 80px" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: isMobile ? "0 20px" : "0 80px", boxSizing: "border-box" }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: isMobile ? "0 20px" : "0 80px", boxSizing: "border-box" }}>
           <div style={{
             display: "flex",
             flexDirection: isMobile ? "column" : "row",
@@ -135,7 +156,7 @@ export function SchoolsDistrictsPage() {
 
           </div>
 
-          {/* Dashboard screenshot */}
+          {/* 2. Dashboard screenshot */}
           <div style={{ marginTop: 96, width: "100%", position: "relative" }}>
             <div style={{ width: "100%", borderRadius: "24px 24px 0 0", border: "1px solid rgba(0,0,0,0.07)", overflow: "hidden" }}>
               {/* Browser chrome */}
@@ -159,13 +180,286 @@ export function SchoolsDistrictsPage() {
         </div>
       </section>
 
+      {/* 3. Social proof */}
       <SocialProofStrip />
-      <ProblemSolutionSection />
-      <FeaturesSection />
-      <AIFeaturesSection />
-      <SchoolsDistrictsSection />
-      <MobileAppSection />
-      <SecuritySection />
+
+      {/* 4. Feature row — image right, content left */}
+      <section style={{ padding: `${sectPy}px 0` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: `0 ${padX}px`, boxSizing: "border-box" }}>
+          <FeatureRow
+            img={feat1}
+            title="Full district visibility without the admin burden"
+            desc="Principals and admins see live caseloads, compliance status, and service delivery across every school — without waiting on weekly reports."
+            bullets={[
+              "Real-time caseload dashboards per school",
+              "Compliance alerts before deadlines hit",
+              "One login for district-wide oversight",
+            ]}
+            flip={true}
+          />
+        </div>
+      </section>
+
+      {/* 5. Feature row — content right, image left */}
+      <section style={{ padding: `${sectPy}px 0` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: `0 ${padX}px`, boxSizing: "border-box" }}>
+          <FeatureRow
+            img={feat2}
+            title="Give providers back hours every week"
+            desc="Paperwork that used to take Friday afternoons now happens automatically. Providers spend more time with students, less time documenting."
+            bullets={[
+              "Auto-generated session notes from data",
+              "One-tap service time logging",
+              "Progress reports ready in seconds",
+            ]}
+            flip={false}
+          />
+        </div>
+      </section>
+
+      {/* 6. Feature cards grid */}
+      <section style={{ padding: `${sectPy}px 0` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: `0 ${padX}px`, boxSizing: "border-box" }}>
+          <div style={{ marginBottom: 40 }}>
+            <span style={{ ...T.label(), display: "block", marginBottom: 12 }}>BUILT FOR DISTRICTS</span>
+            <h2 style={{ ...T.h2(isMobile), margin: 0, maxWidth: 520 }}>Everything your admin team needs</h2>
+          </div>
+          <FeatureCardsGrid cards={GRID_CARDS} />
+        </div>
+      </section>
+
+      {/* 7. Feature row — content right, image left */}
+      <section style={{ padding: `${sectPy}px 0` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: `0 ${padX}px`, boxSizing: "border-box" }}>
+          <FeatureRow
+            img={feat5}
+            title="IDEA compliance built in, not bolted on"
+            desc="Every session, note, and goal is automatically tied to IDEA requirements. Audits that used to take weeks now take minutes."
+            bullets={[
+              "Automatic IDEA compliance checks",
+              "Audit-ready documentation instantly",
+              "Built-in FERPA and HIPAA controls",
+            ]}
+            flip={false}
+          />
+        </div>
+      </section>
+
+      {/* 8. Data Privacy */}
+      <section style={{ padding: `${sectPy}px 0` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: `0 ${padX}px`, boxSizing: "border-box" }}>
+          <FeatureSplitCard
+            img={dataPrivacyImg}
+            title="Data Privacy You Can Count On"
+            desc="AbleSpace complies with HIPAA, FERPA, and NYS Ed Law 2-D. Built with state-of-the-art encryption, strict access controls, and regular audits."
+            bullets={[
+              "HIPAA & FERPA compliant",
+              "ISO 27001 certified",
+              "Encrypted data at rest and in transit",
+              "Two-factor authentication & device management",
+            ]}
+            imagePosition="right"
+          />
+        </div>
+      </section>
+
+      {/* 9. Frequently Used Documents */}
+      <section style={{ padding: `${sectPy}px 0` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: `0 ${padX}px`, boxSizing: "border-box" }}>
+          <span style={{ ...T.label(), display: "block", marginBottom: 12 }}>RESOURCES</span>
+          <h2 style={{ ...T.h2(isMobile), margin: "0 0 8px" }}>Frequently Used Documents</h2>
+          <p style={{ ...T.heroSub(), margin: "0 0 40px" }}>For purchase orders in schools and districts.</p>
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : "repeat(2, 1fr)",
+            gap: 20,
+          }}>
+            {[
+              { title: "W9 Form", desc: "Required by districts to set up as a vendor" },
+              { title: "Sole Source Letter", desc: "Required by districts to set up as a vendor" },
+            ].map(({ title, desc }) => (
+              <div key={title} style={{
+                background: "#fff",
+                border: "1px solid rgba(0,0,0,0.07)",
+                borderRadius: 16,
+                padding: "28px 28px 28px",
+                display: "flex",
+                flexDirection: "column",
+                gap: 20,
+                position: "relative",
+                overflow: "hidden",
+              }}>
+                {/* Folded corner */}
+                <div style={{
+                  position: "absolute", top: 0, right: 0,
+                  width: 0, height: 0,
+                  borderStyle: "solid",
+                  borderWidth: "0 40px 40px 0",
+                  borderColor: `transparent rgba(0,0,0,0.06) transparent transparent`,
+                }} />
+                <div style={{
+                  position: "absolute", top: 0, right: 0,
+                  width: 38, height: 38,
+                  background: BG,
+                  borderBottomLeftRadius: 10,
+                }} />
+
+                {/* Doc icon */}
+                <div style={{
+                  width: 56, height: 56, borderRadius: 14,
+                  background: BG,
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <path d="M7 4C7 2.9 7.9 2 9 2h10l6 6v16c0 1.1-.9 2-2 2H9c-1.1 0-2-.9-2-2V4z" fill="#B0BAC5"/>
+                    <path d="M19 2l6 6h-4c-1.1 0-2-.9-2-2V2z" fill="#8A96A3"/>
+                    <path d="M10 13h8M10 17h6M10 21h4" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                </div>
+
+                <div>
+                  <h3 style={{ ...T.h3(isMobile), margin: "0 0 6px", fontSize: 18 }}>{title}</h3>
+                  <p style={{ ...T.body(), margin: 0 }}>{desc}</p>
+                </div>
+
+                <a href="#" style={{
+                  alignSelf: "flex-start",
+                  display: "inline-flex", alignItems: "center", gap: 8,
+                  fontFamily: SANS, fontWeight: 600, fontSize: 13,
+                  color: "#fff",
+                  background: BLUE,
+                  borderRadius: 9999,
+                  padding: "9px 20px",
+                  textDecoration: "none", cursor: "pointer",
+                  border: "none",
+                }}>
+                  Download
+                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                    <path d="M6.5 2v7M3 7l3.5 3.5L10 7" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 10. How is it different */}
+      <section style={{ padding: `${sectPy}px 0`, background: "#fff" }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: `0 ${padX}px`, boxSizing: "border-box" }}>
+          <div style={{
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            alignItems: isMobile ? "flex-start" : "center",
+            gap: isMobile ? 40 : 80,
+          }}>
+            <div style={{ flex: 1 }}>
+              <span style={{ ...T.label(), display: "block", marginBottom: 16 }}>THE DIFFERENCE</span>
+              <h2 style={{ ...T.h2(isMobile), margin: "0 0 20px" }}>
+                How is it different from other IEP systems I already have?
+              </h2>
+              <p style={{ ...T.bodyLg(), margin: "0 0 32px" }}>
+                Other IEP systems help you author IEPs and generate compliance reports. But the day-to-day
+                data collection is still done on pen and paper. This is where AbleSpace comes in — you enter
+                data with a click, and AbleSpace takes care of the rest.
+              </p>
+              <div style={{ display: "flex", flexDirection: isMobile ? "column" : "row", gap: 12 }}>
+                <Btn3D label="Get a Quote" variant="primary">Get a Quote</Btn3D>
+                <Btn3D label="Schedule a demo" variant="ghost">Schedule a Demo</Btn3D>
+              </div>
+              <p style={{ ...T.bodySm(), margin: "16px 0 0", color: "#BBBBBB" }}>
+                or <a href="#" style={{ color: BLUE, textDecoration: "none" }}>Contact us</a> for more information.
+              </p>
+            </div>
+            {/* Right — visual callout */}
+            <div style={{
+              flex: "0 0 340px",
+              background: BG,
+              border: "1px solid rgba(0,0,0,0.07)",
+              borderRadius: 20,
+              padding: "32px 28px",
+              display: "flex", flexDirection: "column", gap: 20,
+            }}>
+              {[
+                { label: "Other IEP Systems", items: ["Author IEPs", "Compliance reports"], muted: true },
+                { label: "AbleSpace", items: ["One-click data collection", "Auto-generated notes", "Real-time progress tracking"], muted: false },
+              ].map(({ label, items, muted }) => (
+                <div key={label}>
+                  <p style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: 1.5, color: muted ? "#BBBBBB" : BLUE, margin: "0 0 10px", textTransform: "uppercase" }}>{label}</p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                    {items.map(item => (
+                      <div key={item} style={{
+                        display: "flex", alignItems: "center", gap: 10,
+                        background: "#fff",
+                        border: `1px solid ${muted ? "rgba(0,0,0,0.05)" : "rgba(83,174,243,0.18)"}`,
+                        borderRadius: 10,
+                        padding: "10px 14px",
+                      }}>
+                        <span style={{ color: muted ? "#CCCCCC" : BLUE, fontWeight: 600, fontSize: 14 }}>{muted ? "–" : "✓"}</span>
+                        <span style={{ fontFamily: SANS, fontSize: 13, color: muted ? "#BBBBBB" : DARK, fontWeight: muted ? 400 : 500 }}>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 11. Funding Sources */}
+      <section style={{ padding: `${sectPy}px 0` }}>
+        <div style={{ maxWidth: MAX_W, margin: "0 auto", padding: `0 ${padX}px`, boxSizing: "border-box" }}>
+          <div style={{
+            background: "#fff",
+            border: "1px solid rgba(0,0,0,0.07)",
+            borderRadius: 20,
+            padding: isMobile ? "36px 24px" : "52px 64px",
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            alignItems: isMobile ? "flex-start" : "center",
+            gap: isMobile ? 32 : 60,
+          }}>
+            {/* Icon */}
+            <div style={{
+              width: 72, height: 72, borderRadius: 18, flexShrink: 0,
+              background: "rgba(83,174,243,0.08)",
+              border: "1px solid rgba(83,174,243,0.15)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                <circle cx="16" cy="16" r="12" stroke={BLUE} strokeWidth="1.5"/>
+                <path d="M16 10v12M11 14h10M11 18h10" stroke={BLUE} strokeWidth="1.5" strokeLinecap="round"/>
+              </svg>
+            </div>
+            <div style={{ flex: 1 }}>
+              <span style={{ ...T.label(), display: "block", marginBottom: 10 }}>FUNDING</span>
+              <h2 style={{ ...T.h2(isMobile), margin: "0 0 12px", fontSize: isMobile ? 28 : 38 }}>Funding Sources</h2>
+              <p style={{ ...T.bodyLg(), margin: "0 0 28px", maxWidth: 560 }}>
+                K-12 educational institutions — both at the school and district levels — have access to a range
+                of federal and statewide opportunities to fund AbleSpace purchases.
+              </p>
+              <a href="#" style={{
+                display: "inline-flex", alignItems: "center", gap: 6,
+                fontFamily: SANS, fontWeight: 600, fontSize: 14,
+                color: BLUE,
+                background: "rgba(83,174,243,0.07)",
+                border: "1px solid rgba(83,174,243,0.18)",
+                borderRadius: 9999,
+                padding: "10px 22px",
+                textDecoration: "none", cursor: "pointer",
+              }}>
+                Learn more
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                  <path d="M2 6.5h9M7 2.5l4 4-4 4" stroke={BLUE} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 12–15. Testimonials, FAQ, CTA, Footer */}
       <TestimonialsSection />
       <FAQSection />
       <CTABannerSection />
